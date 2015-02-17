@@ -9,12 +9,12 @@ import java.util.Vector;
 import org.apache.log4j.Logger;
 
 
-public abstract class EntryAbs {
+public abstract class AbsEntry {
 
 	//Protected Variables
 	@SuppressWarnings("rawtypes")
 	protected Vector statusList;
-	protected static EntryAbs instance = null;
+	protected static AbsEntry instance = null;
 	protected DataInputStream entryData;
 	protected BufferedReader entryBuffer;
 	
@@ -22,7 +22,7 @@ public abstract class EntryAbs {
 	protected final static Logger log = Logger.getLogger("Entrada");
 	 
 	//Abstracts Methods
-	public abstract String getSTextFromStatus();
+	public abstract String getTextFromStatus();
 	
 	//Template Methods
 	public boolean setSourceFile(String path){
@@ -36,5 +36,13 @@ public abstract class EntryAbs {
 			return false;
 		}
 		return true;
+	}
+	
+	public Object getStatusElementAt(int pos){
+		return statusList.elementAt(pos);
+	}
+	
+	public int getStatusSize(){
+		return statusList.size();
 	}
 }

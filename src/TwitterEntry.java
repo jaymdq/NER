@@ -3,14 +3,14 @@ import java.util.Vector;
 import twitter4j.Status;
 import twitter4j.TwitterObjectFactory;
 
-public class TwitterEntry extends EntryAbs {
+public class TwitterEntry extends AbsEntry {
 
 
 	private TwitterEntry (){
 		this.statusList  = new Vector<Status>();
 	}
 	
-	public static EntryAbs getInstance() {
+	public static AbsEntry getInstance() {
 		if (instance == null){
 			instance = new TwitterEntry();
 		}
@@ -19,7 +19,7 @@ public class TwitterEntry extends EntryAbs {
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public String getSTextFromStatus() {
+	public String getTextFromStatus() {
 		String readLine,text = null;
 		try {
 			if ( ( readLine = this.entryBuffer.readLine() ) != null)   {
@@ -29,7 +29,6 @@ public class TwitterEntry extends EntryAbs {
 				entryData.close();
 		} catch (Exception e) {
 			log.error("Error leyendo el archivo de origen");
-			e.printStackTrace();
 		}
 		return text;
 	}
