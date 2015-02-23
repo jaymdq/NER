@@ -1,3 +1,6 @@
+import org.apache.log4j.Logger;
+
+import entry.TextEntry;
 import twitter4j.TwitterException;
 
 public class Main {
@@ -10,7 +13,8 @@ public class Main {
 			while ( (linea = TextEntry.getInstance().getTextFromStatus()) != null){
 				System.out.println(linea);
 			}
-			System.out.println("\nLeí todo el archivo");
+			
+			Logger.getLogger("Main").info("Leí todo el archivo");
 		}
 		
 	}

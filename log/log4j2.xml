@@ -27,7 +27,7 @@
         </RollingFile>
     </Appenders>
     <Loggers>
-        <Logger name="com.mycuteblog.log4j2" level="debug" additivity="false">
+        <Logger name="entryLogger" level="debug" additivity="false">
             <appender-ref ref="trace-log" level="debug"/>
             <appender-ref ref="error-log" level="error"/>
             <appender-ref ref="console-log" level="debug"/>
