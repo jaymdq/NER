@@ -25,7 +25,10 @@ public class TwitterEntry extends AbsEntry {
 		try {
 			if ( ( readLine = this.entryBuffer.readLine() ) != null)   {
 				this.statusList.add(TwitterObjectFactory.createStatus(readLine));
+				//TODO filtro
+				
 				text = ( (Status) this.statusList.lastElement() ).getText();
+				
 			}else
 				entryData.close();
 		} catch (Exception e) {

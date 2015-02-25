@@ -1,6 +1,7 @@
 import org.apache.log4j.Logger;
 
 import entry.TextEntry;
+import entry.TwitterEntry;
 import twitter4j.TwitterException;
 
 public class Main {
@@ -10,7 +11,7 @@ public class Main {
 		//if (TwitterEntry.getInstance().setSourceFile("tweets.txt") ){
 		if (TextEntry.getInstance().setSourceFile("textPlano.txt") ){
 			String linea ;
-			while ( (linea = TextEntry.getInstance().getTextFromStatus()) != null){
+			while ( (linea = TwitterEntry.getInstance().getTextFromStatus()) != null){
 				System.out.println(linea);
 			}
 			
