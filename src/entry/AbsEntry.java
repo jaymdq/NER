@@ -9,6 +9,8 @@ import java.util.Vector;
 
 import org.apache.log4j.Logger;
 
+import filters.AbsFilter;
+
 
 public abstract class AbsEntry {
 
@@ -18,6 +20,7 @@ public abstract class AbsEntry {
 	protected static AbsEntry instance = null;
 	protected DataInputStream entryData;
 	protected BufferedReader entryBuffer;
+	protected AbsFilter filter;
 	
 	//Private Variable
 	protected final static Logger log = Logger.getLogger("Entrada");
@@ -45,5 +48,9 @@ public abstract class AbsEntry {
 	
 	public int getStatusSize(){
 		return statusList.size();
+	}
+	
+	public void setFilter(AbsFilter filter){
+		this.filter = filter;
 	}
 }
