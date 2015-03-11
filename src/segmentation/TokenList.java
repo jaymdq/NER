@@ -12,13 +12,7 @@ public class TokenList extends AbsToken {
 	
 	public void addToken(AbsToken newToken){
 		list.add(newToken);
-	}
-	
-	public TokenList subSequence(){
-	
-		return null;
-	}
-	
+	}	
 	
 	public String toString(){
 		return this.list.toString();

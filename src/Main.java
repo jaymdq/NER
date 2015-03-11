@@ -2,6 +2,7 @@ import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
 
+import dictionary.DictionaryEntry;
 import entry.TextEntry;
 import entry.TwitterEntry;
 import filters.RetweetFilter;
