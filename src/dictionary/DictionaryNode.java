@@ -1,11 +1,7 @@
 package dictionary;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Vector;
-
-import segmentation.TokenList;
-
 
 
 public class DictionaryNode {
@@ -13,6 +9,9 @@ public class DictionaryNode {
 	private HashMap<String, DictionaryNode> childNodes;
 	private Vector<String> categories;
 	private Integer depth;
+	private static int autoId = 0;
+	private int id;
+
 
 	private DictionaryNode suffixNode;
 	private DictionaryNode suffixNodeWithCategory;
@@ -20,8 +19,10 @@ public class DictionaryNode {
 	//TODO
 	public DictionaryNode(Integer depth){
 		this.depth = depth;
-		this.childNodes = null;
+		this.childNodes = new HashMap<String,DictionaryNode>();
 		this.categories = new Vector<String>();
+		this.id = autoId;
+		autoId++;
 	}
 
 	public Integer getDepth(){
@@ -40,23 +41,18 @@ public class DictionaryNode {
 	}
 
 	public DictionaryNode getOrCreateChild(String key) {
-		DictionaryNode existingDaughter = getChild(key);
-		if (existingDaughter != null) 
-			return existingDaughter;
+		DictionaryNode existingChild = getChild(key);
+		if (existingChild != null) 
+			return existingChild;
 		DictionaryNode newChild = new DictionaryNode(getDepth() + 1);
-		if (childNodes == null)
-			childNodes = new HashMap<String,DictionaryNode>(2);
 		childNodes.put(key,newChild);
 		return newChild;
 	}
 
-	public Integer addEntry(TokenList listOfTokens, DictionaryEntry entry) {
+	public Integer addEntry(Vector<String> listOfTokens, DictionaryEntry entry) {
 		DictionaryNode node = this;
-		String token;
-		for (int i = 0; i < listOfTokens.size(); i++){
-			token = listOfTokens.getTokenAt(i).toString();
+		for (String token : listOfTokens)
 			node = node.getOrCreateChild(token);
-		}
 		node.addEntry(entry);
 		return node.getDepth();
 	}
@@ -76,9 +72,46 @@ public class DictionaryNode {
 	public Vector<String> getCategories(){
 		return categories;
 	}
-	
+
 	public  HashMap<String, DictionaryNode> getChildNodes(){
 		return childNodes;
+	}
+
+	public String toString(){
+		String out = "";
+		out = indent(out);
+		out += "ID: " + this.getId();
+		for(int i = 0; i < this.categories.size(); ++i ){
+			out = indent(out);
+			out += "cat " + i + " = " + this.categories.get(i);
+		}
+		if (this.suffixNode != null){
+			out = indent(out);
+			out += "suffixNode = " + this.suffixNode.getId();
+		}
+		if (this.suffixNodeWithCategory != null){
+			out = indent(out);
+			out += "suffixNodeWithCat = " + this.suffixNodeWithCategory.getId();
+		}
+		if ( this.childNodes.isEmpty() ) 
+			return out;
+		for (String token : this.childNodes.keySet()) {
+			out = indent(out);
+			out += token;
+			out += this.getChild(token).toString();
+		}
+		return out;
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	private String indent(String auxText) {
+		auxText += "\n";
+		for (int i = 0; i < this.depth; ++i)
+			auxText += "  ";
+		return auxText;
 	}
 
 
