@@ -1,15 +1,12 @@
 package dictionary;
 
-import java.util.HashMap;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
-import com.aliasi.chunk.Chunk;
-import com.aliasi.chunk.ChunkFactory;
-import com.aliasi.chunk.ChunkingImpl;
-import com.aliasi.dict.ExactDictionaryChunker.CircularQueueInt;
-import com.aliasi.dict.ExactDictionaryChunker.ScoredCat;
-import com.aliasi.dict.ExactDictionaryChunker.TrieNode;
 
 import segmentation.Segmenter;
 
@@ -93,10 +90,11 @@ public class ExactDictionary {
 		return this.rootNode.toString();
 	}
 
-	public void recognize(String text) {
+	public Vector<Chunk> recognize(String text) {
+		Vector<Chunk> listOfChunks = new Vector<Chunk>();
 		Segmenter segmenter = new Segmenter(text);
 
-		CircularQueueInt queue = new CircularQueueInt(mMaxPhraseLength);
+		CircularQueueInt queue = new CircularQueueInt(maxLength);
 
 		DictionaryNode node = rootNode;
 		String token;
@@ -105,7 +103,7 @@ public class ExactDictionary {
 			int tokenStartPos = segmenter.getLastTokenStartPosition();
 			int tokenEndPos = segmenter.getLastTokenEndPosition();
 
-			// System.out.println("token=|" + token + "| start=" + tokenStartPos + " |end=" + tokenEndPos);
+			System.out.println("token=|" + token + "| start=" + tokenStartPos + " |end=" + tokenEndPos);
 
 			queue.enqueue(tokenStartPos);
 
@@ -122,30 +120,58 @@ public class ExactDictionary {
 					break;
 				}
 				node = node.getSuffixNode();
+				
 			}
 
-			emit(node,queue,tokenEndPos,chunking);
+			emit(node,queue,tokenEndPos,listOfChunks,text);
 
-			for (TrieNode suffixNode = node.mSuffixNodeWithCategory;
+			for (DictionaryNode suffixNode = node.getSuffixWithCategoryNode();
 					suffixNode != null;
-					suffixNode = suffixNode.mSuffixNodeWithCategory) {
-				emit(suffixNode,queue,tokenEndPos,chunking);
+					suffixNode = suffixNode.getSuffixWithCategoryNode()) {
+				emit(suffixNode,queue,tokenEndPos,listOfChunks,text);
 			}
 		}
-		return mReturnAllMatches ? chunking : restrictToLongest(chunking);
+		return restrictToLongest(listOfChunks);
 
 	}
 
-	void emit(TrieNode node, CircularQueueInt queue, int end,
-			ChunkingImpl chunking) {
-		ScoredCat[] scoredCats = node.mCategories;
-		for (int i = 0; i < scoredCats.length; ++i) {
-			int start = queue.get(node.depth());
-			String type = scoredCats[i].mCat;
-			double score = scoredCats[i].mScore;
-			Chunk chunk = ChunkFactory.createChunk(start,end,type,score);
+	private Vector<Chunk> restrictToLongest(Vector<Chunk> listOfChunks) {
+		Vector<Chunk> result = new Vector<Chunk>();
+		if (listOfChunks.isEmpty()) 
+			return listOfChunks;
+
+		//Chunk[] chunks = chunkSet.<Chunk>toArray(EMPTY_CHUNK_ARRAY);
+		//Arrays.<Chunk>sort(chunks,LONGEST_MATCH_ORDER_COMPARATOR);
+
+		Collections.sort(listOfChunks, LONGEST_MATCH_ORDER_COMPARATOR);
+
+		int lastEnd = -1;
+		for (int i = 0; i < listOfChunks.size(); ++i) {
+			if (listOfChunks.elementAt(i).start() >= lastEnd) {
+				result.add(listOfChunks.elementAt(i));
+				lastEnd = listOfChunks.elementAt(i).end();
+			}
+		}
+		return result;
+	}
+
+	void emit(DictionaryNode node, CircularQueueInt queue, int end, Vector<Chunk> chunking,String text) {
+		for (String category : node.getCategories()) {
+			int start = queue.get(node.getDepth());
+			Chunk chunk = new Chunk(start,end,category,text);
 			chunking.add(chunk);
 		}
 	}
+
+	public static final Comparator<Chunk> LONGEST_MATCH_ORDER_COMPARATOR
+	= new Comparator<Chunk>() {
+		public int compare(Chunk c1, Chunk c2) {
+			if (c1.start() < c2.start()) return -1;
+			if (c1.start() > c2.start()) return 1;
+			if (c1.end() < c2.end()) return 1;
+			if (c1.end() > c2.end()) return -1;
+			return c1.type().compareTo(c2.type());
+		}
+	};
 
 }

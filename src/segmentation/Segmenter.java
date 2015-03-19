@@ -35,8 +35,9 @@ public class Segmenter {
 
 	public String getNextToken(){
 		if (actualTokenPosition < tokens.size()){
-			String actualToken = tokens.get(++actualTokenPosition);
-			lastTokenStartPosition = text.indexOf(actualToken);
+			String actualToken = tokens.get(actualTokenPosition);
+			actualTokenPosition++;
+			lastTokenStartPosition = text.indexOf(actualToken,lastTokenEndPosition);
 			lastTokenEndPosition = lastTokenStartPosition + actualToken.length();
 			return actualToken;	
 		}

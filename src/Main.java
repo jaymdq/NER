@@ -1,6 +1,8 @@
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import ner.NER;
+
 import org.apache.log4j.Logger;
 
 import dictionary.DictionaryEntry;
@@ -37,8 +39,11 @@ public class Main {
 		
 		System.out.println(dic.toString());
 		
-		//------------
+		NER ner = new NER();
+		ner.recognize(dic, "a a b");
 		
+		//------------
+	/*	
 		RetweetFilter rtf = new RetweetFilter();
 		
 		TwitterEntry.getInstance().setFilter(rtf);
@@ -53,7 +58,7 @@ public class Main {
 			Logger.getLogger(Main.class).info("Leí todo el archivo");
 		}
 		
-		
+	*/	
 	}
 
 }
