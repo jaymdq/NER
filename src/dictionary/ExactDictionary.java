@@ -53,7 +53,11 @@ public class ExactDictionary {
 	}
 
 	public String toString(){
-		return this.rootNode.toString();
+		String out = "Dictionary:\n";
+		out += "  Case Sensitive: " + caseSensitive + ".\n";
+		out += "  All Matches: " + allMatches + ".\n";
+		out += "ROOTNODE";
+		return out + this.rootNode.toString();
 	}
 
 	private void computeSuffixes(DictionaryNode node, DictionaryNode rootNode, String[] tokens, int length) {

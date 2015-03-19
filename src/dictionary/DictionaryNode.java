@@ -88,8 +88,7 @@ public class DictionaryNode {
 
 	public String toString(){
 		String out = "";
-		out = indent(out);
-		out += "ID: " + this.getId();
+		out += "_ID: " + this.getId();
 		for(int i = 0; i < this.categories.size(); ++i ){
 			out = indent(out);
 			out += "cat " + i + " = " + this.categories.get(i);
@@ -118,8 +117,9 @@ public class DictionaryNode {
 
 	private String indent(String auxText) {
 		auxText += "\n";
-		for (int i = 0; i < this.depth; ++i)
-			auxText += "  ";
+		for (int i = 0; i < this.depth-1; ++i)
+			auxText += "      ";
+		if (this.depth > 0) auxText += "  ╚══»";
 		return auxText;
 	}
 
