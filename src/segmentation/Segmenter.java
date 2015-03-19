@@ -15,12 +15,12 @@ public class Segmenter {
 
 	public Segmenter(String text, boolean caseSensitive, boolean onlyCharacters){
 		this.text = text;
-		this.tokens = getSegmentation(text);
 		this.lastTokenStartPosition = 0;
 		this.lastTokenEndPosition = 0;
 		this.actualTokenPosition = 0;
 		this.onlyCharacters = onlyCharacters;
 		this.caseSensitive = caseSensitive;		
+		this.tokens = getSegmentation(text);
 	}
 
 	public Vector<String> getSegmentation(){
@@ -35,18 +35,30 @@ public class Segmenter {
 		}
 		return out;
 	}
+	
+	public static Vector<String> getSegmentation(String text, boolean caseSensitive, boolean onlyCharacters){
+		Vector<String> out = new Vector<String>();
+		StringTokenizer st = new StringTokenizer(text);
+		while( st.hasMoreTokens() ){
+			String toAdd = st.nextToken();
+			if (onlyCharacters)
+				toAdd = toAdd.replaceAll("[^A-Za-z0-9]+", "");
+			if (!caseSensitive)
+				toAdd = toAdd.toLowerCase();
+			out.add(toAdd);
+		}
+		return out;
+	}
 
 	public String getNextToken(){
 		if (actualTokenPosition < tokens.size()){
-			String actualToken;
+			String actualToken = tokens.get(actualTokenPosition);
+			lastTokenStartPosition = text.indexOf(actualToken,lastTokenEndPosition);
 			if (onlyCharacters)
 				actualToken = tokens.get(actualTokenPosition).replaceAll("[^A-Za-z0-9]+", "");
-			else
-				actualToken = tokens.get(actualTokenPosition);
 			if (!caseSensitive)
 				actualToken = actualToken.toLowerCase();
 			actualTokenPosition++;
-			lastTokenStartPosition = text.indexOf(actualToken,lastTokenEndPosition);
 			lastTokenEndPosition = lastTokenStartPosition + actualToken.length();
 			return actualToken;	
 		}

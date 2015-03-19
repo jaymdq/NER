@@ -33,7 +33,7 @@ public class Main {
 		entradas.add(d2);
 		entradas.add(d3);
 		
-		ExactDictionary dic = new ExactDictionary(entradas,false,true);
+		ExactDictionary dic = new ExactDictionary(entradas,true,true);
 		
 		System.out.println(dic.toString());
 		

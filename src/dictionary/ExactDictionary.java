@@ -24,10 +24,9 @@ public class ExactDictionary {
 	public ExactDictionary (Vector<DictionaryEntry> entries,boolean caseSensitive, boolean allMatches){
 		DictionaryNode root = new DictionaryNode(0);
 		for (DictionaryEntry entry : entries){
-			
-			//Integer length = root.addEntry(Segmenter.getSegmentation(entry.getText()),entry);
-			Segmenter segmenter = new Segmenter(entry.getText(),caseSensitive,true);
-			Integer length = root.addEntry(segmenter.getSegmentation(entry.getText()),entry);
+			if (!caseSensitive)
+				entry.setText(entry.getText().toLowerCase());
+			Integer length = root.addEntry(Segmenter.getSegmentation(entry.getText(),true,true),entry);
 			if (length > maxLength)
 				maxLength = length;			
 		}
@@ -36,7 +35,7 @@ public class ExactDictionary {
 		this.setCaseSensitive(caseSensitive);
 		this.setAllMatches(allMatches);
 	}
-	
+
 	public DictionaryNode getRootNode() {
 		return rootNode;
 	}
@@ -97,7 +96,7 @@ public class ExactDictionary {
 			int tokenEndPos = segmenter.getLastTokenEndPosition();
 
 			System.out.println("token=|" + token + "| start=" + tokenStartPos + " |end=" + tokenEndPos);
-			
+
 			queue.enqueue(tokenStartPos);
 			while (true) {
 				DictionaryNode childNode = node.getChild(token);
