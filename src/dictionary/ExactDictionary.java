@@ -11,7 +11,7 @@ public class ExactDictionary {
 
 	//Private Variables
 	private DictionaryNode rootNode;
-	private boolean caseSensitive;	//TODO
+	private boolean caseSensitive;	
 	private int maxLength = 0;
 	private boolean allMatches;
 
