@@ -21,26 +21,24 @@ public class Main {
 		//Segmenter s = new Segmenter();
 		//System.out.println(s.getListOfTokens("Hola como estas daniel, que transito           feo que hay hoy"));
 		
-		//DictionaryEntry d1 = new DictionaryEntry("Maxi Duthey","Persona",1.0);
-		//DictionaryEntry d2 = new DictionaryEntry("Brian Caimmi","Persona",1.0);
-		//DictionaryEntry d3 = new DictionaryEntry("Tandil","Localidad",1.0);
-		DictionaryEntry d1 = new DictionaryEntry("a","Letra",1.0);
-		DictionaryEntry d2 = new DictionaryEntry("b","Letra",1.0);
-		DictionaryEntry d3 = new DictionaryEntry("a b","Letras",1.0);
-		
-		
+		DictionaryEntry d1 = new DictionaryEntry("Maxi Duthey",new String[]{"Persona", "Calle"},1.0);
+		DictionaryEntry d2 = new DictionaryEntry("Brian Caimmi",new String[]{"Calle"},1.0);
+		DictionaryEntry d3 = new DictionaryEntry("Tandil",new String[]{"Localidad"},1.0);
+		//DictionaryEntry d1 = new DictionaryEntry("a","Letra",1.0);
+		//DictionaryEntry d2 = new DictionaryEntry("b","Letra",1.0);
+		//DictionaryEntry d3 = new DictionaryEntry("a b","Letras",1.0);
 		
 		Vector<DictionaryEntry> entradas = new Vector<DictionaryEntry>();
 		entradas.add(d1);
 		entradas.add(d2);
 		entradas.add(d3);
 		
-		ExactDictionary dic = new ExactDictionary(entradas);
+		ExactDictionary dic = new ExactDictionary(entradas,false,true);
 		
 		System.out.println(dic.toString());
 		
 		NER ner = new NER();
-		ner.recognize(dic, "a a b");
+		ner.recognize(dic, "Maxi Duthey junto a Brian Caimmi viven en la ciudad de Tandil.");
 		
 		//------------
 	/*	

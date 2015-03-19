@@ -1,12 +1,9 @@
 package dictionary;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
-import java.util.Set;
 import java.util.Vector;
-
 
 import segmentation.Segmenter;
 
@@ -14,30 +11,50 @@ public class ExactDictionary {
 
 	//Private Variables
 	private DictionaryNode rootNode;
-	private boolean caseSensitive;
+	private boolean caseSensitive;	//TODO
 	private int maxLength = 0;
+	private boolean allMatches;
 
-
-	public ExactDictionary (DictionaryNode rootNode, boolean caseSensitive){
+	public ExactDictionary (DictionaryNode rootNode, boolean caseSensitive, boolean allMatches){
 		this.setRootNode(rootNode);
 		this.setCaseSensitive(caseSensitive);
+		this.setAllMatches(allMatches);
 	}
 
-	public ExactDictionary (DictionaryNode rootNode){
-		this.setRootNode(rootNode);
-		this.setCaseSensitive(false);
-	}
-
-	public ExactDictionary (Vector<DictionaryEntry> entries){
+	public ExactDictionary (Vector<DictionaryEntry> entries,boolean caseSensitive, boolean allMatches){
 		DictionaryNode root = new DictionaryNode(0);
 		for (DictionaryEntry entry : entries){
-			Integer length = root.addEntry(Segmenter.getSegmentation(entry.getText()),entry);
+			
+			//Integer length = root.addEntry(Segmenter.getSegmentation(entry.getText()),entry);
+			Segmenter segmenter = new Segmenter(entry.getText(),caseSensitive,true);
+			Integer length = root.addEntry(segmenter.getSegmentation(entry.getText()),entry);
 			if (length > maxLength)
 				maxLength = length;			
 		}
 		this.setRootNode(root);
 		computeSuffixes(rootNode,rootNode,new String[maxLength],0);
-		this.setCaseSensitive(false); //TODO
+		this.setCaseSensitive(caseSensitive);
+		this.setAllMatches(allMatches);
+	}
+	
+	public DictionaryNode getRootNode() {
+		return rootNode;
+	}
+
+	public void setRootNode(DictionaryNode rootNode) {
+		this.rootNode = rootNode;
+	}
+
+	public boolean isCaseSensitive() {
+		return caseSensitive;
+	}
+
+	public void setCaseSensitive(boolean caseSensitive) {
+		this.caseSensitive = caseSensitive;
+	}
+
+	public String toString(){
+		return this.rootNode.toString();
 	}
 
 	private void computeSuffixes(DictionaryNode node, DictionaryNode rootNode, String[] tokens, int length) {
@@ -69,44 +86,19 @@ public class ExactDictionary {
 		}
 	}
 
-
-	public DictionaryNode getRootNode() {
-		return rootNode;
-	}
-
-	public void setRootNode(DictionaryNode rootNode) {
-		this.rootNode = rootNode;
-	}
-
-	public boolean isCaseSensitive() {
-		return caseSensitive;
-	}
-
-	public void setCaseSensitive(boolean caseSensitive) {
-		this.caseSensitive = caseSensitive;
-	}
-
-	public String toString(){
-		return this.rootNode.toString();
-	}
-
 	public Vector<Chunk> recognize(String text) {
 		Vector<Chunk> listOfChunks = new Vector<Chunk>();
-		Segmenter segmenter = new Segmenter(text);
-
+		Segmenter segmenter = new Segmenter(text,caseSensitive,true);
 		CircularQueueInt queue = new CircularQueueInt(maxLength);
-
 		DictionaryNode node = rootNode;
 		String token;
-
 		while ( ( token = segmenter.getNextToken() ) != null ) {
 			int tokenStartPos = segmenter.getLastTokenStartPosition();
 			int tokenEndPos = segmenter.getLastTokenEndPosition();
 
 			System.out.println("token=|" + token + "| start=" + tokenStartPos + " |end=" + tokenEndPos);
-
+			
 			queue.enqueue(tokenStartPos);
-
 			while (true) {
 				DictionaryNode childNode = node.getChild(token);
 				if (childNode != null) {
@@ -120,18 +112,16 @@ public class ExactDictionary {
 					break;
 				}
 				node = node.getSuffixNode();
-				
+
 			}
-
-			emit(node,queue,tokenEndPos,listOfChunks,text);
-
+			addChunk(node,queue,tokenEndPos,listOfChunks,text);
 			for (DictionaryNode suffixNode = node.getSuffixWithCategoryNode();
 					suffixNode != null;
 					suffixNode = suffixNode.getSuffixWithCategoryNode()) {
-				emit(suffixNode,queue,tokenEndPos,listOfChunks,text);
+				addChunk(suffixNode,queue,tokenEndPos,listOfChunks,text);
 			}
 		}
-		return restrictToLongest(listOfChunks);
+		return allMatches ? listOfChunks : restrictToLongest(listOfChunks);
 
 	}
 
@@ -139,23 +129,18 @@ public class ExactDictionary {
 		Vector<Chunk> result = new Vector<Chunk>();
 		if (listOfChunks.isEmpty()) 
 			return listOfChunks;
-
-		//Chunk[] chunks = chunkSet.<Chunk>toArray(EMPTY_CHUNK_ARRAY);
-		//Arrays.<Chunk>sort(chunks,LONGEST_MATCH_ORDER_COMPARATOR);
-
 		Collections.sort(listOfChunks, LONGEST_MATCH_ORDER_COMPARATOR);
-
 		int lastEnd = -1;
-		for (int i = 0; i < listOfChunks.size(); ++i) {
-			if (listOfChunks.elementAt(i).start() >= lastEnd) {
-				result.add(listOfChunks.elementAt(i));
-				lastEnd = listOfChunks.elementAt(i).end();
-			}
+		for(Chunk chunk : listOfChunks){
+			if (chunk.start() >= lastEnd){
+				result.add(chunk);
+				lastEnd = chunk.end();
+			}	
 		}
 		return result;
 	}
 
-	void emit(DictionaryNode node, CircularQueueInt queue, int end, Vector<Chunk> chunking,String text) {
+	private void addChunk(DictionaryNode node, CircularQueueInt queue, int end, Vector<Chunk> chunking,String text) {
 		for (String category : node.getCategories()) {
 			int start = queue.get(node.getDepth());
 			Chunk chunk = new Chunk(start,end,category,text);
@@ -163,8 +148,15 @@ public class ExactDictionary {
 		}
 	}
 
-	public static final Comparator<Chunk> LONGEST_MATCH_ORDER_COMPARATOR
-	= new Comparator<Chunk>() {
+	public boolean isAllMatches() {
+		return allMatches;
+	}
+
+	public void setAllMatches(boolean allMatches) {
+		this.allMatches = allMatches;
+	}
+
+	private static final Comparator<Chunk> LONGEST_MATCH_ORDER_COMPARATOR = new Comparator<Chunk>() {
 		public int compare(Chunk c1, Chunk c2) {
 			if (c1.start() < c2.start()) return -1;
 			if (c1.start() > c2.start()) return 1;

@@ -2,10 +2,10 @@ package dictionary;
 
 public class DictionaryEntry {
 	private String text;
-	private String category;
-	private Double score;
+	private String[] category;
+	private Double score;	//TODO por ahora no lo estamos usando
 	
-	public DictionaryEntry(String text, String category, Double score) {
+	public DictionaryEntry(String text, String[] category, Double score) {
 		this.setText(text);
 		this.setCategory(category);
 		this.setScore(score);
@@ -19,11 +19,11 @@ public class DictionaryEntry {
 		this.text = text;
 	}
 
-	public String getCategory() {
+	public String[] getCategory() {
 		return category;
 	}
 
-	public void setCategory(String category) {
+	public void setCategory(String[] category) {
 		this.category = category;
 	}
 

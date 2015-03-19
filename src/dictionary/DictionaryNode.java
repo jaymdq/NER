@@ -58,7 +58,8 @@ public class DictionaryNode {
 	}
 
 	public void addEntry(DictionaryEntry entry) {
-		categories.add(entry.getCategory());
+		for (String category : entry.getCategory() )
+			categories.add(category);
 	}
 
 	public void setSuffixNode(DictionaryNode suffixNode) {
@@ -76,11 +77,11 @@ public class DictionaryNode {
 	public  HashMap<String, DictionaryNode> getChildNodes(){
 		return childNodes;
 	}
-	
+
 	public DictionaryNode getSuffixNode(){
 		return this.suffixNode;
 	}
-	
+
 	public DictionaryNode getSuffixWithCategoryNode(){
 		return this.suffixNodeWithCategory;
 	}
