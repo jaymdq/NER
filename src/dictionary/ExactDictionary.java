@@ -4,8 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-
-
+import com.aliasi.chunk.Chunk;
+import com.aliasi.chunk.ChunkFactory;
+import com.aliasi.chunk.ChunkingImpl;
+import com.aliasi.dict.ExactDictionaryChunker.CircularQueueInt;
+import com.aliasi.dict.ExactDictionaryChunker.ScoredCat;
+import com.aliasi.dict.ExactDictionaryChunker.TrieNode;
 
 import segmentation.Segmenter;
 
@@ -28,10 +32,9 @@ public class ExactDictionary {
 	}
 
 	public ExactDictionary (Vector<DictionaryEntry> entries){
-		Segmenter segmenter = new Segmenter();
 		DictionaryNode root = new DictionaryNode(0);
 		for (DictionaryEntry entry : entries){
-			Integer length = root.addEntry(segmenter.getListOfTokens(entry.getText()),entry);
+			Integer length = root.addEntry(Segmenter.getSegmentation(entry.getText()),entry);
 			if (length > maxLength)
 				maxLength = length;			
 		}
@@ -88,6 +91,61 @@ public class ExactDictionary {
 
 	public String toString(){
 		return this.rootNode.toString();
+	}
+
+	public void recognize(String text) {
+		Segmenter segmenter = new Segmenter(text);
+
+		CircularQueueInt queue = new CircularQueueInt(mMaxPhraseLength);
+
+		DictionaryNode node = rootNode;
+		String token;
+
+		while ( ( token = segmenter.getNextToken() ) != null ) {
+			int tokenStartPos = segmenter.getLastTokenStartPosition();
+			int tokenEndPos = segmenter.getLastTokenEndPosition();
+
+			// System.out.println("token=|" + token + "| start=" + tokenStartPos + " |end=" + tokenEndPos);
+
+			queue.enqueue(tokenStartPos);
+
+			while (true) {
+				DictionaryNode childNode = node.getChild(token);
+				if (childNode != null) {
+					node = childNode;
+					break;
+				}
+				if (node.getSuffixNode() == null) {
+					node = rootNode.getChild(token);
+					if (node == null)
+						node = rootNode;
+					break;
+				}
+				node = node.getSuffixNode();
+			}
+
+			emit(node,queue,tokenEndPos,chunking);
+
+			for (TrieNode suffixNode = node.mSuffixNodeWithCategory;
+					suffixNode != null;
+					suffixNode = suffixNode.mSuffixNodeWithCategory) {
+				emit(suffixNode,queue,tokenEndPos,chunking);
+			}
+		}
+		return mReturnAllMatches ? chunking : restrictToLongest(chunking);
+
+	}
+
+	void emit(TrieNode node, CircularQueueInt queue, int end,
+			ChunkingImpl chunking) {
+		ScoredCat[] scoredCats = node.mCategories;
+		for (int i = 0; i < scoredCats.length; ++i) {
+			int start = queue.get(node.depth());
+			String type = scoredCats[i].mCat;
+			double score = scoredCats[i].mScore;
+			Chunk chunk = ChunkFactory.createChunk(start,end,type,score);
+			chunking.add(chunk);
+		}
 	}
 
 }

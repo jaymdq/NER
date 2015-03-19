@@ -76,6 +76,14 @@ public class DictionaryNode {
 	public  HashMap<String, DictionaryNode> getChildNodes(){
 		return childNodes;
 	}
+	
+	public DictionaryNode getSuffixNode(){
+		return this.suffixNode;
+	}
+	
+	public DictionaryNode getSuffixWithCategoryNode(){
+		return this.suffixNodeWithCategory;
+	}
 
 	public String toString(){
 		String out = "";
