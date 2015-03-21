@@ -89,7 +89,7 @@ public class ExactDictionary {
 		}
 	}
 
-	public Vector<Chunk> recognize(String text) {
+	public Vector<Chunk> recognize(String text,boolean debugMode) {
 		Vector<Chunk> listOfChunks = new Vector<Chunk>();
 		Segmenter segmenter = new Segmenter(text,caseSensitive,true);
 		CircularQueueInt queue = new CircularQueueInt(maxLength);
@@ -99,7 +99,8 @@ public class ExactDictionary {
 			int tokenStartPos = segmenter.getLastTokenStartPosition();
 			int tokenEndPos = segmenter.getLastTokenEndPosition();
 
-			System.out.println("token=|" + token + "| start=" + tokenStartPos + " |end=" + tokenEndPos);
+			if (debugMode)
+				System.out.println("TOKEN=|" + token + "| START=" + tokenStartPos + " END=" + tokenEndPos);
 
 			queue.enqueue(tokenStartPos);
 			while (true) {

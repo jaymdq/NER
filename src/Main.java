@@ -16,18 +16,11 @@ import twitter4j.TwitterException;
 public class Main {
 
 	public static void main(String[] args) throws TwitterException {
-		
-		//TODO 
-		//Segmenter s = new Segmenter();
-		//System.out.println(s.getListOfTokens("Hola como estas daniel, que transito           feo que hay hoy"));
-		
+				
 		DictionaryEntry d1 = new DictionaryEntry("Maxi Duthey",new String[]{"Persona", "Calle"},1.0);
 		DictionaryEntry d2 = new DictionaryEntry("Brian Caimmi",new String[]{"Calle"},1.0);
 		DictionaryEntry d3 = new DictionaryEntry("Tandil",new String[]{"Localidad"},1.0);
-		//DictionaryEntry d1 = new DictionaryEntry("a","Letra",1.0);
-		//DictionaryEntry d2 = new DictionaryEntry("b","Letra",1.0);
-		//DictionaryEntry d3 = new DictionaryEntry("a b","Letras",1.0);
-		
+	
 		Vector<DictionaryEntry> entradas = new Vector<DictionaryEntry>();
 		entradas.add(d1);
 		entradas.add(d2);
@@ -35,10 +28,10 @@ public class Main {
 		
 		ExactDictionary dic = new ExactDictionary(entradas,true,true);
 		
-		System.out.println(dic.toString());
-		
 		NER ner = new NER();
+		
 		ner.recognize(dic, "Maxi Duthey junto a Brian Caimmi viven en la ciudad de Tandil.");
+		
 		
 		//------------
 	/*	

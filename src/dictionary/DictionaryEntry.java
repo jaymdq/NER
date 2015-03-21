@@ -1,6 +1,14 @@
 package dictionary;
 
-public class DictionaryEntry {
+import java.io.Serializable;
+
+public class DictionaryEntry implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1927419823397010392L;
+	
 	private String text;
 	private String[] category;
 	private Double score;	//TODO por ahora no lo estamos usando
