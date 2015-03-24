@@ -11,12 +11,12 @@ public class DictionaryEntry implements Serializable {
 	
 	private String text;
 	private String[] category;
-	private Double score;	//TODO por ahora no lo estamos usando
 	
-	public DictionaryEntry(String text, String[] category, Double score) {
+	//TODO Se puede guardar un link para obtener información sobre las entidades nombradas !.
+	
+	public DictionaryEntry(String text, String[] category) {
 		this.setText(text);
 		this.setCategory(category);
-		this.setScore(score);
 	}
 
 	public String getText() {
@@ -34,17 +34,13 @@ public class DictionaryEntry implements Serializable {
 	public void setCategory(String[] category) {
 		this.category = category;
 	}
-
-	public Double getScore() {
-		return score;
-	}
-
-	public void setScore(Double score) {
-		this.score = score;
-	}
 	
 	public String toString(){
-		return "[" + text + "|" + category + "|" + score + "]"; 
+		String resultCategory = "";
+		for (int i = 0 ; i < category.length - 1; i++)
+			resultCategory += category[i] + "|";
+		resultCategory += category[category.length - 1];
+		return  text + "  [" + resultCategory + "]"; 
 	}
 
 }
