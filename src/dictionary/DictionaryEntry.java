@@ -42,5 +42,5 @@ public class DictionaryEntry implements Serializable {
 		resultCategory += category[category.length - 1];
 		return  text + "  [" + resultCategory + "]"; 
 	}
-
+	
 }

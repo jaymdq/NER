@@ -1,23 +1,35 @@
 package ner;
 
+import java.util.Vector;
+
 import org.apache.log4j.Logger;
 
-import dictionary.ExactDictionary;
+import dictionary.Chunk;
+import dictionary.Dictionary;
 
 public class NER {
 
 	/*TODO
 	 * La idea seria meter aca toda la funcionalidad de la entrada, procesamiento , cambio de estrategias y la salida
 	 */
-
+	
+	private Vector<Dictionary> dictionaries;
+	
 	private boolean debugMode;
 
 	public NER(){
 		setDebugMode(false);
+		dictionaries = new Vector<Dictionary>();
 	}
 
 	public NER(boolean debugMode){
 		setDebugMode(debugMode);
+		dictionaries = new Vector<Dictionary>();
+	}
+	
+	public NER(boolean debugMode,Vector<Dictionary> dictionaries){
+		setDebugMode(debugMode);
+		setDictionaries(dictionaries);
 	}
 
 	public boolean isDebugModeActivated(){
@@ -30,15 +42,29 @@ public class NER {
 			Logger.getLogger(NER.class).debug("DEBUG MODE IS ACTIVATED");
 	}
 
-	//TODO puede ser que haya un diccionario abstracto.. o hacer varios recognize
-	public void recognize(ExactDictionary dictionary, String text){
+	
+	public Vector<Chunk> recognize(String text){
+		Vector<Chunk> out = new Vector<Chunk>();
 		
-		if (debugMode){
-			System.out.println(dictionary.toString() + "\n");
-		}
+		for (Dictionary dictionary : dictionaries) 
+			out.addAll(dictionary.recognize(text,debugMode));
+				
+		if (debugMode)
+			System.out.println(out);
+		
+		return out;
 
+	}
 
-		System.out.println(dictionary.recognize(text,debugMode));
+	public Vector<Dictionary> getDictionaries() {
+		return dictionaries;
+	}
 
+	public void setDictionaries(Vector<Dictionary> dictionaries) {
+		this.dictionaries = dictionaries;
+	}
+	
+	public void addDictionary(Dictionary dictionary){
+		dictionaries.add(dictionary);
 	}
 }

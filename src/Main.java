@@ -1,3 +1,5 @@
+import java.util.HashSet;
+import java.util.Set;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
@@ -8,6 +10,8 @@ import org.apache.log4j.Logger;
 import dictionary.DictionaryEntry;
 import dictionary.DictionaryIO;
 import dictionary.ExactDictionary;
+import dictionary.RegExMatcher;
+import dictionary.RuleBasedDictionary;
 import entry.TextEntry;
 import entry.TwitterEntry;
 import filters.RetweetFilter;
@@ -17,37 +21,50 @@ import twitter4j.TwitterException;
 public class Main {
 
 	public static void main(String[] args) throws TwitterException {
-				
+			
+		//Entradas agregadas por el usuario
 		DictionaryEntry d1 = new DictionaryEntry("Maxi Duthey",new String[]{"Persona"});
 		DictionaryEntry d2 = new DictionaryEntry("Brian Caimmi",new String[]{"Persona"});
-		DictionaryEntry d3 = new DictionaryEntry("Tandil",new String[]{"Localidad"});
-	
+		DictionaryEntry d3 = new DictionaryEntry("Tandil",new String[]{"Localidad"});		
 		Vector<DictionaryEntry> entradas = new Vector<DictionaryEntry>();
 		entradas.add(d1);
 		entradas.add(d2);
 		entradas.add(d3);
 		
-		DictionaryIO.saveToFile("prueba",DictionaryIO.DIC_EXT, entradas);
-		
-		entradas.clear();
-		
-		entradas = DictionaryIO.loadFromFile("prueba.dic");
-		
-		//entradas.addAll(DictionaryIO.loadPlainTextWithCategories("callesTandil.txt"));
-		
-		
-		//TODO ver si se puede optimizar el espacio! guardando el contenido y no el objeto.
-		//TODO seria pasar todo eso a texto -> aplicar Huffman
-		
+		//Entradas levantadas desde archivo
+		Set<DictionaryEntry> entries = new HashSet<DictionaryEntry>();
+		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/callesTandil.txt"));
+		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/colores.txt"));
+		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/marcasDeAutos.txt"));
+		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/modelosDeAutos.txt"));
+		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/rutas.txt"));
+		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/marcasDeMotos.txt"));
+		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/corpusDeVehiculos.txt"));
+		entradas.addAll(entries);
+
+		//Creación de Diccionarios
 		ExactDictionary dic = new ExactDictionary(entradas,true,true);
 		
-		NER ner = new NER();
+		RuleBasedDictionary dic2 = new RuleBasedDictionary();
+		dic2.addMatcher(new RegExMatcher("[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})","Mail"));
+		dic2.addMatcher(new RegExMatcher("[0-9]+","Numero"));
 		
-		ner.recognize(dic, "Maxi Duthey junto a Brian Caimmi viven en la ciudad de Tandil y trabajan en Alem al 1259.");
+		
+		//Creación del NER
+		NER ner = new NER(true);
+		ner.addDictionary(dic);
+		ner.addDictionary(dic2);
+		ner.recognize( "Maxi Duthey junto a Brian Caimmi viven en la ciudad de Tandil y trabajan en Alem al 1259.");
+		ner.recognize("Un menor herido al chocar dos camionetas en la Ruta 30 y Jujuy http://ow.ly/KDOGq");
+		
+		
+		
+		
+		
 		
 		
 		//------------
-	/*	
+	/*
 		RetweetFilter rtf = new RetweetFilter();
 		
 		TwitterEntry.getInstance().setFilter(rtf);
@@ -62,7 +79,7 @@ public class Main {
 			Logger.getLogger(Main.class).info("Leí todo el archivo");
 		}
 		
-	*/	
+	*/
 	}
 
 }

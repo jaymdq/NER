@@ -1,4 +1,4 @@
-#CATEGORY Ruta Nacional
+#CATEGORY Ruta
 
 Ruta Nacional 1
 Ruta Nacional 3
@@ -245,9 +245,6 @@ Ruta A023
 Ruta A024
 Ruta A025
 Ruta A026
-
-#CATEGORY Ruta Provincial
-
 Camino General Belgrano
 Camino Centenario
 Ruta Provincial 1
@@ -317,6 +314,74 @@ Ruta Provincial 202
 Ruta Provincial 210
 Ruta Provincial 215
 Ruta Provincial 227
+Ruta 1
+Ruta 2
+Ruta 4
+Ruta 6
+Ruta 7
+Ruta 8
+Ruta 9
+Ruta 11
+Ruta 13
+Ruta 14
+Ruta 15
+Ruta 16
+Ruta 17
+Ruta 18
+Ruta 20
+Ruta 21
+Ruta 23
+Ruta 24
+Ruta 25
+Ruta 26
+Ruta 27
+Ruta 28
+Ruta 29
+Ruta 30
+Ruta 31
+Ruta 32
+Ruta 34
+Ruta 36
+Ruta 39
+Ruta 40
+Ruta 41
+Ruta 47
+Ruta 48
+Ruta 49
+Ruta 50
+Ruta 51
+Ruta 53
+Ruta 55
+Ruta 56
+Ruta 57
+Ruta 58
+Ruta 59
+Ruta 62
+Ruta 63
+Ruta 65
+Ruta 70
+Ruta 72
+Ruta 73
+Ruta 74
+Ruta 75
+Ruta 76
+Ruta 78
+Ruta 80
+Ruta 85
+Ruta 86
+Ruta 88
+Ruta 91
+Ruta 191
+Ruta 192
+Ruta 195
+Ruta 197
+Ruta 200
+Ruta 201
+Ruta 202
+Ruta 210
+Ruta 215
+Ruta 227
+
 
 #CATEGORY Autopista
 

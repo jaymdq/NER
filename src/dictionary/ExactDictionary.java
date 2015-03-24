@@ -7,7 +7,7 @@ import java.util.Vector;
 
 import segmentation.Segmenter;
 
-public class ExactDictionary {
+public class ExactDictionary implements Dictionary {
 
 	//Private Variables
 	private DictionaryNode rootNode;

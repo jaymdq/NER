@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Vector;
 
 import twitter4j.Logger;
@@ -51,7 +52,7 @@ public class DictionaryIO {
 		return out;
 	}
 
-	public static Vector<DictionaryEntry> loadPlainTextWithCategories(String path) {
+	public static Collection<DictionaryEntry> loadPlainTextWithCategories(String path) {
 		Vector<DictionaryEntry> out = new Vector<DictionaryEntry>();
 		File file = null;
 		FileReader fr = null;
@@ -65,8 +66,7 @@ public class DictionaryIO {
 			String line;
 			Vector<String> categories = new Vector<String>();
 			while( (line=br.readLine()) != null ){
-				System.out.println(line);
-
+				
 				//New Categories
 				if (line.startsWith(CATEGORY_INDICATOR)){
 					categories.clear();
