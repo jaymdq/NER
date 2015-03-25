@@ -1,6 +1,5 @@
 #CATEGORY Ruta
 
-Ruta Nacional 1
 Ruta Nacional 3
 Ruta Nacional 5
 Ruta Nacional 7
@@ -382,7 +381,6 @@ Ruta 210
 Ruta 215
 Ruta 227
 
-
 #CATEGORY Autopista
 
 AU1 25 de Mayo
@@ -402,31 +400,3 @@ Camino Parque del Buen Ayre
 Acceso Norte
 Acceso Oeste
 Ezeiza-Cañuelas
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

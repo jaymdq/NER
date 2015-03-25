@@ -41,9 +41,9 @@ public class Main {
 		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/marcasDeMotos.txt"));
 		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/corpusDeVehiculos.txt"));
 		entradas.addAll(entries);
-
+		
 		//Creación de Diccionarios
-		ExactDictionary dic = new ExactDictionary(entradas,true,true);
+		ExactDictionary dic = new ExactDictionary(entradas,false,false);
 		
 		RuleBasedDictionary dic2 = new RuleBasedDictionary();
 		dic2.addMatcher(new RegExMatcher("[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})","Mail"));
@@ -51,11 +51,11 @@ public class Main {
 		
 		
 		//Creación del NER
-		NER ner = new NER(true);
+		NER ner = new NER(false);
 		ner.addDictionary(dic);
 		ner.addDictionary(dic2);
-		ner.recognize( "Maxi Duthey junto a Brian Caimmi viven en la ciudad de Tandil y trabajan en Alem al 1259.");
-		ner.recognize("Un menor herido al chocar dos camionetas en la Ruta 30 y Jujuy http://ow.ly/KDOGq");
+		System.out.println(ner.recognize("Maxi Duthey junto a Brian Caimmi viven en la ciudad de Tandil y trabajan en Alem al 1259."));
+		System.out.println(ner.recognize("Un menor herido al chocar dos camionetas en la Ruta 30 y Jujuy http://ow.ly/KDOGq"));
 		
 		
 		

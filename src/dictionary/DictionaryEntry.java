@@ -43,4 +43,12 @@ public class DictionaryEntry implements Serializable {
 		return  text + "  [" + resultCategory + "]"; 
 	}
 	
+	public boolean equals(Object obj){
+		if (obj instanceof DictionaryEntry){
+			DictionaryEntry other = (DictionaryEntry) obj;
+			return this.getText().equals(other.getText()) && this.getCategory().equals(other.getCategory());
+		}
+		return false;
+		
+	}
 }
