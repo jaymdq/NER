@@ -48,7 +48,7 @@ public class DictionaryNode {
 		childNodes.put(key,newChild);
 		return newChild;
 	}
-
+	
 	public Integer addEntry(Vector<String> listOfTokens, DictionaryEntry entry) {
 		DictionaryNode node = this;
 		for (String token : listOfTokens)

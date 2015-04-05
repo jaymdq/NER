@@ -8,6 +8,12 @@ public class TextEntry extends AbsEntry {
 		this.statusList  = new Vector<String>();
 	}
 	
+	
+	/**
+	 * 
+	 * @return AbsEntry con la instancia.
+	 */
+	
 	public static AbsEntry getInstance() {
 		if (instance == null){
 			instance = new TextEntry();
@@ -26,7 +32,7 @@ public class TextEntry extends AbsEntry {
 				entryData.close();
 		} catch (Exception e) {
 			log.error("Error leyendo el archivo de origen");
-		}
+		}		
 		return text;
 	}
 

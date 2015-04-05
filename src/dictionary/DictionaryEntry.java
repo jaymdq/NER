@@ -12,8 +12,6 @@ public class DictionaryEntry implements Serializable {
 	private String text;
 	private String[] category;
 	
-	//TODO Se puede guardar un link para obtener información sobre las entidades nombradas !.
-	
 	public DictionaryEntry(String text, String[] category) {
 		this.setText(text);
 		this.setCategory(category);

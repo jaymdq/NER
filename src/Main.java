@@ -12,6 +12,7 @@ import dictionary.DictionaryIO;
 import dictionary.ExactDictionary;
 import dictionary.RegExMatcher;
 import dictionary.RuleBasedDictionary;
+import dictionary.TopKAproximatedDictionary;
 import entry.TextEntry;
 import entry.TwitterEntry;
 import filters.RetweetFilter;
@@ -58,10 +59,7 @@ public class Main {
 		System.out.println(ner.recognize("Un menor herido al chocar dos camionetas en la Ruta 30 y Jujuy http://ow.ly/KDOGq"));
 		
 		
-		
-		
-		
-		
+		new TopKAproximatedDictionary(entradas, 2, 2);
 		
 		//------------
 	/*
