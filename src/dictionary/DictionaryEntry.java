@@ -6,8 +6,8 @@ public class DictionaryEntry implements Serializable {
 
 	private static final long serialVersionUID = 1927419823397010392L;
 	
-	private String text;
-	private String[] category;
+	protected String text;
+	protected String[] category;
 	
 	/**
 	 * 
@@ -20,6 +20,11 @@ public class DictionaryEntry implements Serializable {
 		this.setCategory(category);
 	}
 	
+	protected DictionaryEntry(DictionaryEntry entry) {
+		this.setText(entry.getText());
+		this.setCategory(entry.getCategory());
+	}
+
 	/**
 	 * 
 	 * @return Texto de la entrada del diccionario

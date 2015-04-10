@@ -1,7 +1,9 @@
-package dictionary;
+package dictionary.ApproximatedDictionaries;
 
 import java.util.HashMap;
 import java.util.Vector;
+
+import dictionary.DictionaryEntry;
 
 public class TrieNodeInter extends AbsTrieNode {
 	private HashMap<Character,AbsTrieNode> nodeMap = null;

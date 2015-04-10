@@ -1,4 +1,4 @@
-package dictionary;
+package dictionary.IO;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Vector;
 
+import dictionary.DictionaryEntry;
 import twitter4j.Logger;
 
 

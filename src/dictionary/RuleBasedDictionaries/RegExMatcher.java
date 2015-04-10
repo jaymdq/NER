@@ -1,8 +1,10 @@
-package dictionary;
+package dictionary.RuleBasedDictionaries;
 
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import dictionary.Chunk;
 
 public class RegExMatcher {
 

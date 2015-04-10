@@ -1,9 +1,8 @@
 package dictionary;
 
-public class DictionaryEntryWithDistance {
+public class DictionaryEntryWithDistance extends DictionaryEntry{
 	
 	private Integer distance;
-	private DictionaryEntry entry;
 	
 	/**
 	 * 
@@ -12,8 +11,8 @@ public class DictionaryEntryWithDistance {
 	 */
 	
 	public DictionaryEntryWithDistance(DictionaryEntry entry, Integer distance) {
+		super(entry);
 		this.setDistance(distance);
-		this.setEntry(entry);
 	}
 	
 	/**
@@ -32,24 +31,6 @@ public class DictionaryEntryWithDistance {
 
 	public void setDistance(Integer distance) {
 		this.distance = distance;
-	}
-	
-	/**
-	 * 
-	 * @return Entrada de diccionario
-	 */
-
-	public DictionaryEntry getEntry() {
-		return entry;
-	}
-	
-	/**
-	 * 
-	 * @param entry Entrada del diccionario 
-	 */
-
-	public void setEntry(DictionaryEntry entry) {
-		this.entry = entry;
 	}
 	
 }

@@ -1,7 +1,9 @@
-package dictionary;
+package dictionary.ExactDictionaries;
 
 import java.util.HashMap;
 import java.util.Vector;
+
+import dictionary.DictionaryEntry;
 
 
 public class DictionaryNode {

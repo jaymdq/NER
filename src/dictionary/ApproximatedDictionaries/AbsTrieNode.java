@@ -1,6 +1,8 @@
-package dictionary;
+package dictionary.ApproximatedDictionaries;
 
 import java.util.Vector;
+
+import dictionary.DictionaryEntry;
 
 public abstract class AbsTrieNode {
 	

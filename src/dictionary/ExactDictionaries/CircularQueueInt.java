@@ -1,4 +1,4 @@
-package dictionary;
+package dictionary.ExactDictionaries;
 
 import java.util.Arrays;
 

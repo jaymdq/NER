@@ -1,4 +1,4 @@
-package dictionary;
+package dictionary.ApproximatedDictionaries;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -8,6 +8,10 @@ import java.util.Vector;
 
 
 
+
+import dictionary.Chunk;
+import dictionary.Dictionary;
+import dictionary.DictionaryEntry;
 import segmentation.Segmenter;
 
 

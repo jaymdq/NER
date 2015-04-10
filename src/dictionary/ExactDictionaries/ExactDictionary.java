@@ -1,10 +1,13 @@
-package dictionary;
+package dictionary.ExactDictionaries;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Vector;
 
+import dictionary.Chunk;
+import dictionary.Dictionary;
+import dictionary.DictionaryEntry;
 import segmentation.Segmenter;
 
 public class ExactDictionary implements Dictionary {

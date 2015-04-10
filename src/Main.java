@@ -8,11 +8,11 @@ import ner.NER;
 import org.apache.log4j.Logger;
 
 import dictionary.DictionaryEntry;
-import dictionary.DictionaryIO;
-import dictionary.ExactDictionary;
-import dictionary.RegExMatcher;
-import dictionary.RuleBasedDictionary;
-import dictionary.TopKAproximatedDictionary;
+import dictionary.ApproximatedDictionaries.TopKAproximatedDictionary;
+import dictionary.ExactDictionaries.ExactDictionary;
+import dictionary.IO.DictionaryIO;
+import dictionary.RuleBasedDictionaries.RegExMatcher;
+import dictionary.RuleBasedDictionaries.RuleBasedDictionary;
 import entry.TextEntry;
 import entry.TwitterEntry;
 import filters.RetweetFilter;
@@ -50,7 +50,7 @@ public class Main {
 		dic2.addMatcher(new RegExMatcher("[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})","Mail"));
 		dic2.addMatcher(new RegExMatcher("[0-9]+","Numero"));
 		
-		TopKAproximatedDictionary dic3 = new TopKAproximatedDictionary(entradas, 2, 2, 4);
+		TopKAproximatedDictionary dic3 = new TopKAproximatedDictionary(entradas, 2, 2, 2);
 				
 		//Creación del NER
 		NER ner = new NER(false);

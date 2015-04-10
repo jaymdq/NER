@@ -1,6 +1,9 @@
-package dictionary;
+package dictionary.RuleBasedDictionaries;
 
 import java.util.Vector;
+
+import dictionary.Chunk;
+import dictionary.Dictionary;
 
 public class RuleBasedDictionary implements Dictionary {
 

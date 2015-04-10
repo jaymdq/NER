@@ -1,10 +1,14 @@
-package dictionary;
+package dictionary.ApproximatedDictionaries;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 
+import dictionary.Chunk;
+import dictionary.Dictionary;
+import dictionary.DictionaryEntry;
+import dictionary.DictionaryEntryWithDistance;
 import segmentation.Segmenter;
 
 public class TopKAproximatedDictionary implements Dictionary {
