@@ -1,4 +1,4 @@
-package dictionary.ExactDictionaries;
+package dictionary.exactDictionaries;
 
 import java.util.Collections;
 import java.util.Comparator;

@@ -1,4 +1,4 @@
-package dictionary.ApproximatedDictionaries;
+package dictionary.approximatedDictionaries;
 
 import java.util.HashMap;
 import java.util.HashSet;

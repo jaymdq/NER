@@ -1,4 +1,4 @@
-package dictionary.RuleBasedDictionaries;
+package dictionary.ruleBasedDictionaries;
 
 import java.util.Vector;
 import java.util.regex.Matcher;
