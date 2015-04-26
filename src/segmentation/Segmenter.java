@@ -12,7 +12,7 @@ public class Segmenter {
 	private int actualTokenPosition;
 	private boolean onlyCharacters;
 	private boolean caseSensitive;
-
+	
 	public Segmenter(String text, boolean caseSensitive, boolean onlyCharacters){
 		this.text = text;
 		this.lastTokenStartPosition = 0;

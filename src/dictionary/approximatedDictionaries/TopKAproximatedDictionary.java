@@ -1,6 +1,5 @@
 package dictionary.approximatedDictionaries;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
@@ -19,10 +18,8 @@ public class TopKAproximatedDictionary implements Dictionary {
 	private int n_gram;	
 	private int threshold;
 	private AbsTrieNode rootNode;
-	private HashMap<DictionaryEntry, Integer> tokensToSearch = null;
-
+	
 	public TopKAproximatedDictionary(Vector<DictionaryEntry> entriesList, int top_k, int n_gram, int threshold) {
-		this.tokensToSearch = new HashMap<DictionaryEntry, Integer>();
 		this.setTop_k(top_k);
 		this.setN_gram(n_gram);
 		this.setThreshold(threshold);
@@ -89,7 +86,6 @@ public class TopKAproximatedDictionary implements Dictionary {
 				rootNode.addToMap(ngram, entry);
 			}
 
-			tokensToSearch.put(entry,Segmenter.getSegmentation(entryText).size());
 		}
 	}
 
@@ -140,19 +136,12 @@ public class TopKAproximatedDictionary implements Dictionary {
 	private Vector<DictionaryEntryWithDistance> calculateAproximity(String text){
 		//Split el text
 		String[] qgrams = split(text);
-		HashMap<String, Integer> frec = new HashMap<String, Integer>();
 		Set<DictionaryEntry> invLists = new HashSet<DictionaryEntry>();
 
 		for (String s : qgrams){
 			Vector<DictionaryEntry> invList = rootNode.getListOfDictionaryEntries(s);
 			if (invList != null)
 				invLists.addAll(invList);
-
-			//TODO ver como meterlo junto al algoritmo
-			if (frec.get(s) == null)
-				frec.put(s,1);
-			else
-				frec.put(s, frec.get(s) + 1);		
 		}
 
 		//Aca ahora se tiene que calcular la aproximidad a todas las palabras de las listas invertidas
@@ -176,19 +165,31 @@ public class TopKAproximatedDictionary implements Dictionary {
 
 		Segmenter segmenter = new Segmenter(text,false,false);
 
-		String token;
-		while ( (token = segmenter.getNextToken()) != null ){
-			//Calcular la aproximidad para la primera palabra
-
-			calculateAproximity(token);
-
-			//ver cuantas veces habria que pedir tokens
-
-			//Calcular la proximidad para la frase
-
+		Vector<String> tokens = new Vector<String>();
+		Vector<Integer> startsPositions = new Vector<Integer>();
+		Vector<Integer> endsPositions = new Vector<Integer>();
+		
+		String token = segmenter.getNextToken();
+		while( token != null ){
+			tokens.add(token);
+			startsPositions.add(segmenter.getLastTokenStartPosition());
+			endsPositions.add(segmenter.getLastTokenEndPosition());
+			token = segmenter.getNextToken();
 		}
-
-
+		
+		for (int i = 0; i < tokens.size(); i++){
+			for(int j = i; j < tokens.size(); j++){
+				Vector<DictionaryEntryWithDistance> results = new Vector<DictionaryEntryWithDistance>();
+	
+				token = text.substring(startsPositions.elementAt(i), endsPositions.elementAt(j));
+				results.addAll(calculateAproximity(token));
+				for (DictionaryEntryWithDistance entry : results){
+					for (String category : entry.getCategory())
+						out.add( new Chunk(startsPositions.elementAt(i),endsPositions.elementAt(i),category,text,1.0) );
+				}	
+			}	
+		}
+		
 		return out;
 	}
 

@@ -150,7 +150,7 @@ public class ExactDictionary implements Dictionary {
 	private void addChunk(DictionaryNode node, CircularQueueInt queue, int end, Vector<Chunk> chunking,String text) {
 		for (String category : node.getCategories()) {
 			int start = queue.get(node.getDepth());
-			Chunk chunk = new Chunk(start,end,category,text);
+			Chunk chunk = new Chunk(start,end,category,text,1.0);
 			chunking.add(chunk);
 		}
 	}

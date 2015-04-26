@@ -58,8 +58,9 @@ public class Main {
 		ner.addDictionary(dic2);
 		ner.addDictionary(dic3);
 		//System.out.println(ner.recognize("Maxi Duthey junto a Brian Caimmi viven en la ciudad de Tandil y trabajan en Alem al 1259."));
-		//System.out.println(ner.recognize("Un menor herido al chocar dos camionetas en la Ruta 30 y Jujuy http://ow.ly/KDOGq"));
+		System.out.println(ner.recognize("Un menor herido al chocar dos camionetas en la Ruta 30 y Jujuy http://ow.ly/KDOGq"));
 		
+		//TODO vale la pena ponerle a los chucks, quien fue el diccionario que lo genero
 		
 		//------------
 	

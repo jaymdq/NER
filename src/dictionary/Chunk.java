@@ -6,6 +6,7 @@ public class Chunk {
 	private int start;
 	private int end;
 	private String categoryType;
+	private double score;
 	
 	/**
 	 * 
@@ -15,11 +16,12 @@ public class Chunk {
 	 * @param text Texto que forma el chunk
 	 */
 	
-	public Chunk(int start, int end, String categoryType, String text){
+	public Chunk(int start, int end, String categoryType, String text, double score){
 		this.start = start;
 		this.end = end;
 		this.categoryType = categoryType;
 		this.text = text.substring(start, end);
+		this.score = score;
 	}
 	
 	/**
@@ -50,7 +52,11 @@ public class Chunk {
 	}
 	
 	public String toString(){
-		return "TEXT: \"" + text + "\" START: " + start + " END: " + end + " CATEGORY: " + categoryType;
+		return "TEXT: \"" + text + "\" START: " + start + " END: " + end + " CATEGORY: " + categoryType + " SCORE: " + score;
+	}
+
+	public double getScore() {
+		return score;
 	}
 	
 }

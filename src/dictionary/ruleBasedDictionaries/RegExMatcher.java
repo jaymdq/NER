@@ -26,7 +26,7 @@ public class RegExMatcher {
 		while ( matcher.find() ) {
 			int start = matcher.start();
 			int end = matcher.end();
-			Chunk chunk = new Chunk(start, end, category, text);
+			Chunk chunk = new Chunk(start, end, category, text,1.0);
 			out.add(chunk);
 		}
 
