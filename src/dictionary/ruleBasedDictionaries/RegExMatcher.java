@@ -4,6 +4,7 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import score.Score;
 import dictionary.Chunk;
 
 public class RegExMatcher {
@@ -26,7 +27,7 @@ public class RegExMatcher {
 		while ( matcher.find() ) {
 			int start = matcher.start();
 			int end = matcher.end();
-			Chunk chunk = new Chunk(start, end, category, text,1.0);
+			Chunk chunk = new Chunk(start, end, category, text,Score.getInstance().getExactScore());
 			out.add(chunk);
 		}
 

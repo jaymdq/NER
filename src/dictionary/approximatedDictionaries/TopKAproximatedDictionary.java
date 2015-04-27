@@ -8,10 +8,11 @@ import dictionary.Chunk;
 import dictionary.Dictionary;
 import dictionary.DictionaryEntry;
 import dictionary.DictionaryEntryWithDistance;
+import score.Score;
 import segmentation.Segmenter;
 
+//TODO cambiarle el nombre
 public class TopKAproximatedDictionary implements Dictionary {
-
 
 	private Vector<DictionaryEntry> entriesList = null;
 	private int top_k;
@@ -150,7 +151,6 @@ public class TopKAproximatedDictionary implements Dictionary {
 			Integer distanceCalculated = distance(text,entry.getText());
 			if (distanceCalculated <= threshold){
 				out.add(new DictionaryEntryWithDistance(entry,distanceCalculated));
-				System.out.println(text + " -->" +entry.getText() + " | Distancia : " + distanceCalculated);
 			}
 			
 		}
@@ -184,8 +184,17 @@ public class TopKAproximatedDictionary implements Dictionary {
 				token = text.substring(startsPositions.elementAt(i), endsPositions.elementAt(j));
 				results.addAll(calculateAproximity(token));
 				for (DictionaryEntryWithDistance entry : results){
-					for (String category : entry.getCategory())
-						out.add( new Chunk(startsPositions.elementAt(i),endsPositions.elementAt(i),category,text,1.0) );
+					for (String category : entry.getCategory()){
+						Chunk toAdd = new Chunk(startsPositions.elementAt(i),endsPositions.elementAt(i),category,text,Score.getInstance().getAproximatedScore(entry.getDistance(), entry.getText().length()));
+						
+						for (Chunk chunk : out){
+							if (chunk.getText().equals(toAdd.getText()) && chunk.start() == toAdd.start() && chunk.end() == toAdd.end()){
+								if (toAdd.getScore() > chunk.getScore()){
+									out.set(out.indexOf(chunk), toAdd);
+								}
+							}
+						}
+					}
 				}	
 			}	
 		}

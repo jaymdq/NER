@@ -26,6 +26,14 @@ public class Chunk {
 	
 	/**
 	 * 
+	 * @return Texto del Chunk
+	 */
+	public String getText(){
+		return this.text;
+	}
+	
+	/**
+	 * 
 	 * @return Posicion del caracter de inicio del Chunk en el texto
 	 */
 

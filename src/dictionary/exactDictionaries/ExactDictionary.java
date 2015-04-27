@@ -8,6 +8,7 @@ import java.util.Vector;
 import dictionary.Chunk;
 import dictionary.Dictionary;
 import dictionary.DictionaryEntry;
+import score.Score;
 import segmentation.Segmenter;
 
 public class ExactDictionary implements Dictionary {
@@ -150,7 +151,7 @@ public class ExactDictionary implements Dictionary {
 	private void addChunk(DictionaryNode node, CircularQueueInt queue, int end, Vector<Chunk> chunking,String text) {
 		for (String category : node.getCategories()) {
 			int start = queue.get(node.getDepth());
-			Chunk chunk = new Chunk(start,end,category,text,1.0);
+			Chunk chunk = new Chunk(start,end,category,text,Score.getInstance().getExactScore());
 			chunking.add(chunk);
 		}
 	}
