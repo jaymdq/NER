@@ -42,6 +42,7 @@ import trainer.util.LBCounter;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.JTable;
 import javax.swing.event.DocumentEvent;
@@ -49,9 +50,10 @@ import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
-
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+
+import dictionary.io.DictionaryIO;
 
 public class TrainerUI {
 
@@ -388,11 +390,11 @@ public class TrainerUI {
 		});
 		listCategoriesToSelectModel = new DefaultListModel<String>();
 		listCategoriesToSelect.setModel(listCategoriesToSelectModel);
-		listCategoriesToSelectModel.addElement("Vehiculo");
+		/*listCategoriesToSelectModel.addElement("Vehiculo");
 		listCategoriesToSelectModel.addElement("Persona");
 		listCategoriesToSelectModel.addElement("Color");
 		listCategoriesToSelectModel.addElement("Calle");
-		listCategoriesToSelectModel.addElement("Localidad");
+		listCategoriesToSelectModel.addElement("Localidad");*/
 		//listCategoriesToSelectModel.copyInto(new String[] {"Vehiculo", "Persona", "Color", "Calle", "Localidad"});
 		scrollPane.setViewportView(listCategoriesToSelect);
 		
@@ -449,6 +451,11 @@ public class TrainerUI {
 		mnfile.add(mntmnew);
 		
 		JMenuItem mntmOpen = new JMenuItem("Open");
+		mntmOpen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				openDictionary();
+			}
+		});
 		mnfile.add(mntmOpen);
 		
 		JSeparator separator = new JSeparator();
@@ -509,5 +516,13 @@ public class TrainerUI {
 				break;
 		}
 		this.btnStartTrainer.setEnabled(false);
+	}
+	
+	private void openDictionary(){
+		selectFile();
+		Set<String> categories = DictionaryIO.getPlainTextCategories(this.selectedFilePath[0]);
+		for(String category: categories){
+			listCategoriesToSelectModel.addElement(category);
+		}
 	}
 }

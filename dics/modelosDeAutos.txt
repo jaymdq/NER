@@ -525,6 +525,8 @@ Crafter
 Eco Racer
 Passat NMS
 
+#CATEGORY Modelo Renault
+
 Renault 10
 Renault 12
 Renault 14
@@ -598,7 +600,7 @@ Renault Vel Satis
 Renault Vesta 2
 Renault Wind
 
-#CATEGORY Peugeot
+#CATEGORY Modelo Peugeot
 
 Peugeot 1007
 Peugeot 104
@@ -649,7 +651,7 @@ Peugeot J5
 Peugeot Oxia
 Peugeot RCZ
 
-#CATEGORY Citroën
+#CATEGORY Modelo Citroën
 
 Citroën 2CV
 Citroën Acadiane

@@ -10,6 +10,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Vector;
 
 import dictionary.DictionaryEntry;
@@ -58,7 +60,6 @@ public class DictionaryIO {
 		File file = null;
 		FileReader fr = null;
 		BufferedReader br = null;
-
 		try {
 			file = new File (path);
 			fr = new FileReader (file);
@@ -106,6 +107,44 @@ public class DictionaryIO {
 		return out;
 	}
 
+	public static Set<String> getPlainTextCategories(String path) {
+		Set<String> out = new HashSet<String>();
+		File file = null;
+		FileReader fr = null;
+		BufferedReader br = null;
+		try {
+			file = new File (path);
+			fr = new FileReader (file);
+			br = new BufferedReader(fr);
 
+			String line;
+			while( (line=br.readLine()) != null ){
+				
+				//New Categories
+				if (line.startsWith(CATEGORY_INDICATOR)){
+					line = line.split(CATEGORY_INDICATOR)[1];
+					for (String category : line.split(CATEGORY_SEPARATOR)){
+						out.add(category.trim());
+					}
+				}
+
+			}
+
+		}
+		catch(Exception e){
+			Logger.getLogger(DictionaryIO.class).error("IO Error While Loading");
+			e.printStackTrace();
+		}finally{
+			try{                   
+				if( null != fr ){  
+					fr.close();    
+				}                 
+			}catch (Exception e2){
+				Logger.getLogger(DictionaryIO.class).error("IO Error While Closing File");
+				e2.printStackTrace();
+			}
+		}
+		return out;
+	}
 
 }
