@@ -41,7 +41,7 @@ public class Segmenter {
 		StringTokenizer st = new StringTokenizer(text);
 		while( st.hasMoreTokens() ){
 			String toAdd = st.nextToken();
-			if (onlyCharacters)//TODO MODIFICAR ESTOOO !!!! 
+			if (onlyCharacters)
 				toAdd = toAdd.replaceAll("[^A-Za-z0-9]+", "");
 			if (!caseSensitive)
 				toAdd = toAdd.toLowerCase();

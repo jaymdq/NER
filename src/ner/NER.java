@@ -4,6 +4,8 @@ import java.util.Vector;
 
 import org.apache.log4j.Logger;
 
+import syntax.Pair;
+import syntax.SyntaxChecker;
 import dictionary.Chunk;
 import dictionary.Dictionary;
 
@@ -14,7 +16,7 @@ public class NER {
 	 */
 	
 	private Vector<Dictionary> dictionaries;
-	
+	private SyntaxChecker syntaxChecker;
 	private boolean debugMode;
 	
 	/**
@@ -79,6 +81,22 @@ public class NER {
 				
 		if (debugMode)
 			System.out.println(out);
+		
+		//TODO SyntaxChecker
+		Vector<Pair<Vector<String>,String>> rules = new Vector<Pair<Vector<String>,String>>();
+		Vector<String> cosas = new Vector<String>();
+		cosas.add("Ruta");
+		cosas.add("y");
+		cosas.add("Calle");
+		
+		Pair<Vector<String>,String> rule1 = new Pair<Vector<String>, String>();
+		rule1.setPair1(cosas);
+		rule1.setPair2("Interseccion");
+		rules.add(rule1);
+		
+		syntaxChecker = new SyntaxChecker();
+		syntaxChecker.addRules(rules);
+		out = syntaxChecker.joinChunks(out);
 		
 		return out;
 

@@ -60,7 +60,7 @@ public class Chunk {
 	}
 	
 	public String toString(){
-		return "TEXT: \"" + text + "\" START: " + start + " END: " + end + " CATEGORY: " + categoryType + " SCORE: " + score;
+		return "\n" + "TEXT: \"" + text + "\" START: " + start + " END: " + end + " CATEGORY: " + categoryType + " SCORE: " + score;
 	}
 
 	public double getScore() {

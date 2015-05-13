@@ -17,6 +17,9 @@ import entry.TextEntry;
 import entry.TwitterEntry;
 import filters.RetweetFilter;
 import segmentation.Segmenter;
+import syntax.AbsSyntaxTrieNode;
+import syntax.Pair;
+import syntax.SyntaxTrieNodeInter;
 import twitter4j.TwitterException;
 
 public class Main {
@@ -49,9 +52,13 @@ public class Main {
 		RuleBasedDictionary dic2 = new RuleBasedDictionary();
 		dic2.addMatcher(new RegExMatcher("[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})","Mail"));
 		dic2.addMatcher(new RegExMatcher("[0-9]+","Numero"));
+		dic2.addMatcher(new RegExMatcher("\\sy+","y"));
 		
 		TopKAproximatedDictionary dic3 = new TopKAproximatedDictionary(entradas, 2, 2, 1);
-				
+		
+		//Creación del SyntaxChecker
+		
+		
 		//Creación del NER
 		NER ner = new NER(false);
 		ner.addDictionary(dic);
@@ -80,7 +87,30 @@ public class Main {
 			Logger.getLogger(Main.class).info("Leí todo el archivo");
 		}
 		*/
-	
+	/*
+		Vector<String> cosas = new Vector<String>();
+		cosas.add("Calle");
+		cosas.add("y");
+		cosas.add("Calle");
+		
+		
+		AbsSyntaxTrieNode root = new SyntaxTrieNodeInter(null);
+		
+		root.addToMap(cosas, "Interseccion");
+		
+		Vector<String> cosas1 = new Vector<String>();
+		cosas1.add("Calle");
+		cosas1.add("y");
+		cosas1.add("Calle");
+		
+		System.out.println(root.getListOfCategories(cosas1));
+		
+		
+		Pair<Vector<String>,String> asd = new Pair<Vector<String>, String>();
+		asd.setPair1(cosas);
+		asd.setPair2("Interseccion");
+		
+		*/
 	}
 
 }
