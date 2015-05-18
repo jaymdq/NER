@@ -1,5 +1,9 @@
 package score;
 
+import java.util.Vector;
+
+import dictionary.Chunk;
+
 public class Score {
 
 	private static Score instance = null;
@@ -22,6 +26,13 @@ public class Score {
 
 	public double getAproximatedScore(int distance, int entryTextLength){
 		return 1 - ((double) distance / entryTextLength);
+	}
+	
+	public double getScoreFromChunks(Vector<Chunk> chunks){
+		double out = 0.0;
+		for(Chunk chunk: chunks)
+			out += chunk.getScore();
+		return out/chunks.size();
 	}
 	
 }

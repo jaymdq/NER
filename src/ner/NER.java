@@ -96,7 +96,7 @@ public class NER {
 		
 		syntaxChecker = new SyntaxChecker();
 		syntaxChecker.addRules(rules);
-		out = syntaxChecker.joinChunks(out);
+		out = syntaxChecker.joinChunks(out, text);
 		
 		return out;
 

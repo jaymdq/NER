@@ -520,9 +520,12 @@ public class TrainerUI {
 	
 	private void openDictionary(){
 		selectFile();
-		Set<String> categories = DictionaryIO.getPlainTextCategories(this.selectedFilePath[0]);
-		for(String category: categories){
-			listCategoriesToSelectModel.addElement(category);
+		if(this.selectedFilePath[0] != null){
+			Set<String> categories = DictionaryIO.getPlainTextCategories(this.selectedFilePath[0]);
+			listCategoriesToSelectModel.clear();
+			for(String category: categories){
+				listCategoriesToSelectModel.addElement(category);
+			}
 		}
 	}
 }

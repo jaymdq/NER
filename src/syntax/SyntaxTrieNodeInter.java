@@ -9,9 +9,18 @@ public class SyntaxTrieNodeInter extends AbsSyntaxTrieNode {
 
 	private HashMap<String,AbsSyntaxTrieNode> nodeMap = null;
 
+	private Vector<String> categoriesResult = null;
+	
 	public SyntaxTrieNodeInter(String categoryType) {
 		super(categoryType);
 		nodeMap = new HashMap<String, AbsSyntaxTrieNode>();
+	}
+	
+	public SyntaxTrieNodeInter(String categoryType, String categoryResult) {
+		super(categoryType);
+		nodeMap = new HashMap<String, AbsSyntaxTrieNode>();
+		this.categoriesResult = new Vector<String>();
+		this.categoriesResult.addElement(categoryResult);
 	}
 
 	@Override
@@ -19,27 +28,27 @@ public class SyntaxTrieNodeInter extends AbsSyntaxTrieNode {
 		if (categories.isEmpty())
 			return;
 		
-		String actualCategory = categories.firstElement().trim();
+		String actualCategory = categories.remove(0).trim();
 		AbsSyntaxTrieNode node = nodeMap.get(actualCategory);
 		if (node == null){
-			if (categories.size() == 1){
-				node = new SyntaxTrieNodeLeaf(actualCategory);
+			if (categories.size() == 0){
+				node = new SyntaxTrieNodeInter(actualCategory, resultCategory);
 			}else{
 				node = new SyntaxTrieNodeInter(actualCategory);
 			}
 			nodeMap.put(actualCategory, node);
 		}
-		node.addToMap( new Vector<String>(categories.subList(1, categories.size())), resultCategory);
+		node.addToMap( new Vector<String>(categories), resultCategory);
 
 	}
 
 	@Override
 	public Vector<String> getListOfCategories(Vector<String> rule) {
 		if (rule.isEmpty())
-			return null;
+			return this.categoriesResult;
+		AbsSyntaxTrieNode node = nodeMap.get(rule.remove(0).trim());
 		
-		AbsSyntaxTrieNode node = nodeMap.get(rule.firstElement().trim());
-		return (node == null) ? null : node.getListOfCategories( new Vector<String>(rule.subList(1, rule.size())));
+		return (node == null) ? null : node.getListOfCategories( new Vector<String>(rule));
 	}
 
 }

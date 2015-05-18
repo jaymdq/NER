@@ -2,8 +2,10 @@ package syntax;
 
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Vector;
 
+import score.Score;
 import dictionary.Chunk;
 import dictionary.ChunkComparator;
 
@@ -22,6 +24,7 @@ public class SyntaxChecker {
 	private boolean keepLargerChunks;
 	private Comparator<Chunk> comparator;
 	private AbsSyntaxTrieNode root;
+	private int charBetween = 3;
 
 	public SyntaxChecker(){
 		this(true,new ChunkComparator());
@@ -47,7 +50,7 @@ public class SyntaxChecker {
 		}
 	}
 
-	public Vector<Chunk> joinChunks(Vector<Chunk> chunks){
+	public Vector<Chunk> joinChunks(Vector<Chunk> chunks, String text){
 		Vector<Chunk> out;
 
 		//Sorting
@@ -57,56 +60,75 @@ public class SyntaxChecker {
 		if (keepLargerChunks)
 			out = keepLargerChunks(out);
 
+		// Check distance to remove chunks
+		
+		int i;
+		HashSet<Integer> chunksPos = new HashSet<Integer>();
+		for( Chunk chunk : out ){
+			if(out.lastElement() != chunk){
+				i = out.indexOf(chunk)+1;
+				if( ( out.get(i).start()-chunk.end() ) <= this.charBetween ) {
+					chunksPos.add(out.indexOf(chunk));
+					chunksPos.add(i);
+				}
+					
+			}
+		}
+		Vector<Chunk> outClear = new Vector<Chunk>();
+		for(Integer data: chunksPos)
+			outClear.add(out.get(data));
+		
 		//Join Chunks
 
 		Vector< Pair< Vector<Integer>, Vector<String>> > chunksByCategory = new Vector< Pair< Vector<Integer>, Vector<String>> >();
-		int i;
-		for(Chunk chunk : out){
-			Vector<Integer> posOut = new Vector<Integer>();
-			Vector<String> categoriesOut = new Vector<String>();
-			posOut.add(out.indexOf(chunk));
-			categoriesOut.add(chunk.type());
-			if (out.lastElement() != chunk){
-				i = posOut.firstElement()+1;
-				while(chunk.start() == out.get(i).start()){
-					if(chunk.end() == out.get(i).end()){
-						posOut.add(i);
-						categoriesOut.add(out.get(i).type());
+
+		for(Chunk chunk : outClear){
+			if(	( chunksByCategory.size() <= 0 )  || 
+				( ! chunksByCategory.lastElement().getPair1().contains( outClear.indexOf(chunk) ) ) ) {
+				Vector<Integer> posOut = new Vector<Integer>();
+				Vector<String> categoriesOut = new Vector<String>();
+				posOut.add(outClear.indexOf(chunk));
+				categoriesOut.add(chunk.type());
+				if (outClear.lastElement() != chunk){
+					i = posOut.firstElement()+1;
+					while(i < outClear.size() && chunk.start() == outClear.get(i).start()){
+						if(chunk.end() == outClear.get(i).end()){
+							posOut.add(i);
+							categoriesOut.add(outClear.get(i).type());
+						}
+						i++;
 					}
-					i++;
 				}
+				chunksByCategory.add(new Pair<Vector<Integer>, Vector<String>>(posOut, categoriesOut));
 			}
-			chunksByCategory.add(new Pair<Vector<Integer>, Vector<String>>(posOut, categoriesOut));
 		}
-		
 		
 		//TODO MAX!!!!!!!!!
 		Vector<String> possibleJoin = null;
-		for (Pair< Vector<Integer>, Vector<String>> pair : chunksByCategory){
-			//possibleJoin = 
-		}
+		Vector< Pair< Vector<Integer>, Vector<String>> > categoriesOfChunks = this.getCategoriesOfChunks( (Vector< Pair< Vector<Integer>, Vector<String>> >) chunksByCategory.clone());
 		
-		
-		/*Vector<String> possibleJoin = null;
-		Vector<String> categoriesOfChunks = new Vector<String>();
-		for (Chunk chunk : out){
-			categoriesOfChunks.add(chunk.type());
-		}
-
-		for ( i = 0; i < out.size(); i++){
-			for (int j = i + 1 ; j <= out.size(); j++){
-
-				possibleJoin = new Vector<String>(categoriesOfChunks.subList(i,j));
-
-				Vector<String> results = root.getListOfCategories(possibleJoin);
-
-				if (results != null){
-					//
-					out.add(new Chunk());
+		for( int cat = 0; cat < categoriesOfChunks.size(); cat++ ){
+			Pair< Vector<Integer>, Vector<String>> categoryOfChunks = categoriesOfChunks.get(cat);
+			for ( i = 0; i < categoryOfChunks.getPair2().size(); i++){
+				for (int j = i + 1 ; j <= categoryOfChunks.getPair2().size(); j++){
+	
+					possibleJoin = new Vector<String>(categoryOfChunks.getPair2().subList(i,j));
+					Vector<String> results = root.getListOfCategories(possibleJoin);
+					if (results != null){
+						Vector<Chunk> chunksTmp = new Vector<Chunk>();
+						for(Integer chunkPos: categoryOfChunks.getPair1()){
+							chunksTmp.add( outClear.get(chunkPos) );
+						}
+						for(String result: results)
+							out.add(new Chunk(chunksTmp.firstElement().start(), chunksTmp.lastElement().end(), result, text, Score.getInstance().getScoreFromChunks(chunksTmp) ));
+					}
+	
 				}
-
 			}
-		}*/
+		}
+		
+		if (keepLargerChunks)
+			out = keepLargerChunks(out);
 
 		return out;
 	}
@@ -120,8 +142,10 @@ public class SyntaxChecker {
 
 				if ( ! chunk1.equals(chunk2) ){
 					if  ( chunk1.start() >= chunk2.start() && chunk1.end() <= chunk2.end() ) {
-						if ( out.contains(chunk1) )
-							out.remove(chunk1);
+						if( ! chunk1.getText().equals(chunk2.getText()) ){
+							if ( out.contains(chunk1) )
+								out.remove(chunk1);
+						}
 					}
 				}
 
@@ -139,6 +163,42 @@ public class SyntaxChecker {
 			Collections.sort(out, comparator);
 
 		return out;
+	}
+	
+	private Vector< Pair< Vector<Integer>, Vector<String>> > getCategoriesOfChunks( Vector< Pair< Vector<Integer>, Vector<String>> > chunksByCategories){
+		if(chunksByCategories.isEmpty())
+			return null;
+		
+		Pair<Vector<Integer>, Vector<String>> chunk = chunksByCategories.remove(0);
+		
+		Vector< Pair< Vector<Integer>, Vector<String>> > tmp = getCategoriesOfChunks(chunksByCategories);
+		
+		if( tmp != null ){
+			int i=0;
+			for(String s: chunk.getPair2()) {
+				for(Pair< Vector<Integer>, Vector<String>> vec: tmp){
+					vec.getPair2().add(0, s);
+					vec.getPair1().add(0, chunk.getPair1().get(i));
+				}
+				i++;
+			}
+		
+		}else{
+			
+			tmp = new Vector< Pair< Vector<Integer>, Vector<String>> >();
+			int i=0;
+			for(String s: chunk.getPair2()) {
+				Vector<Integer> intList = new Vector<Integer>();
+				Vector<String> stringList = new Vector<String>();
+				intList.add( chunk.getPair1().get(i));
+				stringList.add(s);
+				tmp.add( new Pair< Vector<Integer>, Vector<String>>(intList, stringList) );
+				i++;
+			}
+			
+		}
+		
+		return tmp;
 	}
 
 }

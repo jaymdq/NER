@@ -30,7 +30,7 @@ public class ExactDictionary implements Dictionary {
 		for (DictionaryEntry entry : entries){
 			if (!caseSensitive)
 				entry.setText(entry.getText().toLowerCase());
-			Integer length = root.addEntry(Segmenter.getSegmentation(entry.getText(),true,true),entry);
+			Integer length = root.addEntry(Segmenter.getSegmentation(entry.getText(),caseSensitive,true),entry);
 			if (length > maxLength)
 				maxLength = length;			
 		}

@@ -3,7 +3,7 @@ package syntax;
 import java.util.Vector;
 
 public class SyntaxTrieNodeLeaf extends AbsSyntaxTrieNode {
-
+	
 	private Vector<String> categories;
 	
 	public SyntaxTrieNodeLeaf(String categoryType) {
