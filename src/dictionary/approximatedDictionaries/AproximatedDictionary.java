@@ -1,10 +1,13 @@
 package dictionary.approximatedDictionaries;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 
 import dictionary.Chunk;
+import dictionary.ChunkComparator;
+import dictionary.ChunkComparatorByScore;
 import dictionary.Dictionary;
 import dictionary.DictionaryEntry;
 import dictionary.DictionaryEntryWithDistance;
@@ -12,19 +15,19 @@ import score.Score;
 import segmentation.Segmenter;
 
 //TODO cambiarle el nombre
-public class TopKAproximatedDictionary implements Dictionary {
+public class AproximatedDictionary implements Dictionary {
 
 	private Vector<DictionaryEntry> entriesList = null;
-	private int top_k;
+	private double lowerLimit;
 	private int n_gram;	
 	private int threshold;
 	private AbsTrieNode rootNode;
-	
-	public TopKAproximatedDictionary(Vector<DictionaryEntry> entriesList, int top_k, int n_gram, int threshold) {
-		this.setTop_k(top_k);
+
+	public AproximatedDictionary(Vector<DictionaryEntry> entriesList, double lowerLimit, int n_gram, int threshold) {
+		this.setTop_k(lowerLimit);
 		this.setN_gram(n_gram);
 		this.setThreshold(threshold);
-		
+
 		//Keep this in the bottom of the method
 		this.setEntriesList(entriesList);
 
@@ -41,12 +44,12 @@ public class TopKAproximatedDictionary implements Dictionary {
 		}
 	}
 
-	public int getTop_k() {
-		return top_k;
+	public double getTop_k() {
+		return lowerLimit;
 	}
 
-	public void setTop_k(int top_k) {
-		this.top_k = top_k;
+	public void setTop_k(double top_k2) {
+		this.lowerLimit = top_k2;
 	}
 
 	public int getN_gram() {
@@ -56,7 +59,7 @@ public class TopKAproximatedDictionary implements Dictionary {
 	public void setN_gram(int n_gram) {
 		this.n_gram = n_gram;
 	}
-	
+
 	public int getThreshold() {
 		return threshold;
 	}
@@ -83,8 +86,11 @@ public class TopKAproximatedDictionary implements Dictionary {
 		for (DictionaryEntry entry : entriesList){
 
 			String entryText = entry.getText();
-			for (String ngram : this.split(entryText)){
-				rootNode.addToMap(ngram, entry);
+			if (entryText.length() >= n_gram){
+				String[] ngrams = this.split(entryText);
+				for (String ngram : ngrams){
+					rootNode.addToMap(ngram, entry);
+				}
 			}
 
 		}
@@ -135,7 +141,7 @@ public class TopKAproximatedDictionary implements Dictionary {
 
 
 	private Vector<DictionaryEntryWithDistance> calculateAproximity(String text){
-		//Split el text
+		//Split the text
 		String[] qgrams = split(text);
 		Set<DictionaryEntry> invLists = new HashSet<DictionaryEntry>();
 
@@ -152,7 +158,7 @@ public class TopKAproximatedDictionary implements Dictionary {
 			if (distanceCalculated <= threshold){
 				out.add(new DictionaryEntryWithDistance(entry,distanceCalculated));
 			}
-			
+
 		}
 
 		return out;
@@ -168,7 +174,7 @@ public class TopKAproximatedDictionary implements Dictionary {
 		Vector<String> tokens = new Vector<String>();
 		Vector<Integer> startsPositions = new Vector<Integer>();
 		Vector<Integer> endsPositions = new Vector<Integer>();
-		
+
 		String token = segmenter.getNextToken();
 		while( token != null ){
 			tokens.add(token);
@@ -176,30 +182,52 @@ public class TopKAproximatedDictionary implements Dictionary {
 			endsPositions.add(segmenter.getLastTokenEndPosition());
 			token = segmenter.getNextToken();
 		}
-		
+
 		for (int i = 0; i < tokens.size(); i++){
 			for(int j = i; j < tokens.size(); j++){
+
 				Vector<DictionaryEntryWithDistance> results = new Vector<DictionaryEntryWithDistance>();
-	
+
 				token = text.substring(startsPositions.elementAt(i), endsPositions.elementAt(j));
 				results.addAll(calculateAproximity(token));
+
 				for (DictionaryEntryWithDistance entry : results){
 					for (String category : entry.getCategory()){
 						Chunk toAdd = new Chunk(startsPositions.elementAt(i),endsPositions.elementAt(i),category,text,Score.getInstance().getAproximatedScore(entry.getDistance(), entry.getText().length()));
-						//TODO BRIAN
+
+						if (out.isEmpty())
+							out.add(toAdd);
+
+						boolean entered = false;
+						boolean needToAdd = false;
 						for (Chunk chunk : out){
 							if (chunk.getText().equals(toAdd.getText()) && chunk.start() == toAdd.start() && chunk.end() == toAdd.end()){
-								if (toAdd.getScore() > chunk.getScore()){
+								if (toAdd.getScore() >= chunk.getScore()){
 									out.set(out.indexOf(chunk), toAdd);
+									needToAdd = false;
 								}
-							}
+								entered = true;
+							}else
+								needToAdd = true;
 						}
+						if (!entered && needToAdd)
+							out.add(toAdd);
 					}
 				}	
 			}	
 		}
-		
-		return out;
+
+		Collections.sort(out, new ChunkComparatorByScore());
+		Vector<Chunk> realOut = new Vector<Chunk>();
+
+		for (Chunk chunk : out){
+			if (chunk.getScore() >= lowerLimit){
+				realOut.add(chunk);
+			}else
+				break;
+		}
+
+		return realOut;
 	}
 
 }
