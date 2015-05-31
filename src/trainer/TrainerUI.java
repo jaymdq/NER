@@ -30,6 +30,7 @@ import trainer.stream.plaintext.StreamPlainTextWorker;
 import trainer.stream.twitter.StreamTwitterWorker;
 import trainer.util.CBEntryBox;
 import trainer.util.TFPlaceHolder;
+import trainer.util.TTokensModel;
 
 import javax.swing.border.BevelBorder;
 import javax.swing.JLabel;
@@ -43,6 +44,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 
 import javax.swing.JTable;
 import javax.swing.event.DocumentEvent;
@@ -189,7 +191,7 @@ public class TrainerUI {
 				.addComponent(tablePanel, GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
 		);
 		
-		tokensTable = new JTable();
+		tokensTable = new JTable(new TTokensModel());
 		tablePanel.setViewportView(tokensTable);
 		tokensPanel.setLayout(gl_tokensPanel);
 		
@@ -296,6 +298,7 @@ public class TrainerUI {
 		JButton btnAddToken = new JButton("Add token");
 		btnAddToken.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				addToken();
 			}
 		});
 		GroupLayout gl_finalToken = new GroupLayout(finalToken);
@@ -402,7 +405,8 @@ public class TrainerUI {
 		btnAddCategory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String category = JOptionPane.showInputDialog("New category");
-				( (DefaultListModel<String>) listCategoriesToSelect.getModel() ).addElement(category);
+				if( ! ( (DefaultListModel<String>) listCategoriesToSelect.getModel() ).contains(category) )
+					( (DefaultListModel<String>) listCategoriesToSelect.getModel() ).addElement(category);
 			}
 		});
 		GroupLayout gl_tokenInsertPanel = new GroupLayout(tokenInsertPanel);
@@ -473,6 +477,14 @@ public class TrainerUI {
 		JMenuItem mntmClose = new JMenuItem("Close");
 		mnfile.add(mntmClose);
 		
+	}
+
+	private void addToken() {
+		String tokenTmp = this.tfTokenResult.getText().trim();
+		Vector<String> categories = new Vector<String>();
+		for(int i=0; i < this.listCategoriesResultModel.size(); i++)
+			categories.add(this.listCategoriesResultModel.get(i));
+		( (TTokensModel) this.tokensTable.getModel() ).addToken(tokenTmp, categories);
 	}
 
 	private void selectFile() {

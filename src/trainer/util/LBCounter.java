@@ -4,6 +4,7 @@ import java.awt.Label;
 
 import javax.swing.JButton;
 
+@SuppressWarnings("serial")
 public class LBCounter extends Label {
 	private String baseText;
 	private JButton button = null;

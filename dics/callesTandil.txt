@@ -411,8 +411,97 @@ Yrigoyen
 Yugoslavia
 Zarini, Dr.
 Zarini
+Alvear
+Avellaneda
+Balbín
+Bolívar
+Brasil
+Buzón
+Colón
+España
+Espora
+Estrada
+Falucho
+Cabildo
+Campos, Luis M.
+Campos
+Del Valle
+Díaz Vélez
+Don Bosco
+Dorrego
+J.B. Justo
+Juan B. Justo
+L. de Osornio
+Osornio
+Lunghi
+M. D' Andrea
+Marconi
+Perón, Pte.Perón, Eva
+Perón
+Pujol
+Rivadavia
+S. Lamas
+Lamas
+San Gabriel
+Santamarina
+Av. Alvear
+Av. Avellaneda
+Av. Balbín
+Av. Bolívar
+Av. Brasil
+Av. Buzón
+Av. Colón
+Av. España
+Av. Espora
+Av. Estrada
+Av. Falucho
+Av. Cabildo
+Av. Campos, Luis M.
+Av. Del Valle
+Av. Díaz Vélez
+Av. Don Bosco
+Av. Dorrego
+Av. J.B. Justo
+Av. L. de Osornio
+Av. Lunghi
+Av. M. D' Andrea
+Av. Marconi
+Av. Perón, Pte.Av. Perón, Eva
+Av. Pujol
+Av. Rivadavia
+Av. S. Lamas
+Av. San Gabriel
+Av. Santamarina
+Avenida Alvear
+Avenida Avellaneda
+Avenida Balbín
+Avenida Bolívar
+Avenida Brasil
+Avenida Buzón
+Avenida Colón
+Avenida España
+Avenida Espora
+Avenida Estrada
+Avenida Falucho
+Avenida Cabildo
+Avenida Campos, Luis M.
+Avenida Del Valle
+Avenida Díaz Vélez
+Avenida Don Bosco
+Avenida Dorrego
+Avenida J.B. Justo
+Avenida L. de Osornio
+Avenida Lunghi
+Avenida M. D' Andrea
+Avenida Marconi
+Avenida Perón, Pte.Avenida Perón, Eva
+Avenida Pujol
+Avenida Rivadavia
+Avenida S. Lamas
+Avenida San Gabriel
+Avenida Santamarina
 
-#CATEGORY Avenida,Calle
+#CATEGORY Avenida
 Alvear
 Avellaneda
 Balbín

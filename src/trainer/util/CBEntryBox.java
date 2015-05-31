@@ -7,7 +7,8 @@ import java.util.HashMap;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
-public class CBEntryBox extends JComboBox {
+@SuppressWarnings("serial")
+public class CBEntryBox extends JComboBox<String> {
 	protected HashMap<Integer, JComponent[]> components = new HashMap<Integer, JComponent[]>(2);
 	protected CBEntryBox instance = null; 
 	

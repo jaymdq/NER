@@ -7,6 +7,7 @@ import java.awt.event.FocusListener;
 
 import javax.swing.JTextField;
 
+@SuppressWarnings("serial")
 public class TFPlaceHolder extends JTextField {
 	
 	private TFPlaceHolder instance = null;
