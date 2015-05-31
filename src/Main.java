@@ -44,6 +44,7 @@ public class Main {
 		//Creación de Diccionarios
 
 		//Diccionarios Exactos
+		
 		ExactDictionary dic1 = new ExactDictionary(entries,false,true);
 
 		//Diccionarios basados en reglas
