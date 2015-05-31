@@ -30,6 +30,9 @@ public class Pair<T, R> {
 		this.pair2 = pair2;
 	}
 
-
+	@Override
+	public String toString() {
+		return "["+this.getPair1().toString()+", "+this.getPair2().toString()+"]";
+	}
 
 }

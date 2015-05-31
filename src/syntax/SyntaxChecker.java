@@ -103,7 +103,6 @@ public class SyntaxChecker {
 			}
 		}
 		
-		//TODO MAX!!!!!!!!!
 		Vector<String> possibleJoin = null;
 		Vector< Pair< Vector<Integer>, Vector<String>> > categoriesOfChunks = this.getCategoriesOfChunks( (Vector< Pair< Vector<Integer>, Vector<String>> >) chunksByCategory.clone());
 		
@@ -116,7 +115,7 @@ public class SyntaxChecker {
 					Vector<String> results = root.getListOfCategories(possibleJoin);
 					if (results != null){
 						Vector<Chunk> chunksTmp = new Vector<Chunk>();
-						for(Integer chunkPos: categoryOfChunks.getPair1()){
+						for(Integer chunkPos: ( categoryOfChunks.getPair1() ).subList(i, j)){
 							chunksTmp.add( outClear.get(chunkPos) );
 						}
 						for(String result: results)
