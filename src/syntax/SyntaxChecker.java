@@ -174,25 +174,30 @@ public class SyntaxChecker {
 		
 		Vector< Pair< Vector<Integer>, Vector<String>> > tmp = getCategoriesOfChunks(chunksByCategories);
 		
+		
 		if( tmp != null ){
+			Vector< Pair< Vector<Integer>, Vector<String>> > newTmp = new Vector< Pair< Vector<Integer>, Vector<String>> >();
 			int i=0;
-			for(String s: chunk.getPair2()) {
+			for(String category: chunk.getPair2()) {
 				for(Pair< Vector<Integer>, Vector<String>> vec: tmp){
-					vec.getPair2().add(0, s);
-					vec.getPair1().add(0, chunk.getPair1().get(i));
+					Vector<Integer> intList = (Vector<Integer>) vec.getPair1().clone();
+					Vector<String> stringList = (Vector<String>) vec.getPair2().clone();
+					intList.add(0, chunk.getPair1().get(i));
+					stringList.add(0, category);
+					newTmp.add( new Pair< Vector<Integer>, Vector<String>>(intList, stringList) );
 				}
 				i++;
 			}
-		
+			tmp = newTmp;
 		}else{
 			
 			tmp = new Vector< Pair< Vector<Integer>, Vector<String>> >();
 			int i=0;
-			for(String s: chunk.getPair2()) {
+			for(String category: chunk.getPair2()) {
 				Vector<Integer> intList = new Vector<Integer>();
 				Vector<String> stringList = new Vector<String>();
 				intList.add( chunk.getPair1().get(i));
-				stringList.add(s);
+				stringList.add(category);
 				tmp.add( new Pair< Vector<Integer>, Vector<String>>(intList, stringList) );
 				i++;
 			}
