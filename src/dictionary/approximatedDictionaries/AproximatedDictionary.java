@@ -85,10 +85,11 @@ public class AproximatedDictionary implements Dictionary {
 
 		for (DictionaryEntry entry : entriesList){
 
+			if (!caseSensitive){
+				entry.setText(entry.getText().toLowerCase());
+			}	
 			String entryText = entry.getText();
 			if (entryText.length() >= n_gram){
-				if (!caseSensitive)
-					entryText.toLowerCase();
 				String[] ngrams = this.split(entryText);
 				for (String ngram : ngrams){
 					rootNode.addToMap(ngram, entry);
@@ -194,7 +195,8 @@ public class AproximatedDictionary implements Dictionary {
 				Vector<DictionaryEntryWithDistance> results = new Vector<DictionaryEntryWithDistance>();
 
 				token = text.substring(startsPositions.elementAt(i), endsPositions.elementAt(j));
-				
+				if(!caseSensitive)
+					token = token.toLowerCase();
 				Vector<DictionaryEntryWithDistance> possibleOnes = calculateAproximity(token);
 				if (possibleOnes != null)
 					results.addAll(possibleOnes);
@@ -209,7 +211,7 @@ public class AproximatedDictionary implements Dictionary {
 						boolean entered = false;
 						boolean needToAdd = false;
 						for (Chunk chunk : out){
-							if (chunk.getText().equals(toAdd.getText()) && chunk.start() == toAdd.start() && chunk.end() == toAdd.end()){
+							if (chunk.getText().equals(toAdd.getText()) && chunk.start() == toAdd.start() && chunk.end() == toAdd.end() && toAdd.type().equals(chunk.type())){
 								if (toAdd.getScore() >= chunk.getScore()){
 									out.set(out.indexOf(chunk), toAdd);
 									needToAdd = false;

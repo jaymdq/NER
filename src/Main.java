@@ -57,7 +57,7 @@ public class Main {
 		dic2.addMatcher(new RegExMatcher("[0-9]+","Numero"));
 		dic2.addMatcher(new RegExMatcher("\\sy+","y"));
 
-		AproximatedDictionary dic3 = new AproximatedDictionary(entradas, 0.6, 2, 1,true);
+		AproximatedDictionary dic3 = new AproximatedDictionary(entradas, 0.6, 2, 1,false);
 
 		//TODO SyntaxChecker
 		Vector<Pair<Vector<String>,String>> rules = new Vector<Pair<Vector<String>,String>>();

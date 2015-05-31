@@ -3,8 +3,6 @@ package syntax;
 import java.util.HashMap;
 import java.util.Vector;
 
-import dictionary.approximatedDictionaries.AbsTrieNode;
-
 public class SyntaxTrieNodeInter extends AbsSyntaxTrieNode {
 
 	private HashMap<String,AbsSyntaxTrieNode> nodeMap = null;
