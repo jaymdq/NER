@@ -138,16 +138,17 @@ public class SyntaxChecker {
 
 		for (Chunk chunk1 : chunks){
 			for (Chunk chunk2 : chunks){
-
-				if ( ! chunk1.equals(chunk2) ){
-					if  ( chunk1.start() >= chunk2.start() && chunk1.end() <= chunk2.end() ) {
-						if( ! chunk1.getText().equals(chunk2.getText()) ){
-							if ( out.contains(chunk1) )
-								out.remove(chunk1);
+				if( out.contains(chunk2) ){
+					if ( ! chunk1.equals(chunk2) ){
+						if  ( chunk1.start() >= chunk2.start() && chunk1.end() <= chunk2.end() ) {
+							if( ! chunk1.getText().equals(chunk2.getText()) ||
+								( chunk1.getText().equals(chunk2.getText()) && chunk1.type().equals(chunk2.type()) ) ){
+								if ( out.contains(chunk1) )
+									out.remove(chunk1);
+							}
 						}
 					}
 				}
-
 			}
 		}
 
