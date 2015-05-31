@@ -4,8 +4,8 @@ import java.util.Vector;
 
 import org.apache.log4j.Logger;
 
-import syntax.Pair;
 import syntax.SyntaxChecker;
+import utils.Pair;
 import dictionary.Chunk;
 import dictionary.Dictionary;
 

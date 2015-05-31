@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Vector;
 
 import score.Score;
+import utils.Pair;
 import dictionary.Chunk;
 import dictionary.ChunkComparator;
 

@@ -1,4 +1,4 @@
-package syntax;
+package utils;
 
 public class Pair<T, R> {
 

@@ -18,10 +18,10 @@ import entry.TwitterEntry;
 import filters.RetweetFilter;
 import segmentation.Segmenter;
 import syntax.AbsSyntaxTrieNode;
-import syntax.Pair;
 import syntax.SyntaxChecker;
 import syntax.SyntaxTrieNodeInter;
 import twitter4j.TwitterException;
+import utils.Pair;
 
 public class Main {
 
