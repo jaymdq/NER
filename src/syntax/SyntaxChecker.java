@@ -1,5 +1,6 @@
 package syntax;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -11,16 +12,6 @@ import dictionary.Chunk;
 import dictionary.ChunkComparator;
 
 public class SyntaxChecker {
-
-	/*
-	 * La idea seria talvez tener como una estructura como Trie (árbol) y tener reglas en cada nodo
-	 * de tal forma que si encontras -> calle -> preposicion (y) -> calle = Interseección
-	 * La idea tmb seria devolver nuevamente la lista de Chunks con los cambios realizados
-	 * Las reglas se deben tener que guardar tmb exteriormente. 
-	 * Ademas esto se tendria que hacer con un grado de certeza, osea si tenes "Alen y Montevideo", Montevideo esta bien escrita
-	 * pero Alem No, osea existe una incerteza que el mismo chunck "Alen" ya conoce (distancia 1).
-	 * Al convertir a un nuevo Chunk tenemos que seguir manteniendo esa certeza.
-	 */
 
 	private boolean keepLargerChunks;
 	private Comparator<Chunk> comparator;
@@ -207,4 +198,32 @@ public class SyntaxChecker {
 		return tmp;
 	}
 
+	public static Pair<Vector<String>,String> createRule(String[] ruleSpec, String result){
+		Pair<Vector<String>,String> out = new Pair<Vector<String>, String>();
+		out.setPair1(new Vector<String>(Arrays.asList(ruleSpec)));
+		out.setPair2(result);
+		return out;
+	}
+
+	public static Vector<Pair<Vector<String>,String>> createRules(String[] ruleSpec, String result ,Vector<Vector<String>> synonyms){
+		Vector<Pair<Vector<String>,String>> rules = new Vector<Pair<Vector<String>,String>>();
+
+		for (int i = 0; i < ruleSpec.length; i++){
+
+			for (Vector<String> synonymsSet : synonyms){
+				for (String synonym : synonymsSet){
+					if (ruleSpec[i].equals(synonym)){
+						for (String synonymToExpand : synonymsSet){
+							String[] aux = ruleSpec.clone();
+							aux[i] = synonymToExpand;
+							rules.add(createRule(aux,result));
+						}
+					}
+				}
+			}
+		}
+
+
+		return rules;
+	}
 }
