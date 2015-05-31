@@ -5,16 +5,15 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 
+import score.Score;
+import segmentation.Segmenter;
 import dictionary.Chunk;
-import dictionary.ChunkComparator;
 import dictionary.ChunkComparatorByScore;
 import dictionary.Dictionary;
 import dictionary.DictionaryEntry;
 import dictionary.DictionaryEntryWithDistance;
-import score.Score;
-import segmentation.Segmenter;
 
-//TODO cambiarle el nombre
+
 public class AproximatedDictionary implements Dictionary {
 
 	private Vector<DictionaryEntry> entriesList = null;
@@ -22,8 +21,9 @@ public class AproximatedDictionary implements Dictionary {
 	private int n_gram;	
 	private int threshold;
 	private AbsTrieNode rootNode;
+	private boolean caseSensitive;
 
-	public AproximatedDictionary(Vector<DictionaryEntry> entriesList, double lowerLimit, int n_gram, int threshold) {
+	public AproximatedDictionary(Vector<DictionaryEntry> entriesList, double lowerLimit, int n_gram, int threshold, boolean caseSensitive) {
 		this.setTop_k(lowerLimit);
 		this.setN_gram(n_gram);
 		this.setThreshold(threshold);
@@ -87,6 +87,8 @@ public class AproximatedDictionary implements Dictionary {
 
 			String entryText = entry.getText();
 			if (entryText.length() >= n_gram){
+				if (!caseSensitive)
+					entryText.toLowerCase();
 				String[] ngrams = this.split(entryText);
 				for (String ngram : ngrams){
 					rootNode.addToMap(ngram, entry);
@@ -172,7 +174,7 @@ public class AproximatedDictionary implements Dictionary {
 	public Vector<Chunk> recognize(String text, boolean debugMode){
 		Vector<Chunk> out = new Vector<Chunk>();
 
-		Segmenter segmenter = new Segmenter(text,false,false);
+		Segmenter segmenter = new Segmenter(text,caseSensitive,false);
 
 		Vector<String> tokens = new Vector<String>();
 		Vector<Integer> startsPositions = new Vector<Integer>();
@@ -234,6 +236,14 @@ public class AproximatedDictionary implements Dictionary {
 		}
 
 		return realOut;
+	}
+
+	public boolean isCaseSensitive() {
+		return caseSensitive;
+	}
+
+	public void setCaseSensitive(boolean caseSensitive) {
+		this.caseSensitive = caseSensitive;
 	}
 
 }

@@ -2,6 +2,10 @@ package dictionary;
 
 public class DictionaryEntryWithDistance extends DictionaryEntry{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer distance;
 	
 	/**

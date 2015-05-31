@@ -2,11 +2,9 @@ package topic;
 
 import java.util.Vector;
 
-import dictionary.Chunk;
 import ner.NER;
-import entry.AbsEntry;
+import dictionary.Chunk;
 
-//TODO ver si es necesario cambiarle el nombre a la clase
 public class TopicSearcher {
 
 	private String topic;
@@ -53,9 +51,6 @@ public class TopicSearcher {
 		
 		for (String text : texts){
 			Vector<Chunk> chunks = ner.recognize(text);
-			
-			//TODO Acá se debe intentar reconocer tipo reglas sintacticas
-			//Tipo: Intersecciones
 			
 		}
 		

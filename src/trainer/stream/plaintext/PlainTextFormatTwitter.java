@@ -12,7 +12,6 @@ public class PlainTextFormatTwitter extends PlainTextFormatAbs {
 		try {
 			status = TwitterObjectFactory.createStatus((String)text);
 		} catch (TwitterException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if(status != null)
