@@ -22,11 +22,16 @@ public class TTokensModel extends DefaultTableModel {
 			row[1] = categories;
 			this.addRow(row);
 		}else{
-			Vector<String> tmp = (Vector<String>)this.getValueAt(index, 1);
-			tmp.addAll(categories);
-			this.setValueAt(tmp, index, 1);
+			updateCategories(index, categories);
 		}
-		
+	}
+	
+	public void replaceToken(String token, Vector<String> categories){
+		int index = this.indexOf(token);
+		if(index < 0)
+			this.addToken(token, categories);
+		else
+			this.setValueAt(categories, index, 1);
 	}
 	
 	public int indexOf(String token){
@@ -40,7 +45,11 @@ public class TTokensModel extends DefaultTableModel {
 	}
 	
 	private void updateCategories(int index, Vector<String> categories){
-		
+		Vector<String> tmp = (Vector<String>)this.getValueAt(index, 1);
+		for(String category: categories)
+			if(!tmp.contains(category))
+				tmp.add(category);
+		this.setValueAt(tmp, index, 1);
 	}
 	
 }
