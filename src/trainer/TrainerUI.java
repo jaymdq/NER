@@ -301,6 +301,13 @@ public class TrainerUI {
 				addToken();
 			}
 		});
+		
+		JButton btnReplaceToken = new JButton("Replace token");
+		btnReplaceToken.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				replaceToken();
+			}
+		});
 		GroupLayout gl_finalToken = new GroupLayout(finalToken);
 		gl_finalToken.setHorizontalGroup(
 			gl_finalToken.createParallelGroup(Alignment.LEADING)
@@ -310,9 +317,12 @@ public class TrainerUI {
 						.addComponent(lblCategories))
 					.addGap(18)
 					.addGroup(gl_finalToken.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnAddToken)
+						.addGroup(gl_finalToken.createSequentialGroup()
+							.addComponent(btnAddToken)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnReplaceToken))
 						.addComponent(scrollPane_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
-						.addComponent(tfTokenResult, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE))
+						.addComponent(tfTokenResult, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_finalToken.setVerticalGroup(
@@ -326,8 +336,10 @@ public class TrainerUI {
 						.addComponent(lblCategories)
 						.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnAddToken)
-					.addContainerGap(10, Short.MAX_VALUE))
+					.addGroup(gl_finalToken.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnAddToken)
+						.addComponent(btnReplaceToken))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		
 		listCategoriesResult = new JList<String>();
@@ -405,8 +417,9 @@ public class TrainerUI {
 		btnAddCategory.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String category = JOptionPane.showInputDialog("New category");
-				if( ! ( (DefaultListModel<String>) listCategoriesToSelect.getModel() ).contains(category) )
-					( (DefaultListModel<String>) listCategoriesToSelect.getModel() ).addElement(category);
+				if(!category.trim().isEmpty())
+					if( ! ( (DefaultListModel<String>) listCategoriesToSelect.getModel() ).contains(category) )
+						( (DefaultListModel<String>) listCategoriesToSelect.getModel() ).addElement(category);
 			}
 		});
 		GroupLayout gl_tokenInsertPanel = new GroupLayout(tokenInsertPanel);
@@ -477,6 +490,14 @@ public class TrainerUI {
 		JMenuItem mntmClose = new JMenuItem("Close");
 		mnfile.add(mntmClose);
 		
+	}
+
+	private void replaceToken() {
+		String tokenTmp = this.tfTokenResult.getText().trim();
+		Vector<String> categories = new Vector<String>();
+		for(int i=0; i < this.listCategoriesResultModel.size(); i++)
+			categories.add(this.listCategoriesResultModel.get(i));
+		( (TTokensModel) this.tokensTable.getModel() ).replaceToken(tokenTmp, categories);
 	}
 
 	private void addToken() {

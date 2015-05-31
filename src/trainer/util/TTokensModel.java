@@ -24,7 +24,14 @@ public class TTokensModel extends DefaultTableModel {
 		}else{
 			updateCategories(index, categories);
 		}
-		
+	}
+	
+	public void replaceToken(String token, Vector<String> categories){
+		int index = this.indexOf(token);
+		if(index < 0)
+			this.addToken(token, categories);
+		else
+			this.setValueAt(categories, index, 1);
 	}
 	
 	public int indexOf(String token){
