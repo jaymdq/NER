@@ -19,13 +19,14 @@ import filters.RetweetFilter;
 import segmentation.Segmenter;
 import syntax.AbsSyntaxTrieNode;
 import syntax.Pair;
+import syntax.SyntaxChecker;
 import syntax.SyntaxTrieNodeInter;
 import twitter4j.TwitterException;
 
 public class Main {
 
 	public static void main(String[] args) throws TwitterException {
-			
+
 		//Entradas agregadas por el usuario
 		DictionaryEntry d1 = new DictionaryEntry("Maxi Duthey",new String[]{"Persona"});
 		DictionaryEntry d2 = new DictionaryEntry("Brian Caimmi",new String[]{"Persona"});
@@ -36,7 +37,7 @@ public class Main {
 		entradas.add(d2);
 		entradas.add(d3);
 		entradas.add(d4);
-		
+
 		//Entradas levantadas desde archivo
 		Set<DictionaryEntry> entries = new HashSet<DictionaryEntry>();
 		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/callesTandil.txt"));
@@ -47,38 +48,49 @@ public class Main {
 		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/marcasDeMotos.txt"));
 		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/corpusDeVehiculos.txt"));
 		entradas.addAll(entries);
-		
+
 		//Creación de Diccionarios
 		ExactDictionary dic = new ExactDictionary(entradas,false,true);
-		
+
 		RuleBasedDictionary dic2 = new RuleBasedDictionary();
 		dic2.addMatcher(new RegExMatcher("[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})","Mail"));
 		dic2.addMatcher(new RegExMatcher("[0-9]+","Numero"));
 		dic2.addMatcher(new RegExMatcher("\\sy+","y"));
-		
-		//TODO Brian
-		//AproximatedDictionary dic3 = new AproximatedDictionary(entradas, 0.6, 3, 2);
-		
+
 		AproximatedDictionary dic3 = new AproximatedDictionary(entradas, 0.6, 2, 1);
+
+		//TODO SyntaxChecker
+		Vector<Pair<Vector<String>,String>> rules = new Vector<Pair<Vector<String>,String>>();
+		Vector<String> cosas = new Vector<String>();
+		cosas.add("Ruta");
+		cosas.add("y");
+		cosas.add("Calle");
+
+		Pair<Vector<String>,String> rule1 = new Pair<Vector<String>, String>();
+		rule1.setPair1(cosas);
+		rule1.setPair2("Interseccion");
+		rules.add(rule1);
+
+		SyntaxChecker syntaxChecker = new SyntaxChecker();
+		syntaxChecker.addRules(rules);
 		
-		//Creación del SyntaxChecker
-		
-		
+
 		//Creación del NER
 		NER ner = new NER(false);
 		ner.addDictionary(dic);
 		ner.addDictionary(dic2);
 		ner.addDictionary(dic3);
+		ner.setSyntaxChecker(syntaxChecker);
 		//System.out.println(ner.recognize("Maxi Duthey junto a Brian Caimmi viven en la ciudad de Tandil y trabajan en Alem al 1259."));
 		System.out.println(ner.recognize("Un menor herido al chocar dos camionetas en la Ruta 30 y Jujuy http://ow.ly/KDOGq"));
-		
+
 		//TODO vale la pena ponerle a los chucks, quien fue el diccionario que lo genero
-		
+
 		//------------
-	
+
 		/*
 		RetweetFilter rtf = new RetweetFilter();
-		
+
 		TwitterEntry.getInstance().setFilter(rtf);
 
 		if (TwitterEntry.getInstance().setSourceFile("tweets.txt") ){
@@ -88,34 +100,34 @@ public class Main {
 				System.out.println(linea+"\n");
 				System.out.println(ner.recognize(linea));
 			}
-			
+
 			Logger.getLogger(Main.class).info("Leí todo el archivo");
 		}
-		*/
-	/*
+		 */
+		/*
 		Vector<String> cosas = new Vector<String>();
 		cosas.add("Calle");
 		cosas.add("y");
 		cosas.add("Calle");
-		
-		
+
+
 		AbsSyntaxTrieNode root = new SyntaxTrieNodeInter(null);
-		
+
 		root.addToMap(cosas, "Interseccion");
-		
+
 		Vector<String> cosas1 = new Vector<String>();
 		cosas1.add("Calle");
 		cosas1.add("y");
 		cosas1.add("Calle");
-		
+
 		System.out.println(root.getListOfCategories(cosas1));
-		
-		
+
+
 		Pair<Vector<String>,String> asd = new Pair<Vector<String>, String>();
 		asd.setPair1(cosas);
 		asd.setPair2("Interseccion");
-		
-		*/
+
+		 */
 	}
 
 }

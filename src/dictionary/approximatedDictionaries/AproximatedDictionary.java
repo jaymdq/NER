@@ -141,27 +141,30 @@ public class AproximatedDictionary implements Dictionary {
 
 
 	private Vector<DictionaryEntryWithDistance> calculateAproximity(String text){
-		//Split the text
-		String[] qgrams = split(text);
-		Set<DictionaryEntry> invLists = new HashSet<DictionaryEntry>();
+		if (text.length() >= n_gram){
+			//Split the text	
+			String[] qgrams = split(text);
+			Set<DictionaryEntry> invLists = new HashSet<DictionaryEntry>();
 
-		for (String s : qgrams){
-			Vector<DictionaryEntry> invList = rootNode.getListOfDictionaryEntries(s);
-			if (invList != null)
-				invLists.addAll(invList);
-		}
-
-		//Aca ahora se tiene que calcular la aproximidad a todas las palabras de las listas invertidas
-		Vector<DictionaryEntryWithDistance> out = new Vector<DictionaryEntryWithDistance>();
-		for (DictionaryEntry entry : invLists){
-			Integer distanceCalculated = distance(text,entry.getText());
-			if (distanceCalculated <= threshold){
-				out.add(new DictionaryEntryWithDistance(entry,distanceCalculated));
+			for (String s : qgrams){
+				Vector<DictionaryEntry> invList = rootNode.getListOfDictionaryEntries(s);
+				if (invList != null)
+					invLists.addAll(invList);
 			}
 
-		}
+			//Aca ahora se tiene que calcular la aproximidad a todas las palabras de las listas invertidas
+			Vector<DictionaryEntryWithDistance> out = new Vector<DictionaryEntryWithDistance>();
+			for (DictionaryEntry entry : invLists){
+				Integer distanceCalculated = distance(text,entry.getText());
+				if (distanceCalculated <= threshold){
+					out.add(new DictionaryEntryWithDistance(entry,distanceCalculated));
+				}
 
-		return out;
+			}
+
+			return out;
+		}
+		return null;
 	}
 
 
@@ -189,7 +192,10 @@ public class AproximatedDictionary implements Dictionary {
 				Vector<DictionaryEntryWithDistance> results = new Vector<DictionaryEntryWithDistance>();
 
 				token = text.substring(startsPositions.elementAt(i), endsPositions.elementAt(j));
-				results.addAll(calculateAproximity(token));
+				
+				Vector<DictionaryEntryWithDistance> possibleOnes = calculateAproximity(token);
+				if (possibleOnes != null)
+					results.addAll(possibleOnes);
 
 				for (DictionaryEntryWithDistance entry : results){
 					for (String category : entry.getCategory()){
