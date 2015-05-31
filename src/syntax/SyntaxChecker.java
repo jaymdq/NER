@@ -42,6 +42,7 @@ public class SyntaxChecker {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	public Vector<Chunk> joinChunks(Vector<Chunk> chunks, String text){
 		Vector<Chunk> out;
 
@@ -157,6 +158,7 @@ public class SyntaxChecker {
 		return out;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private Vector< Pair< Vector<Integer>, Vector<String>> > getCategoriesOfChunks( Vector< Pair< Vector<Integer>, Vector<String>> > chunksByCategories){
 		if(chunksByCategories.isEmpty())
 			return null;
