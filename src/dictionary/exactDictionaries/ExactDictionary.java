@@ -29,8 +29,6 @@ public class ExactDictionary implements Dictionary {
 	public ExactDictionary (Vector<DictionaryEntry> entries,boolean caseSensitive, boolean allMatches){
 		DictionaryNode root = new DictionaryNode(0);
 		for (DictionaryEntry entry : entries){
-			//if (!caseSensitive)
-			//	entry.setText(entry.getText().toLowerCase());
 			Integer length = root.addEntry(Segmenter.getSegmentation(entry.getText(),caseSensitive,true),entry);
 			if (length > maxLength)
 				maxLength = length;			
