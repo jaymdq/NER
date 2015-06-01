@@ -79,6 +79,7 @@ public class TrainerUI {
 	
 	private String[] selectedFilePath = new String[]{ null, null};
 	private JComboBox<String> cbFormatFile;
+	private JButton btnStopTrainer;
 
 	/**
 	 * Launch the application.
@@ -242,6 +243,14 @@ public class TrainerUI {
 		btnNextTweet.setEnabled(false);
 		lblCounter.asignButtonToCounter(btnNextTweet);
 		
+		btnStopTrainer = new JButton("Stop Trainer");
+		btnStopTrainer.setVisible(false);
+		btnStopTrainer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				stopTrainer();
+			}
+		});
+		
 		GroupLayout gl_streamPanel = new GroupLayout(streamPanel);
 		gl_streamPanel.setHorizontalGroup(
 			gl_streamPanel.createParallelGroup(Alignment.LEADING)
@@ -260,7 +269,9 @@ public class TrainerUI {
 							.addComponent(cbFormatFile, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnSelectFile)
-							.addPreferredGap(ComponentPlacement.RELATED, 225, Short.MAX_VALUE)
+							.addGap(18, 18, Short.MAX_VALUE)
+							.addComponent(btnStopTrainer)
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnStartTrainer)))
 					.addContainerGap())
 		);
@@ -272,7 +283,8 @@ public class TrainerUI {
 						.addComponent(tfTagsStreaming, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnSelectFile)
 						.addComponent(btnStartTrainer)
-						.addComponent(cbFormatFile, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(cbFormatFile, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnStopTrainer))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_streamPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(tfToRecognice, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -405,12 +417,6 @@ public class TrainerUI {
 		});
 		listCategoriesToSelectModel = new DefaultListModel<String>();
 		listCategoriesToSelect.setModel(listCategoriesToSelectModel);
-		/*listCategoriesToSelectModel.addElement("Vehiculo");
-		listCategoriesToSelectModel.addElement("Persona");
-		listCategoriesToSelectModel.addElement("Color");
-		listCategoriesToSelectModel.addElement("Calle");
-		listCategoriesToSelectModel.addElement("Localidad");*/
-		//listCategoriesToSelectModel.copyInto(new String[] {"Vehiculo", "Persona", "Color", "Calle", "Localidad"});
 		scrollPane.setViewportView(listCategoriesToSelect);
 		
 		JButton btnAddCategory = new JButton("Add category");
@@ -548,7 +554,15 @@ public class TrainerUI {
 				this.streamWorker.start();
 				break;
 		}
-		this.btnStartTrainer.setEnabled(false);
+		this.btnStartTrainer.setVisible(false);
+		this.btnStopTrainer.setVisible(true);
+	}
+	
+	private void stopTrainer() {
+		this.streamWorker.interrupt();
+		this.lblCounter.updateCounter(0);
+		this.btnStartTrainer.setVisible(true);
+		this.btnStopTrainer.setVisible(false);
 	}
 	
 	private void openDictionary(){

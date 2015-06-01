@@ -63,6 +63,11 @@ public class StreamTwitterWorker extends StreamWorkerAbs {
 	@Override
 	protected void execute() {
 		this.twitterStream.addListener(new TwitterListener(this));
-		this.twitterStream.filter(this.filterQuery);		
+		this.twitterStream.filter(this.filterQuery);
+	}
+	
+	@Override
+	public void interrupt() {
+		this.twitterStream.shutdown();
 	}
 }

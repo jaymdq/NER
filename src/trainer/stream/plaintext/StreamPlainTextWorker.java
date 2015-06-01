@@ -42,7 +42,7 @@ public class StreamPlainTextWorker extends StreamWorkerAbs {
 			
 			String line;
 			
-			while( (line=bufferedReader.readLine()) != null ){
+			while( (line=bufferedReader.readLine()) != null && !this.isInterrupted()){
 				this.notify(line);
 			}
 			
