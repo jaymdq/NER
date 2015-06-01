@@ -31,6 +31,7 @@ import trainer.stream.twitter.StreamTwitterWorker;
 import trainer.util.CBEntryBox;
 import trainer.util.TFPlaceHolder;
 import trainer.util.TTokensModel;
+import trainer.util.TextFieldNer;
 
 import javax.swing.border.BevelBorder;
 import javax.swing.JLabel;
@@ -57,6 +58,9 @@ import javax.swing.DefaultComboBoxModel;
 
 import dictionary.io.DictionaryIO;
 
+import javax.swing.JEditorPane;
+import javax.swing.JTextPane;
+
 public class TrainerUI {
 
 	private JFrame frmNerTrainer;
@@ -69,7 +73,7 @@ public class TrainerUI {
 	private JButton btnNextTweet;
 	private LBCounter lblCounter;
 	private JButton btnStartTrainer;
-	private JTextField tfToRecognice;
+	private TextFieldNer tfToRecognice;
 	private JTextField tfTokenResult;
 	private JTable tokensTable;
 	private JList<String> listCategoriesResult;
@@ -165,31 +169,31 @@ public class TrainerUI {
 				.addGroup(gl_mainPanel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(tokensPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE)
-						.addComponent(inputPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE)
-						.addComponent(streamPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE))
+						.addComponent(inputPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 783, Short.MAX_VALUE)
+						.addComponent(streamPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(tokensPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 783, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_mainPanel.setVerticalGroup(
-			gl_mainPanel.createParallelGroup(Alignment.LEADING)
+			gl_mainPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_mainPanel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(streamPanel, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE)
-					.addGap(7)
-					.addComponent(inputPanel, GroupLayout.PREFERRED_SIZE, 160, GroupLayout.PREFERRED_SIZE)
+					.addComponent(streamPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(tokensPanel, GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE))
+					.addComponent(inputPanel, GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(tokensPanel, GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE))
 		);
 		
 		JScrollPane tablePanel = new JScrollPane();
 		GroupLayout gl_tokensPanel = new GroupLayout(tokensPanel);
 		gl_tokensPanel.setHorizontalGroup(
 			gl_tokensPanel.createParallelGroup(Alignment.LEADING)
-				.addComponent(tablePanel, GroupLayout.DEFAULT_SIZE, 772, Short.MAX_VALUE)
+				.addComponent(tablePanel, GroupLayout.DEFAULT_SIZE, 783, Short.MAX_VALUE)
 		);
 		gl_tokensPanel.setVerticalGroup(
 			gl_tokensPanel.createParallelGroup(Alignment.LEADING)
-				.addComponent(tablePanel, GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
+				.addComponent(tablePanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE)
 		);
 		
 		tokensTable = new JTable(new TTokensModel());
@@ -224,15 +228,15 @@ public class TrainerUI {
 			}
 		});
 		
-		tfToRecognice = new JTextField();
+		tfToRecognice = new TextFieldNer();
 		tfToRecognice.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseReleased(MouseEvent arg0) {
+			public void mouseReleased(MouseEvent e) {
 				tfTokenToAdd.setText(tfToRecognice.getSelectedText());
 			}
 		});
+		tfToRecognice.setContentType("text/html;charset=UTF-8");
 		tfToRecognice.setEditable(false);
-		tfToRecognice.setColumns(10);
 		
 		btnNextTweet = new JButton("Next tweet");
 		btnNextTweet.addActionListener(new ActionListener() {
@@ -258,7 +262,7 @@ public class TrainerUI {
 					.addContainerGap()
 					.addGroup(gl_streamPanel.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_streamPanel.createSequentialGroup()
-							.addComponent(tfToRecognice, GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
+							.addComponent(tfToRecognice, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(btnNextTweet))
 						.addGroup(gl_streamPanel.createSequentialGroup()
@@ -285,11 +289,14 @@ public class TrainerUI {
 						.addComponent(btnStartTrainer)
 						.addComponent(cbFormatFile, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnStopTrainer))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_streamPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(tfToRecognice, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnNextTweet))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGroup(gl_streamPanel.createParallelGroup(Alignment.LEADING, false)
+						.addGroup(gl_streamPanel.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnNextTweet))
+						.addGroup(gl_streamPanel.createSequentialGroup()
+							.addGap(10)
+							.addComponent(tfToRecognice)))
+					.addContainerGap())
 		);
 		streamPanel.setLayout(gl_streamPanel);
 		
@@ -328,13 +335,13 @@ public class TrainerUI {
 						.addComponent(lblTokenToAdd)
 						.addComponent(lblCategories))
 					.addGap(18)
-					.addGroup(gl_finalToken.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_finalToken.createSequentialGroup()
+					.addGroup(gl_finalToken.createParallelGroup(Alignment.TRAILING)
+						.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE)
+						.addGroup(Alignment.LEADING, gl_finalToken.createSequentialGroup()
 							.addComponent(btnAddToken)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnReplaceToken))
-						.addComponent(scrollPane_1, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
-						.addComponent(tfTokenResult, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE))
+						.addComponent(tfTokenResult, GroupLayout.DEFAULT_SIZE, 315, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_finalToken.setVerticalGroup(
@@ -346,12 +353,12 @@ public class TrainerUI {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_finalToken.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblCategories)
-						.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 147, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
 					.addGroup(gl_finalToken.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnAddToken)
 						.addComponent(btnReplaceToken))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addContainerGap())
 		);
 		
 		listCategoriesResult = new JList<String>();
@@ -365,18 +372,18 @@ public class TrainerUI {
 			gl_inputPanel.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_inputPanel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(tokenInsertPanel, GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)
+					.addComponent(tokenInsertPanel, GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
 					.addGap(18)
-					.addComponent(finalToken, GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)
+					.addComponent(finalToken, GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		gl_inputPanel.setVerticalGroup(
 			gl_inputPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_inputPanel.createSequentialGroup()
-					.addGroup(gl_inputPanel.createParallelGroup(Alignment.TRAILING, false)
-						.addComponent(finalToken, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-						.addComponent(tokenInsertPanel, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 159, Short.MAX_VALUE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, gl_inputPanel.createSequentialGroup()
+					.addGroup(gl_inputPanel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(tokenInsertPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE)
+						.addComponent(finalToken, GroupLayout.DEFAULT_SIZE, 186, Short.MAX_VALUE))
+					.addContainerGap())
 		);
 		
 		JLabel lblToken = new JLabel("Token");
@@ -434,14 +441,14 @@ public class TrainerUI {
 				.addGroup(gl_tokenInsertPanel.createSequentialGroup()
 					.addComponent(lblToken)
 					.addGap(30)
-					.addComponent(tfTokenToAdd, GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE)
+					.addComponent(tfTokenToAdd, GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
 					.addGap(5))
 				.addGroup(gl_tokenInsertPanel.createSequentialGroup()
 					.addComponent(lblCategory)
 					.addGap(18)
 					.addGroup(gl_tokenInsertPanel.createParallelGroup(Alignment.LEADING)
 						.addComponent(btnAddCategory)
-						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE))
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_tokenInsertPanel.setVerticalGroup(
@@ -453,10 +460,10 @@ public class TrainerUI {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_tokenInsertPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblCategory)
-						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE))
+					.addGap(6)
 					.addComponent(btnAddCategory)
-					.addContainerGap(10, Short.MAX_VALUE))
+					.addContainerGap())
 		);
 		tokenInsertPanel.setLayout(gl_tokenInsertPanel);
 		inputPanel.setLayout(gl_inputPanel);
@@ -512,6 +519,7 @@ public class TrainerUI {
 		for(int i=0; i < this.listCategoriesResultModel.size(); i++)
 			categories.add(this.listCategoriesResultModel.get(i));
 		( (TTokensModel) this.tokensTable.getModel() ).addToken(tokenTmp, categories);
+		this.tfToRecognice.addEntry(tokenTmp, categories);
 	}
 
 	private void selectFile() {
@@ -573,6 +581,7 @@ public class TrainerUI {
 			for(String category: categories){
 				listCategoriesToSelectModel.addElement(category);
 			}
+			this.tfToRecognice.loadDictionary(this.selectedFilePath[0]);
 		}
 	}
 }

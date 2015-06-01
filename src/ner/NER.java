@@ -80,7 +80,7 @@ public class NER {
 
 		if (debugMode){
 			Logger.getLogger(NER.class).info("Pre Syntax Checker - Chunks");
-			Logger.getLogger(NER.class).info(out.toString() + "/n");
+			Logger.getLogger(NER.class).info(out.toString() + "\n");
 		}
 		
 		
@@ -89,7 +89,7 @@ public class NER {
 			
 			if (debugMode){
 				Logger.getLogger(NER.class).info("Post Syntax Checker - Chunks");
-				Logger.getLogger(NER.class).info(out.toString() + "/n");
+				Logger.getLogger(NER.class).info(out.toString() + "\n");
 			}
 		}
 
