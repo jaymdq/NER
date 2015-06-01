@@ -64,7 +64,7 @@ public class Main {
 		SyntaxChecker syntaxChecker = createSyntaxChecker();
 
 		//Creación del NER
-		NER ner = new NER(false);
+		NER ner = new NER(true);
 		ner.addDictionary(dic1);
 		ner.addDictionary(dic2);
 		ner.addDictionary(dic3);

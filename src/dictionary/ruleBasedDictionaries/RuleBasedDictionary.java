@@ -2,8 +2,10 @@ package dictionary.ruleBasedDictionaries;
 
 import java.util.Vector;
 
+import twitter4j.Logger;
 import dictionary.Chunk;
 import dictionary.Dictionary;
+import dictionary.exactDictionaries.ExactDictionary;
 
 public class RuleBasedDictionary implements Dictionary {
 
@@ -30,14 +32,22 @@ public class RuleBasedDictionary implements Dictionary {
 	}
 	
 	public Vector<Chunk> recognize(String text, boolean debugMode){
+		if (debugMode){
+			Logger.getLogger(ExactDictionary.class).info("Recognition Started");
+		}
+		
 		Vector<Chunk> out = new Vector<Chunk>();
 		for (RegExMatcher matcher : matchers){
 			out.addAll(matcher.recognize(text));
 		}
 		
-		if (debugMode)
-			System.out.println(out);
-		
+		if (debugMode){
+			Logger.getLogger(ExactDictionary.class).info("Chunks Found:");
+			for (Chunk chunk : out)
+				Logger.getLogger(ExactDictionary.class).info(chunk.toString());
+			Logger.getLogger(ExactDictionary.class).info("Rule Based Dictionary Finished\n");
+		}
+			
 		return out;
 	}
 	

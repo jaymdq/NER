@@ -5,7 +5,6 @@ import java.util.Vector;
 import org.apache.log4j.Logger;
 
 import syntax.SyntaxChecker;
-import utils.Pair;
 import dictionary.Chunk;
 import dictionary.Dictionary;
 
@@ -65,7 +64,7 @@ public class NER {
 	public void setDebugMode(boolean debugMode){
 		this.debugMode = debugMode;
 		if (debugMode)
-			Logger.getLogger(NER.class).debug("DEBUG MODE IS ACTIVATED");
+			Logger.getLogger(NER.class).info("DEBUG MODE IS ACTIVATED\n");
 	}
 
 	/**
@@ -79,12 +78,24 @@ public class NER {
 		for (Dictionary dictionary : dictionaries) 
 			out.addAll(dictionary.recognize(text,debugMode));
 
-		if (debugMode)
-			System.out.println(out);
-
-		if (syntaxChecker != null)
+		if (debugMode){
+			Logger.getLogger(NER.class).info("Pre Syntax Checker - Chunks");
+			Logger.getLogger(NER.class).info(out.toString() + "/n");
+		}
+		
+		
+		if (syntaxChecker != null){
 			out = syntaxChecker.joinChunks(out, text);
+			
+			if (debugMode){
+				Logger.getLogger(NER.class).info("Post Syntax Checker - Chunks");
+				Logger.getLogger(NER.class).info(out.toString() + "/n");
+			}
+		}
 
+		if (debugMode)
+			Logger.getLogger(NER.class).info("NER Finished\n");
+		
 		return out;
 
 	}

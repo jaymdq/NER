@@ -7,11 +7,13 @@ import java.util.Vector;
 
 import score.Score;
 import segmentation.Segmenter;
+import twitter4j.Logger;
 import dictionary.Chunk;
 import dictionary.ChunkComparatorByScore;
 import dictionary.Dictionary;
 import dictionary.DictionaryEntry;
 import dictionary.DictionaryEntryWithDistance;
+import dictionary.exactDictionaries.ExactDictionary;
 
 
 public class AproximatedDictionary implements Dictionary {
@@ -30,7 +32,6 @@ public class AproximatedDictionary implements Dictionary {
 
 		//Keep this in the bottom of the method
 		this.setEntriesList(entriesList);
-
 	}
 
 	public Vector<DictionaryEntry> getEntriesList() {
@@ -173,6 +174,14 @@ public class AproximatedDictionary implements Dictionary {
 
 	@Override
 	public Vector<Chunk> recognize(String text, boolean debugMode){
+		if (debugMode){
+			Logger.getLogger(ExactDictionary.class).info("Case Sensitive: " + caseSensitive + ".");
+			Logger.getLogger(ExactDictionary.class).info("Lower Limit: " + lowerLimit + ".");
+			Logger.getLogger(ExactDictionary.class).info("N-Gram: " + n_gram + ".");
+			Logger.getLogger(ExactDictionary.class).info("Threshold: " + threshold + ".");
+			Logger.getLogger(ExactDictionary.class).info("Recognition Started");			
+		}
+		
 		Vector<Chunk> out = new Vector<Chunk>();
 
 		Segmenter segmenter = new Segmenter(text,caseSensitive,false);
@@ -236,7 +245,13 @@ public class AproximatedDictionary implements Dictionary {
 			}else
 				break;
 		}
-
+		
+		if (debugMode){
+			Logger.getLogger(ExactDictionary.class).info("Chunks Found:");
+			for (Chunk chunk : realOut)
+				Logger.getLogger(ExactDictionary.class).info(chunk.toString());
+			Logger.getLogger(ExactDictionary.class).info("Aproximated Dictionary Finished\n");
+		}
 		return realOut;
 	}
 

@@ -10,6 +10,7 @@ import dictionary.Dictionary;
 import dictionary.DictionaryEntry;
 import score.Score;
 import segmentation.Segmenter;
+import twitter4j.Logger;
 
 public class ExactDictionary implements Dictionary {
 
@@ -56,6 +57,7 @@ public class ExactDictionary implements Dictionary {
 		this.caseSensitive = caseSensitive;
 	}
 
+	@Override
 	public String toString(){
 		String out = "Dictionary:\n";
 		out += "  Case Sensitive: " + caseSensitive + ".\n";
@@ -94,6 +96,12 @@ public class ExactDictionary implements Dictionary {
 	}
 
 	public Vector<Chunk> recognize(String text,boolean debugMode) {
+		if (debugMode){
+			Logger.getLogger(ExactDictionary.class).info("(Tip) Do a toString to see configuration + dictionary structure");
+			Logger.getLogger(ExactDictionary.class).info("Case Sensitive: " + caseSensitive + ".");
+			Logger.getLogger(ExactDictionary.class).info("All Matches: " + allMatches + ".");
+			Logger.getLogger(ExactDictionary.class).info("Recognition Started");
+		}
 		Vector<Chunk> listOfChunks = new Vector<Chunk>();
 		Segmenter segmenter = new Segmenter(text,caseSensitive,true);
 		CircularQueueInt queue = new CircularQueueInt(maxLength);
@@ -104,7 +112,7 @@ public class ExactDictionary implements Dictionary {
 			int tokenEndPos = segmenter.getLastTokenEndPosition();
 
 			if (debugMode)
-				System.out.println("TOKEN=|" + token + "| START=" + tokenStartPos + " END=" + tokenEndPos);
+				Logger.getLogger(ExactDictionary.class).info("TOKEN=|" + token + "| START=" + tokenStartPos + " END=" + tokenEndPos);
 
 			queue.enqueue(tokenStartPos);
 			while (true) {
@@ -122,13 +130,17 @@ public class ExactDictionary implements Dictionary {
 				node = node.getSuffixNode();
 
 			}
-			addChunk(node,queue,tokenEndPos,listOfChunks,text);
+			addChunk(node,queue,tokenEndPos,listOfChunks,text,debugMode);
 			for (DictionaryNode suffixNode = node.getSuffixWithCategoryNode();
 					suffixNode != null;
 					suffixNode = suffixNode.getSuffixWithCategoryNode()) {
-				addChunk(suffixNode,queue,tokenEndPos,listOfChunks,text);
+				addChunk(suffixNode,queue,tokenEndPos,listOfChunks,text,debugMode);
 			}
 		}
+
+		if (debugMode)
+			Logger.getLogger(ExactDictionary.class).info("Exact Dictionary Finished\n");
+
 		return allMatches ? listOfChunks : restrictToLongest(listOfChunks);
 
 	}
@@ -148,11 +160,13 @@ public class ExactDictionary implements Dictionary {
 		return result;
 	}
 
-	private void addChunk(DictionaryNode node, CircularQueueInt queue, int end, Vector<Chunk> chunking,String text) {
+	private void addChunk(DictionaryNode node, CircularQueueInt queue, int end, Vector<Chunk> chunking,String text, boolean debugMode) {
 		for (String category : node.getCategories()) {
 			int start = queue.get(node.getDepth());
 			Chunk chunk = new Chunk(start,end,category,text,Score.getInstance().getExactScore());
 			chunking.add(chunk);
+			if (debugMode)
+				Logger.getLogger(ExactDictionary.class).info("Chunk Added: " + chunk.toString());
 		}
 	}
 
