@@ -184,7 +184,7 @@ public class AproximatedDictionary implements Dictionary {
 		
 		Vector<Chunk> out = new Vector<Chunk>();
 
-		Segmenter segmenter = new Segmenter(text,caseSensitive,false);
+		Segmenter segmenter = new Segmenter(text,caseSensitive);
 
 		Vector<String> tokens = new Vector<String>();
 		Vector<Integer> startsPositions = new Vector<Integer>();

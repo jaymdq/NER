@@ -4,28 +4,28 @@ import java.util.Vector;
 
 import org.apache.log4j.Logger;
 
+import preprocess.PreProcess;
 import syntax.SyntaxChecker;
 import dictionary.Chunk;
 import dictionary.Dictionary;
 
 public class NER {
 
-	/*
-	 * TODO
-	 * La idea seria meter aca toda la funcionalidad de la entrada, procesamiento , cambio de estrategias y la salida
-	 */
-
 	private Vector<Dictionary> dictionaries;
+	private PreProcess preProcess;
 	private SyntaxChecker syntaxChecker;
 	private boolean debugMode;
+	private boolean doPreProcess;
 
 	/**
 	 * Constructor vacio, no se habilita el modo debug.
 	 */
 	public NER(){
 		setDebugMode(false);
-		dictionaries = new Vector<Dictionary>();
-		syntaxChecker = null;
+		this.dictionaries = new Vector<Dictionary>();
+		this.syntaxChecker = null;
+		this.preProcess = null;
+		this.doPreProcess = false;
 	}
 
 	/**
@@ -34,8 +34,10 @@ public class NER {
 	 */
 	public NER(boolean debugMode){
 		setDebugMode(debugMode);
-		dictionaries = new Vector<Dictionary>();
-		syntaxChecker = null;
+		this.dictionaries = new Vector<Dictionary>();
+		this.syntaxChecker = null;
+		this.preProcess = null;
+		this.doPreProcess = false;
 	}
 
 	/**
@@ -43,10 +45,12 @@ public class NER {
 	 * @param debugMode El valor true de debugMode habilita el modo debug.
 	 * @param dictionaries El parametro dictionaries permite establecer un diccionario creado con anterioridad.
 	 */
-	public NER(boolean debugMode,Vector<Dictionary> dictionaries, SyntaxChecker syntaxChecker){
+	public NER(boolean debugMode,Vector<Dictionary> dictionaries, SyntaxChecker syntaxChecker, PreProcess preProcess, boolean doPreProcess){
 		setDebugMode(debugMode);
 		setDictionaries(dictionaries);
-		this.syntaxChecker = syntaxChecker;
+		setSyntaxChecker(syntaxChecker);
+		setPreProcess(preProcess);
+		
 	}
 
 	/**
@@ -75,6 +79,17 @@ public class NER {
 	public Vector<Chunk> recognize(String text){
 		Vector<Chunk> out = new Vector<Chunk>();
 
+		if (debugMode){
+			Logger.getLogger(NER.class).info("Text: " + text + "\n");			
+		}
+		
+		if (preProcess != null){
+			if (doPreProcess){
+				text = preProcess.execute(text);
+				Logger.getLogger(NER.class).info("Post PreProcess Text: " + text + "\n");
+			}
+		}
+		
 		for (Dictionary dictionary : dictionaries) 
 			out.addAll(dictionary.recognize(text,debugMode));
 
@@ -139,4 +154,26 @@ public class NER {
 	public SyntaxChecker getSyntaxChecker(){
 		return this.syntaxChecker;
 	}
+
+	public PreProcess getPreProcess() {
+		return preProcess;
+	}
+
+	public void setPreProcess(PreProcess preProcess) {
+		this.preProcess = preProcess;
+	}
+
+	public boolean DoPreProcess() {
+		return doPreProcess;
+	}
+
+	public void setDoPreProcess(boolean doPreProcess) {
+		this.doPreProcess = doPreProcess;
+	}
+
+	public boolean DebugMode() {
+		return debugMode;
+	}
+	
+	
 }

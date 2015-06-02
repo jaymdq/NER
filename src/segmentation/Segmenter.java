@@ -10,15 +10,13 @@ public class Segmenter {
 	private int lastTokenStartPosition;
 	private int lastTokenEndPosition;
 	private int actualTokenPosition;
-	private boolean onlyCharacters;
 	private boolean caseSensitive;
 	
-	public Segmenter(String text, boolean caseSensitive, boolean onlyCharacters){
+	public Segmenter(String text, boolean caseSensitive){
 		this.text = text;
 		this.lastTokenStartPosition = 0;
 		this.lastTokenEndPosition = 0;
 		this.actualTokenPosition = 0;
-		this.onlyCharacters = onlyCharacters;
 		this.caseSensitive = caseSensitive;		
 		this.tokens = getSegmentation(text);
 	}
@@ -54,8 +52,6 @@ public class Segmenter {
 		if (actualTokenPosition < tokens.size()){
 			String actualToken = tokens.get(actualTokenPosition);
 			lastTokenStartPosition = text.indexOf(actualToken,lastTokenEndPosition);
-			if (onlyCharacters)
-				actualToken = tokens.get(actualTokenPosition).replaceAll("[^A-Za-z0-9]+", "");
 			if (!caseSensitive)
 				actualToken = actualToken.toLowerCase();
 			actualTokenPosition++;
@@ -80,10 +76,6 @@ public class Segmenter {
 
 	public String getText() {
 		return text;
-	}
-
-	public boolean isOnlyCharacters() {
-		return onlyCharacters;
 	}
 
 }

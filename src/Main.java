@@ -3,6 +3,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 
+import preprocess.PreProcess;
 import dictionary.DictionaryEntry;
 import dictionary.approximatedDictionaries.AproximatedDictionary;
 import dictionary.exactDictionaries.ExactDictionary;
@@ -41,27 +42,32 @@ public class Main {
 	}
 
 	private static NER createNER(Vector<DictionaryEntry> entries){
-		//Creación de Diccionarios
 
+		//Creación del PreProcess
+		PreProcess preProcess = new PreProcess();
+		preProcess.addRule(new Pair<String, String>("(\\D)([\\.,])(\\D)?","$1 $2 $3"));
+		preProcess.addRule(new Pair<String, String>(" {2,}"," "));
+
+		//Creación de Diccionarios
 		//Diccionarios Exactos
 		ExactDictionary dic1 = new ExactDictionary(entries,false,true);
 
 		//Diccionarios basados en reglas
 		RuleBasedDictionary dic2 = new RuleBasedDictionary();
 		dic2.addMatcher(new RegExMatcher("[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})","Mail"));
-		dic2.addMatcher(new RegExMatcher("[0-9]+","Numero"));
+		dic2.addMatcher(new RegExMatcher("[0-9]+","numero"));
 		dic2.addMatcher(new RegExMatcher("\\sy+","y"));
 		dic2.addMatcher(new RegExMatcher("al","al"));
-		dic2.addMatcher(new RegExMatcher("[0-9]+km","Kilometro"));
-		dic2.addMatcher(new RegExMatcher("[0-9]+Km","Kilometro"));
-		dic2.addMatcher(new RegExMatcher("[0-9]+KM","Kilometro"));
-		dic2.addMatcher(new RegExMatcher("[0-9]+kM","Kilometro"));
+		dic2.addMatcher(new RegExMatcher("esquina","esquina"));
+		dic2.addMatcher(new RegExMatcher("entre","entre"));
+		dic2.addMatcher(new RegExMatcher("casi","casi"));
+		dic2.addMatcher(new RegExMatcher("de","de"));		
 
 		//Diccionarios Aproximados
 		AproximatedDictionary dic3 = new AproximatedDictionary(entries, 0.6, 2, 1,false);
 
 		//Creación del SyntaxChecker
-		SyntaxChecker syntaxChecker = createSyntaxChecker();
+		SyntaxChecker syntaxChecker = createSyntaxChecker();		
 
 		//Creación del NER
 		NER ner = new NER(true);
@@ -69,6 +75,8 @@ public class Main {
 		ner.addDictionary(dic2);
 		ner.addDictionary(dic3);
 		ner.setSyntaxChecker(syntaxChecker);
+		ner.setPreProcess(preProcess);
+		ner.setDoPreProcess(true);
 
 		return ner;
 	}
@@ -94,7 +102,7 @@ public class Main {
 		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/rutas.txt"));
 		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/marcasDeMotos.txt"));
 		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/corpusDeVehiculos.txt"));
-	
+
 		return new Vector<DictionaryEntry>(entries);
 	}
 
@@ -104,18 +112,18 @@ public class Main {
 		Vector<Vector<String>> synonyms = new Vector<Vector<String>>();
 		Vector<String> synonym1 = new Vector<String>(Arrays.asList(new String[]{"Calle", "Ruta" , "Avenida", "Autopista"}));
 		synonyms.add(synonym1);
-		
+
 		//In this section we create the rules
 		Vector<Pair<Vector<String>,String>> rules = new Vector<Pair<Vector<String>,String>>();
-		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "Esquina", "Calle"},"Interseccion",synonyms));
+		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "esquina", "Calle"},"Interseccion",synonyms));
 		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "y", "Calle"},"Interseccion",synonyms));
-		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "Entre", "Calle", "y", "Calle"},"Direccion Indeterminada",synonyms));
-		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "Casi", "Calle"},"Direccion Indeterminada",synonyms));
-		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "Numero"},"Direccion Determinada",synonyms));
+		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "entre", "Calle", "y", "Calle"},"Direccion Indeterminada",synonyms));
+		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "casi", "Calle"},"Direccion Indeterminada",synonyms));
+		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "numero"},"Direccion Determinada",synonyms));
 		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "al", "Numero"}, "Direccion Determinada",synonyms));
 		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "al", "Numero", "Entre", "Calle", "y", "Calle"},"Direccion Determinada",synonyms));
-		rules.addAll(SyntaxChecker.createRules(new String[]{"Numero", "de", "Calle"},"Direccion Determinada",synonyms));
-		
+		rules.addAll(SyntaxChecker.createRules(new String[]{"numero", "de", "Calle"},"Direccion Determinada",synonyms));
+
 		//Then we create the syntaxChecker
 		SyntaxChecker syntaxChecker = new SyntaxChecker();
 		syntaxChecker.addRules(rules);
@@ -124,6 +132,6 @@ public class Main {
 
 	}
 
-	
+
 
 }

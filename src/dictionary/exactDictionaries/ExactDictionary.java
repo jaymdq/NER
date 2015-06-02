@@ -101,7 +101,7 @@ public class ExactDictionary implements Dictionary {
 			Logger.getLogger(ExactDictionary.class).info("Recognition Started");
 		}
 		Vector<Chunk> listOfChunks = new Vector<Chunk>();
-		Segmenter segmenter = new Segmenter(text,caseSensitive,true);
+		Segmenter segmenter = new Segmenter(text,caseSensitive);
 		CircularQueueInt queue = new CircularQueueInt(maxLength);
 		DictionaryNode node = rootNode;
 		String token;
