@@ -34,7 +34,7 @@ public class Main {
 		NER ner = createNER(entradas);
 
 		//Pruebas
-		//System.out.println(ner.recognize("Maxi Duthey junto a Brian Caimmi viven en la ciudad de Tandil y trabajan en Alem al 1259."));
+		//System.out.println(ner.recognize("Maxi Duthey junto a Brian Caimmi viven en la ciudad de Tandil y trabajan en Alem al 1259"));
 		System.out.println(ner.recognize("Un menor herido al chocar dos camionetas en la Ruta 30 y Jujuy http://ow.ly/KDOGq"));
 
 
@@ -52,6 +52,7 @@ public class Main {
 		dic2.addMatcher(new RegExMatcher("[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})","Mail"));
 		dic2.addMatcher(new RegExMatcher("[0-9]+","Numero"));
 		dic2.addMatcher(new RegExMatcher("\\sy+","y"));
+		dic2.addMatcher(new RegExMatcher("al","al"));
 		dic2.addMatcher(new RegExMatcher("[0-9]+km","Kilometro"));
 		dic2.addMatcher(new RegExMatcher("[0-9]+Km","Kilometro"));
 		dic2.addMatcher(new RegExMatcher("[0-9]+KM","Kilometro"));
