@@ -44,7 +44,6 @@ public class Main {
 		//Creación de Diccionarios
 
 		//Diccionarios Exactos
-		
 		ExactDictionary dic1 = new ExactDictionary(entries,false,true);
 
 		//Diccionarios basados en reglas
@@ -95,6 +94,7 @@ public class Main {
 		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/rutas.txt"));
 		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/marcasDeMotos.txt"));
 		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/corpusDeVehiculos.txt"));
+	
 		return new Vector<DictionaryEntry>(entries);
 	}
 
@@ -105,11 +105,7 @@ public class Main {
 		Vector<String> synonym1 = new Vector<String>(Arrays.asList(new String[]{"Calle", "Ruta" , "Avenida", "Autopista"}));
 		synonyms.add(synonym1);
 		
-		//Para mostrar
-		//Vector<String> synonym2 = new Vector<String>(Arrays.asList(new String[]{"Kilometro", "Numero"}));
-		//synonyms.add(synonym2);
-		
-		//In this section we create de rules
+		//In this section we create the rules
 		Vector<Pair<Vector<String>,String>> rules = new Vector<Pair<Vector<String>,String>>();
 		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "Esquina", "Calle"},"Interseccion",synonyms));
 		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "y", "Calle"},"Interseccion",synonyms));
@@ -120,7 +116,7 @@ public class Main {
 		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "al", "Numero", "Entre", "Calle", "y", "Calle"},"Direccion Determinada",synonyms));
 		rules.addAll(SyntaxChecker.createRules(new String[]{"Numero", "de", "Calle"},"Direccion Determinada",synonyms));
 		
-		//Then we create de syntaxChecker
+		//Then we create the syntaxChecker
 		SyntaxChecker syntaxChecker = new SyntaxChecker();
 		syntaxChecker.addRules(rules);
 
