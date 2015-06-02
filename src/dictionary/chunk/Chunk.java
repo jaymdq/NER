@@ -1,4 +1,4 @@
-package dictionary;
+package dictionary.chunk;
 
 public class Chunk {
 

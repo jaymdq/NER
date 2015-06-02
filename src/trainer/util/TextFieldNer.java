@@ -4,9 +4,9 @@ import java.util.Vector;
 
 import javax.swing.JTextPane;
 
-import dictionary.Chunk;
-import dictionary.DictionaryEntry;
 import dictionary.approximatedDictionaries.AproximatedDictionary;
+import dictionary.chunk.Chunk;
+import dictionary.dictionaryentry.DictionaryEntry;
 import dictionary.io.DictionaryIO;
 import ner.NER;
 

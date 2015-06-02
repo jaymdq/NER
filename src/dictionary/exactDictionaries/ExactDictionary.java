@@ -5,10 +5,10 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.Vector;
 
-import dictionary.Chunk;
 import dictionary.Dictionary;
-import dictionary.DictionaryEntry;
-import score.Score;
+import dictionary.chunk.Chunk;
+import dictionary.chunk.score.Score;
+import dictionary.dictionaryentry.DictionaryEntry;
 import segmentation.Segmenter;
 import twitter4j.Logger;
 

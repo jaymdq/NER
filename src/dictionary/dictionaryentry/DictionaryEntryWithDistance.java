@@ -1,4 +1,4 @@
-package dictionary;
+package dictionary.dictionaryentry;
 
 public class DictionaryEntryWithDistance extends DictionaryEntry{
 	

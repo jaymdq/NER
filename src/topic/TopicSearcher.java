@@ -3,7 +3,7 @@ package topic;
 import java.util.Vector;
 
 import ner.NER;
-import dictionary.Chunk;
+import dictionary.chunk.Chunk;
 
 public class TopicSearcher {
 

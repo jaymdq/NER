@@ -3,7 +3,7 @@ package dictionary.approximatedDictionaries;
 import java.util.HashMap;
 import java.util.Vector;
 
-import dictionary.DictionaryEntry;
+import dictionary.dictionaryentry.DictionaryEntry;
 
 public class TrieNodeInter extends AbsTrieNode {
 	private HashMap<Character,AbsTrieNode> nodeMap = null;

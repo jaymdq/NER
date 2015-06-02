@@ -2,6 +2,8 @@ package dictionary;
 
 import java.util.Vector;
 
+import dictionary.chunk.Chunk;
+
 public interface Dictionary {
 	
 	/**

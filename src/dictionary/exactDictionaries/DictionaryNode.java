@@ -3,7 +3,7 @@ package dictionary.exactDictionaries;
 import java.util.HashMap;
 import java.util.Vector;
 
-import dictionary.DictionaryEntry;
+import dictionary.dictionaryentry.DictionaryEntry;
 
 
 public class DictionaryNode {

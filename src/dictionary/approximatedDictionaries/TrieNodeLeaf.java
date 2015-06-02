@@ -2,7 +2,7 @@ package dictionary.approximatedDictionaries;
 
 import java.util.Vector;
 
-import dictionary.DictionaryEntry;
+import dictionary.dictionaryentry.DictionaryEntry;
 
 public class TrieNodeLeaf extends AbsTrieNode {
 	Vector<DictionaryEntry> entriesList = null;

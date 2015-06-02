@@ -4,8 +4,8 @@ import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import score.Score;
-import dictionary.Chunk;
+import dictionary.chunk.Chunk;
+import dictionary.chunk.score.Score;
 
 public class RegExMatcher {
 

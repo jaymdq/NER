@@ -3,8 +3,8 @@ package dictionary.ruleBasedDictionaries;
 import java.util.Vector;
 
 import twitter4j.Logger;
-import dictionary.Chunk;
 import dictionary.Dictionary;
+import dictionary.chunk.Chunk;
 import dictionary.exactDictionaries.ExactDictionary;
 
 public class RuleBasedDictionary implements Dictionary {

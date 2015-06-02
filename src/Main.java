@@ -4,8 +4,8 @@ import java.util.Set;
 import java.util.Vector;
 
 import preprocess.PreProcess;
-import dictionary.DictionaryEntry;
 import dictionary.approximatedDictionaries.AproximatedDictionary;
+import dictionary.dictionaryentry.DictionaryEntry;
 import dictionary.exactDictionaries.ExactDictionary;
 import dictionary.io.DictionaryIO;
 import dictionary.ruleBasedDictionaries.RegExMatcher;
@@ -58,6 +58,7 @@ public class Main {
 		dic2.addMatcher(new RegExMatcher("[0-9]+","numero"));
 		dic2.addMatcher(new RegExMatcher("\\sy+","y"));
 		dic2.addMatcher(new RegExMatcher("al","al"));
+		dic2.addMatcher(new RegExMatcher("la","la"));
 		dic2.addMatcher(new RegExMatcher("esquina","esquina"));
 		dic2.addMatcher(new RegExMatcher("entre","entre"));
 		dic2.addMatcher(new RegExMatcher("casi","casi"));
@@ -121,6 +122,7 @@ public class Main {
 		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "casi", "Calle"},"Direccion Indeterminada",synonyms));
 		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "numero"},"Direccion Determinada",synonyms));
 		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "al", "Numero"}, "Direccion Determinada",synonyms));
+		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "a", "la", "Numero"}, "Direccion Determinada",synonyms));
 		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "al", "Numero", "Entre", "Calle", "y", "Calle"},"Direccion Determinada",synonyms));
 		rules.addAll(SyntaxChecker.createRules(new String[]{"numero", "de", "Calle"},"Direccion Determinada",synonyms));
 

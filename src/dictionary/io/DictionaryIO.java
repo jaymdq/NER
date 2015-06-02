@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 
-import dictionary.DictionaryEntry;
+import dictionary.dictionaryentry.DictionaryEntry;
 import twitter4j.Logger;
 
 

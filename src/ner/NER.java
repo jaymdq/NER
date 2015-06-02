@@ -6,8 +6,8 @@ import org.apache.log4j.Logger;
 
 import preprocess.PreProcess;
 import syntax.SyntaxChecker;
-import dictionary.Chunk;
 import dictionary.Dictionary;
+import dictionary.chunk.Chunk;
 
 public class NER {
 

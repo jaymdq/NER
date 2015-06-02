@@ -6,10 +6,10 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Vector;
 
-import score.Score;
 import utils.Pair;
-import dictionary.Chunk;
-import dictionary.ChunkComparator;
+import dictionary.chunk.Chunk;
+import dictionary.chunk.comparator.ChunkComparator;
+import dictionary.chunk.score.Score;
 
 public class SyntaxChecker {
 

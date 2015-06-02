@@ -5,14 +5,14 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 
-import score.Score;
 import segmentation.Segmenter;
 import twitter4j.Logger;
-import dictionary.Chunk;
-import dictionary.ChunkComparatorByScore;
 import dictionary.Dictionary;
-import dictionary.DictionaryEntry;
-import dictionary.DictionaryEntryWithDistance;
+import dictionary.chunk.Chunk;
+import dictionary.chunk.comparator.ChunkComparatorByScore;
+import dictionary.chunk.score.Score;
+import dictionary.dictionaryentry.DictionaryEntry;
+import dictionary.dictionaryentry.DictionaryEntryWithDistance;
 import dictionary.exactDictionaries.ExactDictionary;
 
 

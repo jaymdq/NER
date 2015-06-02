@@ -1,8 +1,8 @@
-package score;
+package dictionary.chunk.score;
 
 import java.util.Vector;
 
-import dictionary.Chunk;
+import dictionary.chunk.Chunk;
 
 public class Score {
 

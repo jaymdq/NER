@@ -1,6 +1,8 @@
-package dictionary;
+package dictionary.chunk.comparator;
 
 import java.util.Comparator;
+
+import dictionary.chunk.Chunk;
 
 public class ChunkComparatorByScore implements Comparator<Chunk> {
 
