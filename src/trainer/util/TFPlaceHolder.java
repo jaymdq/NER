@@ -32,6 +32,12 @@ public class TFPlaceHolder extends JTextField {
 		change(placeHolderFont, placeHolderColor);
 	}
 	
+	public void setPlaceholder(String placeholder) {
+		if(this.getText().trim().equals(this.placeholder))
+			this.setText(placeholder);
+		this.placeholder = placeholder;
+	}
+
 	private void change(Font font, Color color){
 		this.setFont(font);
 		this.setForeground(color);

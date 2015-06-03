@@ -58,9 +58,6 @@ import javax.swing.DefaultComboBoxModel;
 
 import dictionary.io.DictionaryIO;
 
-import javax.swing.JEditorPane;
-import javax.swing.JTextPane;
-
 public class TrainerUI {
 
 	private JFrame frmNerTrainer;
@@ -84,6 +81,7 @@ public class TrainerUI {
 	private String[] selectedFilePath = new String[]{ null, null};
 	private JComboBox<String> cbFormatFile;
 	private JButton btnStopTrainer;
+	private JComboBox<String> cbTwitterFormat;
 
 	/**
 	 * Launch the application.
@@ -206,6 +204,22 @@ public class TrainerUI {
 		tfTagsStreaming.setColumns(10);
 		tfTagsStreaming.setVisible(false);
 		
+		cbTwitterFormat = new JComboBox<String>();
+		cbTwitterFormat.setModel(new DefaultComboBoxModel<String>(new String[] {"By tags", "By users"}));
+		cbTwitterFormat.setVisible(false);
+		cbTwitterFormat.addActionListener(new ActionListener () {
+		    public void actionPerformed(ActionEvent e) {
+		    	switch(cbTwitterFormat.getSelectedIndex()){
+			    	case 0:
+			    		tfTagsStreaming.setPlaceholder("tag1, tag2, tag3 ...");
+			    		break;
+			    	case 1:
+			    		tfTagsStreaming.setPlaceholder("user1, user2, user3 ...");
+			    		break;
+		    	}
+		    }
+		});
+		
 		btnSelectFile = new JButton("Select file");
 		btnSelectFile.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -218,7 +232,7 @@ public class TrainerUI {
 		cbFormatFile.setVisible(true);
 		
 		cbEntryMethod.addEntry("Load from file", new JComponent[] {btnSelectFile, cbFormatFile});
-		cbEntryMethod.addEntry("Streaming Twitter", new JComponent[] {tfTagsStreaming});
+		cbEntryMethod.addEntry("Streaming Twitter", new JComponent[] {tfTagsStreaming, cbTwitterFormat});
 		
 		
 		btnStartTrainer = new JButton("Start Trainer");
@@ -268,6 +282,8 @@ public class TrainerUI {
 						.addGroup(gl_streamPanel.createSequentialGroup()
 							.addComponent(cbEntryMethod, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(cbTwitterFormat, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(tfTagsStreaming, GroupLayout.PREFERRED_SIZE, 314, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(cbFormatFile, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -288,14 +304,15 @@ public class TrainerUI {
 						.addComponent(btnSelectFile)
 						.addComponent(btnStartTrainer)
 						.addComponent(cbFormatFile, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnStopTrainer))
-					.addGroup(gl_streamPanel.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(btnStopTrainer)
+						.addComponent(cbTwitterFormat, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGroup(gl_streamPanel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_streamPanel.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(btnNextTweet))
 						.addGroup(gl_streamPanel.createSequentialGroup()
 							.addGap(10)
-							.addComponent(tfToRecognice)))
+							.addComponent(tfToRecognice, GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		streamPanel.setLayout(gl_streamPanel);
@@ -557,7 +574,7 @@ public class TrainerUI {
 				}
 				break;
 			case 1:
-				this.streamWorker = new StreamTwitterWorker(this.tfTagsStreaming.getText());
+				this.streamWorker = new StreamTwitterWorker(this.tfTagsStreaming.getText(), this.cbTwitterFormat.getSelectedIndex());
 				this.streamWorker.setCounter(this.lblCounter);
 				this.streamWorker.start();
 				break;

@@ -5,6 +5,9 @@ import java.util.Vector;
 import trainer.stream.StreamWorkerAbs;
 import twitter4j.FilterQuery;
 import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 
@@ -26,26 +29,47 @@ public class StreamTwitterWorker extends StreamWorkerAbs {
 	private TwitterStream twitterStream;
 	private FilterQuery filterQuery;
 	
-	public StreamTwitterWorker(String tags){
-		this.init(tags, Language.SPANISH);
+	public StreamTwitterWorker(String tags, int searchBy){
+		this.init(tags, Language.SPANISH, searchBy);
 	}
 	
-	public StreamTwitterWorker(String tags, Language lang){
-		this.init(tags, lang);
+	public StreamTwitterWorker(String tags, int searchBy, Language lang){
+		this.init(tags, lang, searchBy);
 	}
 	
-	private void init(String tags, Language lang) {
-		this.filterQuery = new FilterQuery();
-		this.filterQuery.language(new String[] { lang.get() });
-		this.filterQuery.track(this.parseTags(tags));
+	private void init(String tags, Language lang, int searchBy) {
 		this.statusList = new Vector<Object>();
 		this.twitterStream = new TwitterStreamFactory().getInstance();
+		this.filterQuery = new FilterQuery();
+		this.filterQuery.language(new String[] { lang.get() });
+		switch(searchBy){
+		case 0:
+			this.filterQuery.track(this.parseTags(tags));
+		case 1:
+			this.filterQuery.follow(this.parseUsers(tags));
+		}
 	}
 	
+	private long[] parseUsers(String tags) {
+		String[] users = parseTags(tags);
+		long[] out = new long[users.length];
+		Twitter tf = new TwitterFactory().getInstance();
+		for(int i = 0; i < users.length; i++){
+			
+			try {
+				out[i] = tf.showUser( users[i] ).getId();
+			} catch (TwitterException e) {
+				e.printStackTrace();
+			}
+		}
+			
+		return out;
+	}
+
 	private String[] parseTags(String tags) {
 		String[] tagsOut = tags.split(",");
-		for(String tag: tagsOut){
-			tag.trim();
+		for(int i=0; i < tagsOut.length; i++){
+			tagsOut[i] = tagsOut[i].trim();  
 		}
 		return tagsOut;
 	}
@@ -70,4 +94,5 @@ public class StreamTwitterWorker extends StreamWorkerAbs {
 	public void interrupt() {
 		this.twitterStream.shutdown();
 	}
+	
 }
