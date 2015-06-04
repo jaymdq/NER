@@ -37,8 +37,7 @@ public class Main {
 		//Pruebas
 		//System.out.println(ner.recognize("Maxi Duthey junto a Brian Caimmi viven en la ciudad de Tandil y trabajan en Alem al 1259"));
 		System.out.println(ner.recognize("Un menor herido al chocar dos camionetas en la Ruta 30 y Jujuy http://ow.ly/KDOGq"));
-
-
+		
 	}
 
 	private static NER createNER(Vector<DictionaryEntry> entries){
@@ -103,6 +102,11 @@ public class Main {
 		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/rutas.txt"));
 		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/marcasDeMotos.txt"));
 		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/corpusDeVehiculos.txt"));
+		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/tipo_calle.txt"));
+		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/tipo_persona.txt"));
+		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/evento_demora.txt"));
+		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/evento_accidente.txt"));
+		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/calles_BA.txt"));
 
 		return new Vector<DictionaryEntry>(entries);
 	}
