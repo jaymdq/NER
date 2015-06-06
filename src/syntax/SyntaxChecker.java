@@ -65,7 +65,9 @@ public class SyntaxChecker {
 					chunksPos.add(i);
 				}
 					
-			}
+			}else
+				chunksPos.add(out.indexOf(chunk));
+				
 		}
 		Vector<Chunk> outClear = new Vector<Chunk>();
 		for(Integer data: chunksPos)
