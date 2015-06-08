@@ -10,6 +10,7 @@ import dictionary.exactDictionaries.ExactDictionary;
 import dictionary.io.DictionaryIO;
 import dictionary.ruleBasedDictionaries.RegExMatcher;
 import dictionary.ruleBasedDictionaries.RuleBasedDictionary;
+import event.Twevent;
 import ner.NER;
 import syntax.SyntaxChecker;
 import topic.TopicSearcher;
@@ -36,7 +37,18 @@ public class Main {
 
 		//Pruebas
 		//System.out.println(ner.recognize("Maxi Duthey junto a Brian Caimmi viven en la ciudad de Tandil y trabajan en Alem al 1259"));
-		System.out.println(ner.recognize("Un menor herido al chocar dos camionetas en la Ruta 30 y Jujuy http://ow.ly/KDOGq"));
+		//System.out.println(ner.recognize("Un menor herido al chocar dos camionetas en la Ruta 30 y Jujuy http://ow.ly/KDOGq"));
+	
+		//TODO Se rompe chequear esto y seguir testeando el twevent
+		
+		Vector<String> tweets = new Vector<String>();
+		tweets.add("Siempre estuvo fiat el herido pibe");
+		tweets.add("Siempre estuvo herido el pibe no sabia que poner");
+		tweets.add("Herido alto hitaso");
+		
+		//Experimental
+		Twevent tw = new Twevent(ner,tweets);
+		tw.execute();
 		
 	}
 
