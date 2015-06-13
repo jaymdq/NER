@@ -18,25 +18,26 @@ public class SyntaxChecker {
 	private boolean keepLargerChunks;
 	private Comparator<Chunk> comparator;
 	private AbsSyntaxTrieNode root;
-	private int charBetween = 3; //TODO VER ESTO
+	private int charBetween; //TODO VER ESTO
 
 	// Constructors
 
 	public SyntaxChecker(){
-		this(true,new ChunkComparatorByStart());
+		this(true,new ChunkComparatorByStart(), 3);
 	}
 
 	public SyntaxChecker(boolean keepLargerChunks){
-		this(keepLargerChunks, new ChunkComparatorByStart());
+		this(keepLargerChunks, new ChunkComparatorByStart(), 3);
 	}
 
 	public SyntaxChecker(Comparator<Chunk> comparator){
-		this(true, comparator);
+		this(true, comparator, 3);
 	}
 
-	public SyntaxChecker(boolean keepLargerChunks, Comparator<Chunk> comparator){
+	public SyntaxChecker(boolean keepLargerChunks, Comparator<Chunk> comparator, int charBetween){
 		this.keepLargerChunks = keepLargerChunks;
 		this.comparator = comparator;
+		this.charBetween = charBetween;
 		root = new SyntaxTrieNodeInter(null);
 	}
 
