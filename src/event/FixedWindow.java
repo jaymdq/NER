@@ -36,12 +36,16 @@ public class FixedWindow {
 		this.fixedSize = fixedSize;
 	}
 
-	public int getNumberOfTweetsInWindow(){
-		return this.tweets.size();
+	public void setTweets(Vector<Pair<String, Vector<Chunk>>> tweets) {
+		this.tweets = tweets;
 	}
 
 	public Vector<Pair<String, Vector<Chunk>>> getTweets(){
 		return this.tweets;
+	}
+	
+	public int getNumberOfTweetsInWindow(){
+		return this.tweets.size();
 	}
 
 	// Methods
@@ -131,12 +135,8 @@ public class FixedWindow {
 		return out;
 	}
 
-
 	public Vector<ChunkEvent> getSortedEvents(){
 		Collections.sort(this.probBursty);
-
-		//TODO aca iria el K
-
 		return this.probBursty;
 	}
 }

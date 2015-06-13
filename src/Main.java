@@ -46,7 +46,7 @@ public class Main {
 		
 		//Experimental
 		Twevent tw = new Twevent(ner,tweets);
-		tw.execute(true);
+		tw.detectEvents(true, true);
 		
 	}
 
