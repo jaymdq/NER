@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
@@ -18,6 +17,8 @@ import dictionary.dictionaryentry.DictionaryEntry;
 import twitter4j.Logger;
 
 
+
+//TODO ARREGLAR ESTA CLASEE
 
 public class DictionaryIO {
 

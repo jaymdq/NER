@@ -5,12 +5,16 @@ import java.util.Vector;
 
 public class Segmenter {
 
+	// Variables
+	
 	private String text;
 	private Vector<String> tokens;
 	private int lastTokenStartPosition;
 	private int lastTokenEndPosition;
 	private int actualTokenPosition;
 	private boolean caseSensitive;
+	
+	// Constructors
 	
 	public Segmenter(String text, boolean caseSensitive){
 		this.text = text;
@@ -21,9 +25,25 @@ public class Segmenter {
 		this.tokens = getSegmentation(text);
 	}
 
+	// Getters And Setters
+	
 	public Vector<String> getSegmentation(){
 		return tokens;
 	}
+	
+	public int getLastTokenStartPosition() {
+		return lastTokenStartPosition;
+	}
+
+	public int getLastTokenEndPosition() {
+		return lastTokenEndPosition;
+	}
+
+	public String getText() {
+		return text;
+	}
+	
+	// Methods
 
 	public static Vector<String> getSegmentation(String text){
 		Vector<String> out = new Vector<String>();
@@ -64,18 +84,6 @@ public class Segmenter {
 
 	public void resetPositionToStart(){
 		this.actualTokenPosition = 0;
-	}
-
-	public int getLastTokenStartPosition() {
-		return lastTokenStartPosition;
-	}
-
-	public int getLastTokenEndPosition() {
-		return lastTokenEndPosition;
-	}
-
-	public String getText() {
-		return text;
 	}
 
 }

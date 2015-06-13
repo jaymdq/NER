@@ -17,7 +17,9 @@ import dictionary.exactDictionaries.ExactDictionary;
 
 
 public class AproximatedDictionary implements Dictionary {
-
+	
+	// Variables
+	
 	private Vector<DictionaryEntry> entriesList = null;
 	private double lowerLimit;
 	private int n_gram;	
@@ -25,6 +27,8 @@ public class AproximatedDictionary implements Dictionary {
 	private AbsTrieNode rootNode;
 	private boolean caseSensitive;
 
+	// Constructors
+	
 	public AproximatedDictionary(Vector<DictionaryEntry> entriesList, double lowerLimit, int n_gram, int threshold, boolean caseSensitive) {
 		this.setTop_k(lowerLimit);
 		this.setN_gram(n_gram);
@@ -34,6 +38,8 @@ public class AproximatedDictionary implements Dictionary {
 		this.setEntriesList(entriesList);
 	}
 
+	// Getters And Setters
+	
 	public Vector<DictionaryEntry> getEntriesList() {
 		return entriesList;
 	}
@@ -68,7 +74,17 @@ public class AproximatedDictionary implements Dictionary {
 	public void setThreshold(int threshold) {
 		this.threshold = threshold;
 	}
+	
+	public boolean isCaseSensitive() {
+		return caseSensitive;
+	}
 
+	public void setCaseSensitive(boolean caseSensitive) {
+		this.caseSensitive = caseSensitive;
+	}
+
+	// Methods
+	
 	private String[] split(String text){
 		String[] out = new String[text.length()-this.n_gram+1];
 		for(int i=0; i <= (text.length()-this.n_gram); i++){
@@ -220,7 +236,7 @@ public class AproximatedDictionary implements Dictionary {
 						boolean entered = false;
 						boolean needToAdd = false;
 						for (Chunk chunk : out){
-							if (chunk.getText().equals(toAdd.getText()) && chunk.start() == toAdd.start() && chunk.end() == toAdd.end() && toAdd.type().equals(chunk.type())){
+							if (chunk.getText().equals(toAdd.getText()) && chunk.start() == toAdd.start() && chunk.end() == toAdd.end() && toAdd.getCategoryType().equals(chunk.getCategoryType())){
 								if (toAdd.getScore() >= chunk.getScore()){
 									out.set(out.indexOf(chunk), toAdd);
 									needToAdd = false;
@@ -253,14 +269,6 @@ public class AproximatedDictionary implements Dictionary {
 			Logger.getLogger(ExactDictionary.class).info("Aproximated Dictionary Finished\n");
 		}
 		return realOut;
-	}
-
-	public boolean isCaseSensitive() {
-		return caseSensitive;
-	}
-
-	public void setCaseSensitive(boolean caseSensitive) {
-		this.caseSensitive = caseSensitive;
 	}
 
 }

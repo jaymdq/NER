@@ -5,13 +5,18 @@ import java.util.Vector;
 import dictionary.dictionaryentry.DictionaryEntry;
 
 public class TrieNodeLeaf extends AbsTrieNode {
+	
+	// Variables
 	Vector<DictionaryEntry> entriesList = null;
 	
+	// Constructors
 	public TrieNodeLeaf(Character character) {
 		super(character);
 		this.entriesList = new Vector<DictionaryEntry>();
 	}
 
+	// Methods
+	
 	@Override	
 	public Vector<DictionaryEntry> getListOfDictionaryEntries(String text) {
 		if (!text.isEmpty())

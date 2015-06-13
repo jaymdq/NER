@@ -1,13 +1,14 @@
 package dictionary.dictionaryentry;
 
-import java.io.Serializable;
 
-public class DictionaryEntry implements Serializable {
+public class DictionaryEntry  {
 
-	private static final long serialVersionUID = 1927419823397010392L;
+	// Variables
 	
 	protected String text;
 	protected String[] category;
+	
+	// Constructors
 	
 	/**
 	 * 
@@ -19,12 +20,9 @@ public class DictionaryEntry implements Serializable {
 		this.setText(text);
 		this.setCategory(category);
 	}
-	
-	protected DictionaryEntry(DictionaryEntry entry) {
-		this.setText(entry.getText());
-		this.setCategory(entry.getCategory());
-	}
 
+	// Getters And Setters
+	
 	/**
 	 * 
 	 * @return Texto de la entrada del diccionario
@@ -61,6 +59,8 @@ public class DictionaryEntry implements Serializable {
 		this.category = category;
 	}
 	
+	// Methods
+	
 	public String toString(){
 		String resultCategory = "";
 		for (int i = 0 ; i < category.length - 1; i++)
@@ -75,6 +75,6 @@ public class DictionaryEntry implements Serializable {
 			return this.getText().equals(other.getText()) && this.getCategory().equals(other.getCategory());
 		}
 		return false;
-		
 	}
+	
 }

@@ -1,13 +1,12 @@
 package dictionary.chunk;
 
-public class Chunk {
+public class Chunk extends AbsChunk{
 
-	private String text;
+	// Variables
 	private int start;
 	private int end;
-	private String categoryType;
-	private double score;
 	
+	// Constructors
 	/**
 	 * 
 	 * @param start start hace referencia a la ubicacion del primer caracter del Chunk
@@ -24,13 +23,7 @@ public class Chunk {
 		this.score = score;
 	}
 	
-	/**
-	 * 
-	 * @return Texto del Chunk
-	 */
-	public String getText(){
-		return this.text;
-	}
+	// Methods
 	
 	/**
 	 * 
@@ -50,21 +43,9 @@ public class Chunk {
 		return end;
 	}
 	
-	/**
-	 * 
-	 * @return Categoria en la cual se clasificio el Chunk
-	 */
-	
-	public String type(){
-		return categoryType;
-	}
-	
+	@Override
 	public String toString(){
 		return "TEXT: \"" + text + "\" START: " + start + " END: " + end + " CATEGORY: " + categoryType + " SCORE: " + score;
-	}
-
-	public double getScore() {
-		return score;
 	}
 	
 }

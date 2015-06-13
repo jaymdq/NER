@@ -2,9 +2,13 @@ package utils;
 
 public class Pair<T, R> {
 
+	// Variables
+	
 	private T pair1;
 	private R pair2;
 
+	// Constructors
+	
 	public Pair(){
 		
 	}
@@ -14,6 +18,7 @@ public class Pair<T, R> {
 		this.setPair2(pair2);
 	}
 
+	// Getters And Setters
 	public T getPair1() {
 		return pair1;
 	}
@@ -30,6 +35,8 @@ public class Pair<T, R> {
 		this.pair2 = pair2;
 	}
 
+	// Methods
+	
 	@Override
 	public String toString() {
 		return "["+this.getPair1().toString()+", "+this.getPair2().toString()+"]";

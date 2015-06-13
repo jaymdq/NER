@@ -2,13 +2,14 @@ package filters;
 
 public abstract class AbsFilter {
 	
-	//Protected Variables
+	// Variables
+	
 	protected AbsFilter next = null;
 	
-	//Abstract Methods
+	// Methods
+	
 	public abstract boolean filter(Object obj);
 	
-	//Template Methods
 	public void setNext(AbsFilter next){
 		this.next = next;
 	}

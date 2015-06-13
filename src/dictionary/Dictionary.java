@@ -6,6 +6,8 @@ import dictionary.chunk.Chunk;
 
 public interface Dictionary {
 	
+	// Methods
+	
 	/**
 	 * 
 	 * @param text El parametro text es el texto a ser analizado.

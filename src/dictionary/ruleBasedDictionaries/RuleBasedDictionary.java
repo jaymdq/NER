@@ -9,7 +9,11 @@ import dictionary.exactDictionaries.ExactDictionary;
 
 public class RuleBasedDictionary implements Dictionary {
 
+	// Variables
+	
 	private Vector<RegExMatcher> matchers;
+	
+	// Constructors
 	
 	public RuleBasedDictionary(Vector<RegExMatcher> matchers){
 		this.matchers = matchers;
@@ -19,10 +23,8 @@ public class RuleBasedDictionary implements Dictionary {
 		this.matchers = new Vector<RegExMatcher>();
 	}
 	
-	public void addMatcher(RegExMatcher matcher){
-		matchers.add(matcher);
-	}
-
+	// Getters And Setters
+	
 	public Vector<RegExMatcher> getMatchers() {
 		return matchers;
 	}
@@ -31,6 +33,12 @@ public class RuleBasedDictionary implements Dictionary {
 		this.matchers = matchers;
 	}
 	
+	// Methods
+	
+	public void addMatcher(RegExMatcher matcher){
+		matchers.add(matcher);
+	}
+
 	public Vector<Chunk> recognize(String text, boolean debugMode){
 		if (debugMode){
 			Logger.getLogger(ExactDictionary.class).info("Recognition Started");

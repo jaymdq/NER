@@ -6,12 +6,19 @@ import java.util.Vector;
 import dictionary.dictionaryentry.DictionaryEntry;
 
 public class TrieNodeInter extends AbsTrieNode {
+	
+	// Variables
 	private HashMap<Character,AbsTrieNode> nodeMap = null;
 	
+	// Constructors
 	public TrieNodeInter(Character character) {
 		super(character);
 		nodeMap = new HashMap<Character, AbsTrieNode>();
 	}
+	
+	// Getters And Setters
+	
+	// Methods
 
 	@Override
 	public Vector<DictionaryEntry> getListOfDictionaryEntries(String text) {

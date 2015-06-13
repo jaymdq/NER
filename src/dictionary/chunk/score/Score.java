@@ -6,13 +6,19 @@ import dictionary.chunk.Chunk;
 
 public class Score {
 
+	// Variables
+	
 	private static Score instance = null;
 	private double exactScore = 1.0;	
+	
+	//Constructors
 	
 	private Score(){
 
 	}
-
+	
+	// Getters And Setters
+	
 	public static Score getInstance(){
 		if (instance == null){
 			instance = new Score();
@@ -34,5 +40,7 @@ public class Score {
 			out += chunk.getScore();
 		return out/chunks.size();
 	}
+	
+	// Methods
 	
 }

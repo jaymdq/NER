@@ -14,21 +14,35 @@ import filters.AbsFilter;
 
 public abstract class AbsEntry {
 
-	//Protected Variables
+	// Variables
 	@SuppressWarnings("rawtypes")
 	protected Vector statusList;
 	protected static AbsEntry instance = null;
 	protected DataInputStream entryData;
 	protected BufferedReader entryBuffer;
 	protected AbsFilter filter;
-	
-	//Private Variable
 	protected final static Logger log = Logger.getLogger("Entrada");
 	 
-	//Abstracts Methods
+	// Constructors
+	
+	// Getters And Setters
+	
+	public Object getStatusElementAt(int pos){
+		return statusList.elementAt(pos);
+	}
+	
+	public int getStatusSize(){
+		return statusList.size();
+	}
+	
+	public void setFilter(AbsFilter filter){
+		this.filter = filter;
+	}
+	
+	// Methods
+	
 	public abstract String getTextFromStatus();
 	
-	//Template Methods
 	public boolean setSourceFile(String path){
 		File file = new File(path);
 		try {
@@ -42,15 +56,4 @@ public abstract class AbsEntry {
 		return true;
 	}
 	
-	public Object getStatusElementAt(int pos){
-		return statusList.elementAt(pos);
-	}
-	
-	public int getStatusSize(){
-		return statusList.size();
-	}
-	
-	public void setFilter(AbsFilter filter){
-		this.filter = filter;
-	}
 }

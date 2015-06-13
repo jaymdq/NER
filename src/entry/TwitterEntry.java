@@ -6,10 +6,15 @@ import twitter4j.TwitterObjectFactory;
 
 public class TwitterEntry extends AbsEntry {
 
-
+	// Variables
+	
+	// Constructors
+	
 	private TwitterEntry (){
 		this.statusList  = new Vector<Status>();
 	}
+	
+	// Getters And Setters
 	
 	public static AbsEntry getInstance() {
 		if (instance == null){
@@ -17,6 +22,8 @@ public class TwitterEntry extends AbsEntry {
 		}
 		return instance;
 	}
+	
+	// Methods
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -34,7 +41,5 @@ public class TwitterEntry extends AbsEntry {
 		}
 		return text;
 	}
-
-	
 
 }

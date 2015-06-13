@@ -8,17 +8,18 @@ import dictionary.dictionaryentry.DictionaryEntry;
 
 public class DictionaryNode {
 
+	// Variables
+	
 	private HashMap<String, DictionaryNode> childNodes;
 	private Vector<String> categories;
 	private Integer depth;
 	private static int autoId = 0;
 	private int id;
-
-
 	private DictionaryNode suffixNode;
 	private DictionaryNode suffixNodeWithCategory;
 
-	//TODO
+	// Constructors
+	
 	public DictionaryNode(Integer depth){
 		this.depth = depth;
 		this.childNodes = new HashMap<String,DictionaryNode>();
@@ -27,9 +28,41 @@ public class DictionaryNode {
 		autoId++;
 	}
 
+	// Getters And Setters
+	
 	public Integer getDepth(){
 		return depth;
 	}
+	
+	public void setSuffixNode(DictionaryNode suffixNode) {
+		this.suffixNode = suffixNode;
+	}
+
+	public void setSuffixNodeWithCategory(DictionaryNode suffixNodeWithCategory) {
+		this.suffixNodeWithCategory = suffixNodeWithCategory;
+	}
+
+	public Vector<String> getCategories(){
+		return categories;
+	}
+
+	public  HashMap<String, DictionaryNode> getChildNodes(){
+		return childNodes;
+	}
+
+	public DictionaryNode getSuffixNode(){
+		return this.suffixNode;
+	}
+
+	public DictionaryNode getSuffixWithCategoryNode(){
+		return this.suffixNodeWithCategory;
+	}
+	
+	public int getId() {
+		return this.id;
+	}
+	
+	// Methods
 
 	public DictionaryNode getChild(String key) {
 		return childNodes.get(key);
@@ -64,30 +97,6 @@ public class DictionaryNode {
 			categories.add(category);
 	}
 
-	public void setSuffixNode(DictionaryNode suffixNode) {
-		this.suffixNode = suffixNode;
-	}
-
-	public void setSuffixNodeWithCategory(DictionaryNode suffixNodeWithCategory) {
-		this.suffixNodeWithCategory = suffixNodeWithCategory;
-	}
-
-	public Vector<String> getCategories(){
-		return categories;
-	}
-
-	public  HashMap<String, DictionaryNode> getChildNodes(){
-		return childNodes;
-	}
-
-	public DictionaryNode getSuffixNode(){
-		return this.suffixNode;
-	}
-
-	public DictionaryNode getSuffixWithCategoryNode(){
-		return this.suffixNodeWithCategory;
-	}
-
 	public String toString(){
 		String out = "";
 		out += "_ID: " + this.getId();
@@ -111,10 +120,6 @@ public class DictionaryNode {
 			out += this.getChild(token).toString();
 		}
 		return out;
-	}
-
-	public int getId() {
-		return this.id;
 	}
 
 	private String indent(String auxText) {

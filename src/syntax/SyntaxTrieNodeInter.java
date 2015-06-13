@@ -5,9 +5,12 @@ import java.util.Vector;
 
 public class SyntaxTrieNodeInter extends AbsSyntaxTrieNode {
 
+	// Variables
+	
 	private HashMap<String,AbsSyntaxTrieNode> nodeMap = null;
-
 	private Vector<String> categoriesResult = null;
+	
+	//Constructors
 	
 	public SyntaxTrieNodeInter(String categoryType) {
 		super(categoryType);
@@ -21,6 +24,10 @@ public class SyntaxTrieNodeInter extends AbsSyntaxTrieNode {
 		this.categoriesResult.addElement(categoryResult);
 	}
 
+	// Getters And Setters
+	
+	// Methods
+	
 	@Override
 	public void addToMap(Vector<String> categories, String resultCategory) {
 		if (categories.isEmpty())

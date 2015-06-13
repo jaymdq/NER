@@ -14,12 +14,15 @@ import twitter4j.Logger;
 
 public class ExactDictionary implements Dictionary {
 
-	//Private Variables
+	// Variables
+	
 	private DictionaryNode rootNode;
 	private boolean caseSensitive;	
 	private int maxLength = 0;
 	private boolean allMatches;
 
+	// Constructors
+	
 	public ExactDictionary (DictionaryNode rootNode, boolean caseSensitive, boolean allMatches){
 		this.setRootNode(rootNode);
 		this.setCaseSensitive(caseSensitive);
@@ -39,6 +42,8 @@ public class ExactDictionary implements Dictionary {
 		this.setAllMatches(allMatches);
 	}
 
+	// Getters And Setters
+	
 	public DictionaryNode getRootNode() {
 		return rootNode;
 	}
@@ -55,6 +60,16 @@ public class ExactDictionary implements Dictionary {
 		this.caseSensitive = caseSensitive;
 	}
 
+	public boolean isAllMatches() {
+		return allMatches;
+	}
+
+	public void setAllMatches(boolean allMatches) {
+		this.allMatches = allMatches;
+	}
+	
+	// Methods
+	
 	@Override
 	public String toString(){
 		String out = "Dictionary:\n";
@@ -168,21 +183,13 @@ public class ExactDictionary implements Dictionary {
 		}
 	}
 
-	public boolean isAllMatches() {
-		return allMatches;
-	}
-
-	public void setAllMatches(boolean allMatches) {
-		this.allMatches = allMatches;
-	}
-
 	private static final Comparator<Chunk> LONGEST_MATCH_ORDER_COMPARATOR = new Comparator<Chunk>() {
 		public int compare(Chunk c1, Chunk c2) {
 			if (c1.start() < c2.start()) return -1;
 			if (c1.start() > c2.start()) return 1;
 			if (c1.end() < c2.end()) return 1;
 			if (c1.end() > c2.end()) return -1;
-			return c1.type().compareTo(c2.type());
+			return c1.getCategoryType().compareTo(c2.getCategoryType());
 		}
 	};
 

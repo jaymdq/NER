@@ -2,11 +2,11 @@ package dictionary.dictionaryentry;
 
 public class DictionaryEntryWithDistance extends DictionaryEntry{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	// Variable
+	
 	private Integer distance;
+	
+	// Constructors
 	
 	/**
 	 * 
@@ -15,9 +15,11 @@ public class DictionaryEntryWithDistance extends DictionaryEntry{
 	 */
 	
 	public DictionaryEntryWithDistance(DictionaryEntry entry, Integer distance) {
-		super(entry);
+		super(entry.getText(), entry.getCategory());
 		this.setDistance(distance);
 	}
+	
+	// Getters And Setters
 	
 	/**
 	 * 

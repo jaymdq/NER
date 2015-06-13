@@ -18,7 +18,7 @@ public class Twevent {
 	}
 	
 	//TODO CAmbiar Nombre
-	public void execute(){
+	public void execute(boolean toLowerCase){
 		
 		//Esto  pasaria el ner por toda la lista de tweets
 		

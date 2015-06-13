@@ -6,8 +6,12 @@ import utils.Pair;
 
 public class PreProcess {
 
+	// Variables
+	
 	private Vector<Pair<String, String>> rules;
 
+	// Constructors
+	
 	public PreProcess(){
 		this.setRules(new Vector<Pair<String, String>>());
 	}
@@ -16,6 +20,8 @@ public class PreProcess {
 		this.setRules(rules);
 	}
 
+	// Getters And Setters
+	
 	public Vector<Pair<String, String>> getRules() {
 		return rules;
 	}
@@ -24,16 +30,19 @@ public class PreProcess {
 		this.rules = rules;
 	}
 
+	// Methods
+	
 	public void addRule(Pair<String, String> rule){
 		this.rules.add(rule);
 	}
 
-	public String execute(String text){
+	public String execute(String text, boolean toLowerCase){
 		String out = text;
+		if (toLowerCase)
+			out = out.toLowerCase();
 		for (Pair<String, String> rule : rules){
 			out = findAndReplace(out,rule);
 		}
-		
 		return out;
 	}
 

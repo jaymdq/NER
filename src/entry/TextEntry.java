@@ -4,22 +4,28 @@ import java.util.Vector;
 
 public class TextEntry extends AbsEntry {
 
+	// Variables
+	
+	//Constructors
+	
 	private TextEntry (){
 		this.statusList  = new Vector<String>();
 	}
 	
+	// Getters And Setters
 	
 	/**
 	 * 
 	 * @return AbsEntry con la instancia.
 	 */
-	
 	public static AbsEntry getInstance() {
 		if (instance == null){
 			instance = new TextEntry();
 		}
 		return instance;
 	}
+	
+	// Methods
 	
 	@SuppressWarnings("unchecked")
 	@Override

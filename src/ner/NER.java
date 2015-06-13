@@ -11,12 +11,17 @@ import dictionary.chunk.Chunk;
 
 public class NER {
 
+	// Variables
+	
 	private Vector<Dictionary> dictionaries;
 	private PreProcess preProcess;
 	private SyntaxChecker syntaxChecker;
 	private boolean debugMode;
 	private boolean doPreProcess;
+	private boolean toLowerCase;
 
+	// Constructors
+	
 	/**
 	 * Constructor vacio, no se habilita el modo debug.
 	 */
@@ -26,6 +31,7 @@ public class NER {
 		this.syntaxChecker = null;
 		this.preProcess = null;
 		this.doPreProcess = false;
+		this.toLowerCase = false;
 	}
 
 	/**
@@ -38,6 +44,7 @@ public class NER {
 		this.syntaxChecker = null;
 		this.preProcess = null;
 		this.doPreProcess = false;
+		this.toLowerCase = false;
 	}
 
 	/**
@@ -45,13 +52,16 @@ public class NER {
 	 * @param debugMode El valor true de debugMode habilita el modo debug.
 	 * @param dictionaries El parametro dictionaries permite establecer un diccionario creado con anterioridad.
 	 */
-	public NER(boolean debugMode,Vector<Dictionary> dictionaries, SyntaxChecker syntaxChecker, PreProcess preProcess, boolean doPreProcess){
+	public NER(boolean debugMode,Vector<Dictionary> dictionaries, SyntaxChecker syntaxChecker, PreProcess preProcess, boolean doPreProcess, boolean toLowerCase){
 		setDebugMode(debugMode);
 		setDictionaries(dictionaries);
 		setSyntaxChecker(syntaxChecker);
 		setPreProcess(preProcess);
+		setToLowerCase(toLowerCase);
 		
 	}
+	
+	// Getters And Setters
 
 	/**
 	 * 
@@ -70,51 +80,7 @@ public class NER {
 		if (debugMode)
 			Logger.getLogger(NER.class).info("DEBUG MODE IS ACTIVATED\n");
 	}
-
-	/**
-	 * 
-	 * @param text El parametro text corresponde al texto a ser analizado
-	 * @return Se retorna los chunks detectados de text por los diccionarios definidos/
-	 */
-	public Vector<Chunk> recognize(String text){
-		Vector<Chunk> out = new Vector<Chunk>();
-
-		if (debugMode){
-			Logger.getLogger(NER.class).info("Text: " + text + "\n");			
-		}
-		
-		if (preProcess != null){
-			if (doPreProcess){
-				text = preProcess.execute(text);
-				Logger.getLogger(NER.class).info("Post PreProcess Text: " + text + "\n");
-			}
-		}
-		
-		for (Dictionary dictionary : dictionaries) 
-			out.addAll(dictionary.recognize(text,debugMode));
-
-		if (debugMode){
-			Logger.getLogger(NER.class).info("Pre Syntax Checker - Chunks");
-			Logger.getLogger(NER.class).info(out.toString() + "\n");
-		}
-		
-		
-		if (syntaxChecker != null){
-			out = syntaxChecker.joinChunks(out, text);
-			
-			if (debugMode){
-				Logger.getLogger(NER.class).info("Post Syntax Checker - Chunks");
-				Logger.getLogger(NER.class).info(out.toString() + "\n");
-			}
-		}
-
-		if (debugMode)
-			Logger.getLogger(NER.class).info("NER Finished\n");
-		
-		return out;
-
-	}
-
+	
 	/**
 	 * 
 	 * @return Lista de diccionarios
@@ -131,14 +97,6 @@ public class NER {
 		this.dictionaries = dictionaries;
 	}
 
-	/**
-	 * 
-	 * @param dictionary Se agrega dictionary a la lista de diccionarios a usar
-	 */
-	public void addDictionary(Dictionary dictionary){
-		dictionaries.add(dictionary);
-	}
-	
 	/**
 	 * 
 	 * @param syntaxChecker Se define el SyntaxChecker utilizado en la clase NER
@@ -174,6 +132,67 @@ public class NER {
 	public boolean DebugMode() {
 		return debugMode;
 	}
+
+	public boolean isToLowerCaseActivated() {
+		return toLowerCase;
+	}
+
+	public void setToLowerCase(boolean toLowerCase) {
+		this.toLowerCase = toLowerCase;
+	}
+
+	// Methods
 	
+	/**
+	 * 
+	 * @param dictionary Se agrega dictionary a la lista de diccionarios a usar
+	 */
+	public void addDictionary(Dictionary dictionary){
+		dictionaries.add(dictionary);
+	}
+	
+	/**
+	 * 
+	 * @param text El parametro text corresponde al texto a ser analizado
+	 * @return Se retorna los chunks detectados de text por los diccionarios definidos/
+	 */
+	public Vector<Chunk> recognize(String text){
+		Vector<Chunk> out = new Vector<Chunk>();
+
+		if (debugMode){
+			Logger.getLogger(NER.class).info("Text: " + text + "\n");			
+		}
+		
+		if (preProcess != null){
+			if (doPreProcess){
+				text = preProcess.execute(text,toLowerCase);
+				Logger.getLogger(NER.class).info("Post PreProcess Text: " + text + "\n");
+			}
+		}
+		
+		for (Dictionary dictionary : dictionaries) 
+			out.addAll(dictionary.recognize(text,debugMode));
+
+		if (debugMode){
+			Logger.getLogger(NER.class).info("Pre Syntax Checker - Chunks");
+			Logger.getLogger(NER.class).info(out.toString() + "\n");
+		}
+		
+		
+		if (syntaxChecker != null){
+			out = syntaxChecker.joinChunks(out, text);
+			
+			if (debugMode){
+				Logger.getLogger(NER.class).info("Post Syntax Checker - Chunks");
+				Logger.getLogger(NER.class).info(out.toString() + "\n");
+			}
+		}
+
+		if (debugMode)
+			Logger.getLogger(NER.class).info("NER Finished\n");
+		
+		return out;
+
+	}
 	
 }

@@ -39,16 +39,14 @@ public class Main {
 		//System.out.println(ner.recognize("Maxi Duthey junto a Brian Caimmi viven en la ciudad de Tandil y trabajan en Alem al 1259"));
 		//System.out.println(ner.recognize("Un menor herido al chocar dos camionetas en la Ruta 30 y Jujuy http://ow.ly/KDOGq"));
 	
-		//TODO Se rompe chequear esto y seguir testeando el twevent
-		
 		Vector<String> tweets = new Vector<String>();
-		tweets.add("Siempre estuvo fiat el herido pibe");
+		tweets.add("Siempre estuvo el herido pibe");
 		tweets.add("Siempre estuvo herido el pibe no sabia que poner");
-		tweets.add("Herido alto hitaso");
+		tweets.add("Herido herido hitaso");
 		
 		//Experimental
 		Twevent tw = new Twevent(ner,tweets);
-		tw.execute();
+		tw.execute(true);
 		
 	}
 
@@ -58,6 +56,7 @@ public class Main {
 		PreProcess preProcess = new PreProcess();
 		preProcess.addRule(new Pair<String, String>("(\\D)([\\.,])(\\D)?","$1 $2 $3"));
 		preProcess.addRule(new Pair<String, String>(" {2,}"," "));
+		
 
 		//Creación de Diccionarios
 		//Diccionarios Exactos
@@ -89,6 +88,7 @@ public class Main {
 		ner.setSyntaxChecker(syntaxChecker);
 		ner.setPreProcess(preProcess);
 		ner.setDoPreProcess(true);
+		ner.setToLowerCase(true);
 
 		return ner;
 	}
