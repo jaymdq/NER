@@ -13,7 +13,6 @@ import dictionary.chunk.comparator.ChunkComparatorByScore;
 import dictionary.chunk.score.Score;
 import dictionary.dictionaryentry.DictionaryEntry;
 import dictionary.dictionaryentry.DictionaryEntryWithDistance;
-import dictionary.exactDictionaries.ExactDictionary;
 
 
 public class AproximatedDictionary implements Dictionary {
@@ -191,11 +190,11 @@ public class AproximatedDictionary implements Dictionary {
 	@Override
 	public Vector<Chunk> recognize(String text, boolean debugMode){
 		if (debugMode){
-			Logger.getLogger(ExactDictionary.class).info("Case Sensitive: " + caseSensitive + ".");
-			Logger.getLogger(ExactDictionary.class).info("Lower Limit: " + lowerLimit + ".");
-			Logger.getLogger(ExactDictionary.class).info("N-Gram: " + n_gram + ".");
-			Logger.getLogger(ExactDictionary.class).info("Threshold: " + threshold + ".");
-			Logger.getLogger(ExactDictionary.class).info("Recognition Started");			
+			Logger.getLogger(AproximatedDictionary.class).info("Case Sensitive: " + caseSensitive + ".");
+			Logger.getLogger(AproximatedDictionary.class).info("Lower Limit: " + lowerLimit + ".");
+			Logger.getLogger(AproximatedDictionary.class).info("N-Gram: " + n_gram + ".");
+			Logger.getLogger(AproximatedDictionary.class).info("Threshold: " + threshold + ".");
+			Logger.getLogger(AproximatedDictionary.class).info("Recognition Started");			
 		}
 		
 		Vector<Chunk> out = new Vector<Chunk>();
@@ -263,10 +262,10 @@ public class AproximatedDictionary implements Dictionary {
 		}
 		
 		if (debugMode){
-			Logger.getLogger(ExactDictionary.class).info("Chunks Found:");
+			Logger.getLogger(AproximatedDictionary.class).info("Chunks Found:");
 			for (Chunk chunk : realOut)
-				Logger.getLogger(ExactDictionary.class).info(chunk.toString());
-			Logger.getLogger(ExactDictionary.class).info("Aproximated Dictionary Finished\n");
+				Logger.getLogger(AproximatedDictionary.class).info(chunk.toString());
+			Logger.getLogger(AproximatedDictionary.class).info("Aproximated Dictionary Finished\n");
 		}
 		return realOut;
 	}
