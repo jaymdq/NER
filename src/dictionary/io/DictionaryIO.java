@@ -1,24 +1,23 @@
 package dictionary.io;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
+import java.util.HashMap;
+
+
 
 import dictionary.dictionaryentry.DictionaryEntry;
 import twitter4j.Logger;
-
-
-
-//TODO ARREGLAR ESTA CLASEE
 
 public class DictionaryIO {
 
@@ -29,32 +28,6 @@ public class DictionaryIO {
 	public static final String CATEGORY_SEPARATOR = ",";
 
 	//TODO vale la pena hacer esta clase Singleton?
-
-	public static void saveToFile(String path, String extension, Vector<DictionaryEntry> entries){
-		ObjectOutputStream outFile = null;
-		try {
-			outFile = new ObjectOutputStream(new FileOutputStream(path + extension));
-			outFile.writeObject(entries);
-			outFile.close();
-		} catch (IOException e) {
-			Logger.getLogger(DictionaryIO.class).error("IO Error While Saving");
-			e.printStackTrace();
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	public static Vector<DictionaryEntry> loadFromFile(String path){
-		Vector<DictionaryEntry> out = null;
-		try {
-			ObjectInputStream inFile = new ObjectInputStream(new FileInputStream(path));
-			out = (Vector<DictionaryEntry>) inFile.readObject();
-			inFile.close();
-		} catch (IOException | ClassNotFoundException e) {
-			Logger.getLogger(DictionaryIO.class).error("IO Error While Loading");
-			e.printStackTrace();
-		}
-		return out;
-	}
 
 	public static Collection<DictionaryEntry> loadPlainTextWithCategories(String path) {
 		Vector<DictionaryEntry> out = new Vector<DictionaryEntry>();
@@ -148,4 +121,37 @@ public class DictionaryIO {
 		return out;
 	}
 
+	public static boolean savePlainTextWithCategories(String path, HashMap<String, Vector<String>> dictionary){
+		if(dictionary == null)
+			return false;
+		
+		Set<String> categories = dictionary.keySet();
+		
+		boolean outputBoolean = false;
+		
+		Writer out = null;
+		boolean firstLine = true;
+		try {
+			out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path)));
+			for(String category: categories){
+				if(!firstLine) out.write("\r\n"); else firstLine = false;
+				out.write(CATEGORY_INDICATOR+" "+category+"\r\n");
+				out.write("\r\n");
+				for(String token: dictionary.get(category))
+					out.write(token+"\r\n");
+			}
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {
+		    try {
+				out.close();
+				outputBoolean = true;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return outputBoolean;
+	}
+	
 }

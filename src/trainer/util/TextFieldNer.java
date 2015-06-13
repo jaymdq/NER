@@ -40,7 +40,7 @@ public class TextFieldNer extends JTextPane {
 	private void initNer(){
 		this.ner = new NER(true);
 		this.entries = new Vector<DictionaryEntry>();
-		AproximatedDictionary dic3 = new AproximatedDictionary(entries, 0.6, 2, 1, false);
+		AproximatedDictionary dic3 = new AproximatedDictionary(entries, 1, 2, 1, false);
 		this.ner.addDictionary(dic3);
 	}
 	

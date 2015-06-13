@@ -43,6 +43,8 @@ import trainer.util.LBCounter;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Vector;
@@ -56,6 +58,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
+import dictionary.dictionaryentry.DictionaryEntry;
 import dictionary.io.DictionaryIO;
 
 public class TrainerUI {
@@ -448,8 +451,7 @@ public class TrainerUI {
 			public void actionPerformed(ActionEvent e) {
 				String category = JOptionPane.showInputDialog("New category");
 				if(!category.trim().isEmpty())
-					if( ! ( (DefaultListModel<String>) listCategoriesToSelect.getModel() ).contains(category) )
-						( (DefaultListModel<String>) listCategoriesToSelect.getModel() ).addElement(category);
+					addCategory(category.trim());
 			}
 		});
 		GroupLayout gl_tokenInsertPanel = new GroupLayout(tokenInsertPanel);
@@ -509,9 +511,19 @@ public class TrainerUI {
 		mnfile.add(separator);
 		
 		JMenuItem mntmSave = new JMenuItem("Save");
+		mntmSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				saveDictionary();
+			}
+		});
 		mnfile.add(mntmSave);
 		
 		JMenuItem mntmSaveAs = new JMenuItem("Save as");
+		mntmSaveAs.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				saveAsDictionary();
+			}
+		});
 		mnfile.add(mntmSaveAs);
 		
 		JSeparator separator_1 = new JSeparator();
@@ -520,6 +532,37 @@ public class TrainerUI {
 		JMenuItem mntmClose = new JMenuItem("Close");
 		mnfile.add(mntmClose);
 		
+	}
+	private void saveDictionary(){
+		saveDictionary(false);
+	}
+	private void saveAsDictionary(){
+		saveDictionary(true);
+	}
+	
+	private void saveDictionary(boolean saveAs) {
+		if(saveAs == true || selectedFilePath[0] == null)
+			this.selectSavePath();
+		TTokensModel model = (TTokensModel) this.tokensTable.getModel();
+		HashMap<String, Vector<String>> dictionary = new HashMap<String, Vector<String>>();
+		for(int index=0; index < this.listCategoriesToSelectModel.size(); index++){
+			String category = this.listCategoriesToSelectModel.getElementAt(index);
+			if( ! dictionary.containsKey(category) ){
+				dictionary.put(category, new Vector<String>());
+			}
+		}
+		Iterator<DictionaryEntry> it = model.iterator();
+		while(it.hasNext()){
+			DictionaryEntry tmp = it.next();
+			for(String category: tmp.getCategory()){
+				(dictionary.get(category)).add(tmp.getText());
+			}
+		}
+		
+		if( DictionaryIO.savePlainTextWithCategories(selectedFilePath[0], dictionary) )
+			JOptionPane.showMessageDialog(null, "The dictionary has been saved", "Save success", JOptionPane.INFORMATION_MESSAGE);
+		else
+			JOptionPane.showMessageDialog(null, "Ups.. An error ocurred", "Save fail", JOptionPane.ERROR_MESSAGE);
 	}
 
 	private void replaceToken() {
@@ -537,6 +580,21 @@ public class TrainerUI {
 			categories.add(this.listCategoriesResultModel.get(i));
 		( (TTokensModel) this.tokensTable.getModel() ).addToken(tokenTmp, categories);
 		this.tfToRecognice.addEntry(tokenTmp, categories);
+	}
+	
+	private void selectSavePath(){
+		JFileChooser chooser = new JFileChooser("./");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Plain Text (*.txt)", "txt");
+		chooser.setFileFilter(filter);
+		int returnVal = chooser.showSaveDialog(frmNerTrainer);
+		if(returnVal == JFileChooser.APPROVE_OPTION) {
+			selectedFilePath[0] = chooser.getSelectedFile().getPath();
+			selectedFilePath[1] = chooser.getSelectedFile().getName();
+			if(!selectedFilePath[0].endsWith(".txt")){
+				selectedFilePath[0] += ".txt";
+				selectedFilePath[1] += ".txt";
+			}
+		}
 	}
 
 	private void selectFile() {
@@ -591,14 +649,32 @@ public class TrainerUI {
 	}
 	
 	private void openDictionary(){
-		selectFile();
+		/*selectFile();
 		if(this.selectedFilePath[0] != null){
 			Set<String> categories = DictionaryIO.getPlainTextCategories(this.selectedFilePath[0]);
-			listCategoriesToSelectModel.clear();
 			for(String category: categories){
-				listCategoriesToSelectModel.addElement(category);
+				if ( ! ( (DefaultListModel<String>) listCategoriesToSelect.getModel() ).contains(category) )
+					listCategoriesToSelectModel.addElement(category);
+			}
+			this.tfToRecognice.loadDictionary(this.selectedFilePath[0]);
+		}*/
+		selectFile();
+		if(this.selectedFilePath[0] != null){
+			Vector<DictionaryEntry> entries = (Vector<DictionaryEntry>) DictionaryIO.loadPlainTextWithCategories(this.selectedFilePath[0]);
+			for(DictionaryEntry entry: entries){
+				Vector<String> categories = new Vector<String>();
+				for(String category: entry.getCategory()){
+					categories.add(category.trim());
+					addCategory(category.trim());
+				}
+				( (TTokensModel) this.tokensTable.getModel() ).addToken(entry.getText(), categories);
 			}
 			this.tfToRecognice.loadDictionary(this.selectedFilePath[0]);
 		}
+	}
+	
+	private void addCategory(String category){
+		if ( ! ( (DefaultListModel<String>) listCategoriesToSelect.getModel() ).contains(category) )
+			listCategoriesToSelectModel.addElement(category);
 	}
 }
