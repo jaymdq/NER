@@ -3,6 +3,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 
+import configuration.ExactDictionaryConfigurator;
 import preprocess.PreProcess;
 import dictionary.approximatedDictionaries.AproximatedDictionary;
 import dictionary.dictionaryentry.DictionaryEntry;
@@ -51,8 +52,11 @@ public class Main {
 
 		//Creación de Diccionarios
 		//Diccionarios Exactos
-		ExactDictionary dic1 = new ExactDictionary(entries,false,true);
-
+		//ExactDictionary dic1 = new ExactDictionary(entries,false,true);
+		ExactDictionaryConfigurator eDC = new ExactDictionaryConfigurator(ExactDictionary.class.getName(),entries);
+		ExactDictionary dic1 = (ExactDictionary) eDC.configure("-C -a  ");
+		
+		
 		//Diccionarios basados en reglas
 		RuleBasedDictionary dic2 = new RuleBasedDictionary();
 		dic2.addMatcher(new RegExMatcher("[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})","Mail"));
