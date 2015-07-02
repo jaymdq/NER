@@ -67,6 +67,7 @@ public class Twevent {
 	
 	// Methods
 
+	//TODO Ver si es necesario pasarle el toLowerCase
 	public Vector<ChunkEvent> detectEvents(boolean debugMode, boolean toLowerCase){
 
 		Vector<ChunkEvent> out = new Vector<ChunkEvent>();

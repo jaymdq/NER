@@ -5,7 +5,7 @@ import java.util.Vector;
 import twitter4j.Logger;
 import dictionary.Dictionary;
 import dictionary.chunk.Chunk;
-import dictionary.exactDictionaries.ExactDictionary;
+
 
 public class RuleBasedDictionary implements Dictionary {
 
@@ -41,7 +41,7 @@ public class RuleBasedDictionary implements Dictionary {
 
 	public Vector<Chunk> recognize(String text, boolean debugMode){
 		if (debugMode){
-			Logger.getLogger(ExactDictionary.class).info("Recognition Started");
+			Logger.getLogger(RuleBasedDictionary.class).info("Recognition Started");
 		}
 		
 		Vector<Chunk> out = new Vector<Chunk>();
@@ -50,10 +50,10 @@ public class RuleBasedDictionary implements Dictionary {
 		}
 		
 		if (debugMode){
-			Logger.getLogger(ExactDictionary.class).info("Chunks Found:");
+			Logger.getLogger(RuleBasedDictionary.class).info("Chunks Found:");
 			for (Chunk chunk : out)
-				Logger.getLogger(ExactDictionary.class).info(chunk.toString());
-			Logger.getLogger(ExactDictionary.class).info("Rule Based Dictionary Finished\n");
+				Logger.getLogger(RuleBasedDictionary.class).info(chunk.toString());
+			Logger.getLogger(RuleBasedDictionary.class).info("Rule Based Dictionary Finished\n");
 		}
 			
 		return out;

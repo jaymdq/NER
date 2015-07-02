@@ -13,21 +13,12 @@ import dictionary.ruleBasedDictionaries.RuleBasedDictionary;
 import event.Twevent;
 import ner.NER;
 import syntax.SyntaxChecker;
-import topic.TopicSearcher;
 import utils.Pair;
 
 
 public class Main {
 
 	public static void main(String[] args) {
-
-		//Tópico
-		String topic = "";
-
-		//Texto
-		//StreamPlainTextWorker streamPlainTextWorker = new StreamPlainTextWorker("tweets","");
-
-		//TopicSearcher topicSearcher = new TopicSearcher();
 
 		Vector<DictionaryEntry> entradas = new Vector<DictionaryEntry>();
 		entradas.addAll(userEntries());
@@ -149,7 +140,5 @@ public class Main {
 		return syntaxChecker;
 
 	}
-
-
 
 }

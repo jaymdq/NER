@@ -12,16 +12,17 @@ import dictionary.chunk.Chunk;
 public class NER {
 
 	// Variables
-	
+
 	private Vector<Dictionary> dictionaries;
 	private PreProcess preProcess;
 	private SyntaxChecker syntaxChecker;
 	private boolean debugMode;
 	private boolean doPreProcess;
 	private boolean toLowerCase;
+	private String lastPreProcessedString = "";
 
 	// Constructors
-	
+
 	/**
 	 * Constructor vacio, no se habilita el modo debug.
 	 */
@@ -58,9 +59,9 @@ public class NER {
 		setSyntaxChecker(syntaxChecker);
 		setPreProcess(preProcess);
 		setToLowerCase(toLowerCase);
-		
+
 	}
-	
+
 	// Getters And Setters
 
 	/**
@@ -80,7 +81,7 @@ public class NER {
 		if (debugMode)
 			Logger.getLogger(NER.class).info("DEBUG MODE IS ACTIVATED\n");
 	}
-	
+
 	/**
 	 * 
 	 * @return Lista de diccionarios
@@ -104,7 +105,7 @@ public class NER {
 	public void setSyntaxChecker(SyntaxChecker syntaxChecker){
 		this.syntaxChecker = syntaxChecker;
 	}
-	
+
 	/**
 	 * 
 	 * @return SyntaxChecker de la clase NER
@@ -141,8 +142,16 @@ public class NER {
 		this.toLowerCase = toLowerCase;
 	}
 
-	// Methods
+	public String getLastPreProcessedString() {
+		return lastPreProcessedString;
+	}
+
+	private void setLastPreProcessedString(String lastPreProcessedString) {
+		this.lastPreProcessedString = lastPreProcessedString;
+	}
 	
+	// Methods
+
 	/**
 	 * 
 	 * @param dictionary Se agrega dictionary a la lista de diccionarios a usar
@@ -150,7 +159,7 @@ public class NER {
 	public void addDictionary(Dictionary dictionary){
 		dictionaries.add(dictionary);
 	}
-	
+
 	/**
 	 * 
 	 * @param text El parametro text corresponde al texto a ser analizado
@@ -160,16 +169,18 @@ public class NER {
 		Vector<Chunk> out = new Vector<Chunk>();
 
 		if (debugMode){
-			Logger.getLogger(NER.class).info("Text: " + text + "\n");			
+			Logger.getLogger(NER.class).info("Text: " + text);			
 		}
-		
+
 		if (preProcess != null){
 			if (doPreProcess){
 				text = preProcess.execute(text,toLowerCase);
-				Logger.getLogger(NER.class).info("Post PreProcess Text: " + text + "\n");
+				setLastPreProcessedString(text);
+				if (debugMode)
+					Logger.getLogger(NER.class).info("Post PreProcess Text: " + text + "\n");
 			}
 		}
-		
+
 		for (Dictionary dictionary : dictionaries) 
 			out.addAll(dictionary.recognize(text,debugMode));
 
@@ -177,11 +188,11 @@ public class NER {
 			Logger.getLogger(NER.class).info("Pre Syntax Checker - Chunks");
 			Logger.getLogger(NER.class).info(out.toString() + "\n");
 		}
-		
-		
+
+
 		if (syntaxChecker != null){
 			out = syntaxChecker.joinChunks(out, text);
-			
+
 			if (debugMode){
 				Logger.getLogger(NER.class).info("Post Syntax Checker - Chunks");
 				Logger.getLogger(NER.class).info(out.toString() + "\n");
@@ -190,9 +201,9 @@ public class NER {
 
 		if (debugMode)
 			Logger.getLogger(NER.class).info("NER Finished\n");
-		
+
 		return out;
 
 	}
-	
+
 }
