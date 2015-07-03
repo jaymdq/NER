@@ -3,11 +3,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 
-import configuration.AproximatedDictionaryConfigurator;
+import configuration.ApproximatedDictionaryConfigurator;
 import configuration.ExactDictionaryConfigurator;
 import configuration.RuleBasedConfigurator;
 import preprocess.PreProcess;
-import dictionary.approximatedDictionaries.AproximatedDictionary;
+import dictionary.approximatedDictionaries.ApproximatedDictionary;
 import dictionary.dictionaryentry.DictionaryEntry;
 import dictionary.exactDictionaries.ExactDictionary;
 import dictionary.io.DictionaryIO;
@@ -73,9 +73,9 @@ public class Main {
 		dic2.addMatcher(new RegExMatcher("de","de"));		
 
 		//Diccionarios Aproximados
-		//AproximatedDictionary dic3 = new AproximatedDictionary(entries, 0.6, 2, 1,false);
-		AproximatedDictionaryConfigurator aDC = new AproximatedDictionaryConfigurator(AproximatedDictionaryConfigurator.class.getName(), entries);
-		AproximatedDictionary dic3 = (AproximatedDictionary) aDC.configure("-l 0.6 -n 2 -t 1");
+		//ApproximatedDictionary dic3 = new ApproximatedDictionary(entries, 0.6, 2, 1,false);
+		ApproximatedDictionaryConfigurator aDC = new ApproximatedDictionaryConfigurator(ApproximatedDictionaryConfigurator.class.getName(), entries);
+		ApproximatedDictionary dic3 = (ApproximatedDictionary) aDC.configure("-l 0.6 -n 2 -t 1");
 		
 		//Creación del SyntaxChecker
 		SyntaxChecker syntaxChecker = createSyntaxChecker();		

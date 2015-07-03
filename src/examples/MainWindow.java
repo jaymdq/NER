@@ -43,7 +43,7 @@ import javax.swing.tree.TreeCellRenderer;
 
 import ner.NER;
 import preprocess.PreProcess;
-import dictionary.approximatedDictionaries.AproximatedDictionary;
+import dictionary.approximatedDictionaries.ApproximatedDictionary;
 import dictionary.chunk.Chunk;
 import dictionary.dictionaryentry.DictionaryEntry;
 import dictionary.exactDictionaries.ExactDictionary;
@@ -252,6 +252,14 @@ public class MainWindow {
 		JPanel configPanel = new JPanel();
 		configPanel.setBorder(new CompoundBorder(new EmptyBorder(0, 0, 5, 0), new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Configuration", TitledBorder.CENTER, TitledBorder.TOP, null, null)));
 		westPane.add(configPanel);
+		
+		JButton btnConfiguration = new JButton("Configuration");
+		btnConfiguration.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				configuration();
+			}
+		});
+		configPanel.add(btnConfiguration);
 		westPane.add(btnProcess);
 
 
@@ -267,6 +275,18 @@ public class MainWindow {
 	}
 
 	//--------------------------------------------------------------------------------------------------------------------------------------------
+
+	protected void configuration() {
+		TextDialog textDialog = new TextDialog("Configuration","A configurar");
+		textDialog.setModal(true);
+		textDialog.setVisible(true);
+		textDialog.setLocationRelativeTo(null);
+		
+		String configurationText = textDialog.getText();
+		System.out.println(configurationText);
+		
+		
+	}
 
 	private void treeToText() {
 		if (tweets != null && tweets.size() > 0 ){
@@ -430,7 +450,7 @@ public class MainWindow {
 		dic2.addMatcher(new RegExMatcher("de","de"));		
 
 		//Diccionarios Aproximados
-		AproximatedDictionary dic3 = new AproximatedDictionary(entries, 0.6, 2, 1,false);
+		ApproximatedDictionary dic3 = new ApproximatedDictionary(entries, 0.6, 2, 1,false);
 
 		//Creación del SyntaxChecker
 		SyntaxChecker syntaxChecker = createSyntaxChecker();		

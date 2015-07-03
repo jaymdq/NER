@@ -15,7 +15,7 @@ import dictionary.dictionaryentry.DictionaryEntry;
 import dictionary.dictionaryentry.DictionaryEntryWithDistance;
 
 
-public class AproximatedDictionary implements Dictionary {
+public class ApproximatedDictionary implements Dictionary {
 	
 	// Variables
 	
@@ -28,7 +28,7 @@ public class AproximatedDictionary implements Dictionary {
 
 	// Constructors
 	
-	public AproximatedDictionary(Vector<DictionaryEntry> entriesList, double lowerLimit, int n_gram, int threshold, boolean caseSensitive) {
+	public ApproximatedDictionary(Vector<DictionaryEntry> entriesList, double lowerLimit, int n_gram, int threshold, boolean caseSensitive) {
 		this.setTop_k(lowerLimit);
 		this.setN_gram(n_gram);
 		this.setThreshold(threshold);
@@ -190,11 +190,11 @@ public class AproximatedDictionary implements Dictionary {
 	@Override
 	public Vector<Chunk> recognize(String text, boolean debugMode){
 		if (debugMode){
-			Logger.getLogger(AproximatedDictionary.class).info("Case Sensitive: " + caseSensitive + ".");
-			Logger.getLogger(AproximatedDictionary.class).info("Lower Limit: " + lowerLimit + ".");
-			Logger.getLogger(AproximatedDictionary.class).info("N-Gram: " + n_gram + ".");
-			Logger.getLogger(AproximatedDictionary.class).info("Threshold: " + threshold + ".");
-			Logger.getLogger(AproximatedDictionary.class).info("Recognition Started");			
+			Logger.getLogger(ApproximatedDictionary.class).info("Case Sensitive: " + caseSensitive + ".");
+			Logger.getLogger(ApproximatedDictionary.class).info("Lower Limit: " + lowerLimit + ".");
+			Logger.getLogger(ApproximatedDictionary.class).info("N-Gram: " + n_gram + ".");
+			Logger.getLogger(ApproximatedDictionary.class).info("Threshold: " + threshold + ".");
+			Logger.getLogger(ApproximatedDictionary.class).info("Recognition Started");			
 		}
 		
 		Vector<Chunk> out = new Vector<Chunk>();
@@ -262,10 +262,10 @@ public class AproximatedDictionary implements Dictionary {
 		}
 		
 		if (debugMode){
-			Logger.getLogger(AproximatedDictionary.class).info("Chunks Found:");
+			Logger.getLogger(ApproximatedDictionary.class).info("Chunks Found:");
 			for (Chunk chunk : realOut)
-				Logger.getLogger(AproximatedDictionary.class).info(chunk.toString());
-			Logger.getLogger(AproximatedDictionary.class).info("Aproximated Dictionary Finished\n");
+				Logger.getLogger(ApproximatedDictionary.class).info(chunk.toString());
+			Logger.getLogger(ApproximatedDictionary.class).info("Aproximated Dictionary Finished\n");
 		}
 		return realOut;
 	}

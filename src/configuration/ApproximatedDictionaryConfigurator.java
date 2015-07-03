@@ -2,16 +2,16 @@ package configuration;
 
 import java.util.Vector;
 
-import dictionary.approximatedDictionaries.AproximatedDictionary;
+import dictionary.approximatedDictionaries.ApproximatedDictionary;
 import dictionary.dictionaryentry.DictionaryEntry;
 
-public class AproximatedDictionaryConfigurator extends AbsDictionaryConfigurator {
+public class ApproximatedDictionaryConfigurator extends AbsDictionaryConfigurator {
 
 	// Variables
 
 	// Constructors
 
-	public AproximatedDictionaryConfigurator(String name, Vector<DictionaryEntry> entries) {
+	public ApproximatedDictionaryConfigurator(String name, Vector<DictionaryEntry> entries) {
 		super(name, entries);
 	}
 
@@ -86,7 +86,7 @@ public class AproximatedDictionaryConfigurator extends AbsDictionaryConfigurator
 
 	@Override
 	protected Object configureObject() {
-		AproximatedDictionary out = null;
+		ApproximatedDictionary out = null;
 
 		//Parameters
 		boolean caseSensitive = (boolean) getParameter("-c");
@@ -94,7 +94,7 @@ public class AproximatedDictionaryConfigurator extends AbsDictionaryConfigurator
 		int n_gram = (int) getParameter("-n");
 		int threshold = (int) getParameter("-t");
 		
-		out = new AproximatedDictionary(getEntries(),lowerLimit,n_gram,threshold,caseSensitive);
+		out = new ApproximatedDictionary(getEntries(),lowerLimit,n_gram,threshold,caseSensitive);
 				
 		return out;
 	}

@@ -8,12 +8,15 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JTextArea;
+
 import java.awt.Font;
 import java.awt.Window.Type;
+
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JEditorPane;
 import javax.swing.JTextPane;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -29,8 +32,6 @@ public class TextDialog extends JDialog {
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setAlwaysOnTop(true);
 		this.setBounds(0,0,java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width - 200,java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height - 150);
-		
-		//setBounds(100, 100, 800, 600);
 		this.setResizable(false);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -55,11 +56,9 @@ public class TextDialog extends JDialog {
 		{
 			textPane = new JTextPane();
 			textPane.setContentType("text/html");
-			textPane.setEditable(false);
+			//textPane.setEditable(false);
 			noWrapPanel = new JPanel( new BorderLayout() );
 			noWrapPanel.add( textPane );
-
-
 		}
 		{
 			scrollPane = new JScrollPane(noWrapPanel);
@@ -67,8 +66,7 @@ public class TextDialog extends JDialog {
 			scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 			contentPanel.add(scrollPane, BorderLayout.CENTER);
 		}
-
-		//scrollPane.setViewportView(textPane);
+		
 		textPane.setText(text);
 	}
 
@@ -76,4 +74,8 @@ public class TextDialog extends JDialog {
 		this.dispose();		
 	}
 
+	public String getText() {
+		return textPane.getText();
+	}
+	
 }

@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import javax.swing.JTextPane;
 
-import dictionary.approximatedDictionaries.AproximatedDictionary;
+import dictionary.approximatedDictionaries.ApproximatedDictionary;
 import dictionary.chunk.Chunk;
 import dictionary.dictionaryentry.DictionaryEntry;
 import dictionary.io.DictionaryIO;
@@ -34,13 +34,13 @@ public class TextFieldNer extends JTextPane {
 	}
 	
 	private void updateEntries(){
-		( (AproximatedDictionary)this.ner.getDictionaries().elementAt(0) ).setEntriesList(entries);
+		( (ApproximatedDictionary)this.ner.getDictionaries().elementAt(0) ).setEntriesList(entries);
 	}
 	
 	private void initNer(){
 		this.ner = new NER(true);
 		this.entries = new Vector<DictionaryEntry>();
-		AproximatedDictionary dic3 = new AproximatedDictionary(entries, 1, 2, 1, false);
+		ApproximatedDictionary dic3 = new ApproximatedDictionary(entries, 1, 2, 1, false);
 		this.ner.addDictionary(dic3);
 	}
 	

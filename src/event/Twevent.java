@@ -2,6 +2,7 @@ package event;
 
 import java.util.Vector;
 
+import twitter4j.Logger;
 import dictionary.chunk.Chunk;
 import dictionary.chunk.ChunkEvent;
 import ner.NER;
@@ -85,8 +86,12 @@ public class Twevent {
 				out.add(event);
 			}
 		}
-		System.out.println("Sorted Events : " + sortedEvents);
-		System.out.println("Filtered: " + out);
+		
+		if (debugMode){
+			Logger.getLogger(Twevent.class).info("Sorted Events : " + sortedEvents);
+			Logger.getLogger(Twevent.class).info("Filtered Events: " + out);
+		}
+		
 		return out;
 	}
 
