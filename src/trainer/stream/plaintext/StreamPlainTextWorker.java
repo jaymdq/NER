@@ -59,4 +59,9 @@ public class StreamPlainTextWorker extends StreamWorkerAbs {
 			}
 		}
 	}
+
+	@Override
+	protected String formatForSave(Object obj) {
+		return (String)obj;
+	}
 }

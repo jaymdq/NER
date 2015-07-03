@@ -43,10 +43,14 @@ import trainer.util.LBCounter;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import java.util.Vector;
 
 import javax.swing.JTable;
@@ -68,7 +72,7 @@ public class TrainerUI {
 	private CBEntryBox cbEntryMethod;
 	private JButton btnSelectFile;
 	
-	private StreamWorkerAbs streamWorker;
+	private StreamWorkerAbs streamWorker = null;
 	private JTextField tfTokenToAdd;
 	private JButton btnNextTweet;
 	private LBCounter lblCounter;
@@ -85,6 +89,8 @@ public class TrainerUI {
 	private JComboBox<String> cbFormatFile;
 	private JButton btnStopTrainer;
 	private JComboBox<String> cbTwitterFormat;
+	private JMenuItem mntmSaveTweets;
+	private boolean saveAsCancel = false;
 
 	/**
 	 * Launch the application.
@@ -262,7 +268,6 @@ public class TrainerUI {
 			}
 		});
 		btnNextTweet.setEnabled(false);
-		lblCounter.asignButtonToCounter(btnNextTweet);
 		
 		btnStopTrainer = new JButton("Stop Trainer");
 		btnStopTrainer.setVisible(false);
@@ -497,6 +502,11 @@ public class TrainerUI {
 		menuBar.add(mnfile);
 		
 		JMenuItem mntmnew = new JMenuItem("New");
+		mntmnew.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clearTrainer();
+			}
+		});
 		mnfile.add(mntmnew);
 		
 		JMenuItem mntmOpen = new JMenuItem("Open");
@@ -529,7 +539,27 @@ public class TrainerUI {
 		JSeparator separator_1 = new JSeparator();
 		mnfile.add(separator_1);
 		
+		mntmSaveTweets = new JMenuItem("Save tweets");
+		mntmSaveTweets.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				saveListTweets();
+			}
+		});
+		mntmSaveTweets.setEnabled(false);
+		
+		lblCounter.forActivate(new JComponent[]{btnNextTweet, mntmSaveTweets});
+		
+		mnfile.add(mntmSaveTweets);
+		
+		JSeparator separator_2 = new JSeparator();
+		mnfile.add(separator_2);
+		
 		JMenuItem mntmClose = new JMenuItem("Close");
+		mntmClose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.exit(0);
+			}
+		});
 		mnfile.add(mntmClose);
 		
 	}
@@ -543,6 +573,12 @@ public class TrainerUI {
 	private void saveDictionary(boolean saveAs) {
 		if(saveAs == true || selectedFilePath[0] == null)
 			this.selectSavePath();
+		
+		if(saveAsCancel == true){
+			saveAsCancel = false;
+			return ;
+		}
+		
 		TTokensModel model = (TTokensModel) this.tokensTable.getModel();
 		HashMap<String, Vector<String>> dictionary = new HashMap<String, Vector<String>>();
 		for(int index=0; index < this.listCategoriesToSelectModel.size(); index++){
@@ -594,6 +630,8 @@ public class TrainerUI {
 				selectedFilePath[0] += ".txt";
 				selectedFilePath[1] += ".txt";
 			}
+		}else{
+			saveAsCancel = true;
 		}
 	}
 
@@ -643,21 +681,13 @@ public class TrainerUI {
 	
 	private void stopTrainer() {
 		this.streamWorker.interrupt();
+		this.streamWorker = null;
 		this.lblCounter.updateCounter(0);
 		this.btnStartTrainer.setVisible(true);
 		this.btnStopTrainer.setVisible(false);
 	}
 	
 	private void openDictionary(){
-		/*selectFile();
-		if(this.selectedFilePath[0] != null){
-			Set<String> categories = DictionaryIO.getPlainTextCategories(this.selectedFilePath[0]);
-			for(String category: categories){
-				if ( ! ( (DefaultListModel<String>) listCategoriesToSelect.getModel() ).contains(category) )
-					listCategoriesToSelectModel.addElement(category);
-			}
-			this.tfToRecognice.loadDictionary(this.selectedFilePath[0]);
-		}*/
 		selectFile();
 		if(this.selectedFilePath[0] != null){
 			Vector<DictionaryEntry> entries = (Vector<DictionaryEntry>) DictionaryIO.loadPlainTextWithCategories(this.selectedFilePath[0]);
@@ -676,5 +706,49 @@ public class TrainerUI {
 	private void addCategory(String category){
 		if ( ! ( (DefaultListModel<String>) listCategoriesToSelect.getModel() ).contains(category) )
 			listCategoriesToSelectModel.addElement(category);
+	}
+	
+	private void saveListTweets(){
+		String[] selectedFilePathTmp = new String[]{ selectedFilePath[0], selectedFilePath[1]};
+		selectSavePath();
+		if(saveAsCancel == true){
+			saveAsCancel = false;
+		}else{
+			Writer out = null;
+			try {
+				out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(selectedFilePath[0])));
+				for(String s: this.streamWorker.getForSave()){
+					out.write(s+"\r\n");
+				}
+			} catch (Exception e){
+				e.printStackTrace();
+			} finally {
+			    try {
+					out.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		selectedFilePath[0] = selectedFilePathTmp[0];
+		selectedFilePath[1] = selectedFilePathTmp[1];		
+	}
+	
+	private void clearTrainer(){
+		selectedFilePath[0] = null;
+		selectedFilePath[1] = null;
+		saveAsCancel = false;
+		if(streamWorker != null)
+			streamWorker.interrupt();
+		lblCounter.updateCounter(0);
+		btnStartTrainer.setVisible(true);
+		btnStopTrainer.setVisible(false);
+		tfToRecognice.clearTFNer();
+		listCategoriesResultModel.clear();
+		listCategoriesToSelectModel.clear();
+		tfTagsStreaming.clear();
+		tfTokenResult.setText("");
+		tfTokenToAdd.setText("");
+		( (TTokensModel) this.tokensTable.getModel() ).clear();
 	}
 }

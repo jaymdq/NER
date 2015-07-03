@@ -19,6 +19,14 @@ public abstract class StreamWorkerAbs extends Thread {
 	
 	public abstract String getNextTweet();
 	
+	public Vector<String> getForSave(){
+		Vector<String> out = new Vector<String>();
+		for(Object obj: this.statusList){
+			out.add(formatForSave(obj));
+		}
+		return out;
+	}
+	
 	public void setCounter(LBCounter counter){
 		this.counter = counter;
 	}
@@ -32,5 +40,7 @@ public abstract class StreamWorkerAbs extends Thread {
 	}
 	
 	protected abstract void execute();
+	
+	protected abstract String formatForSave(Object obj);
 	
 }

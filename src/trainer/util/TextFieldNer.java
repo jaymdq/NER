@@ -52,4 +52,8 @@ public class TextFieldNer extends JTextPane {
 		}
 		super.setText(t);
 	}
+	
+	public void clearTFNer(){
+		initNer();
+	}
 }

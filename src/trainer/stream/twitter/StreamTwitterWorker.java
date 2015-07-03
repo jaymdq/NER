@@ -3,8 +3,8 @@ package trainer.stream.twitter;
 import java.util.Vector;
 
 import trainer.stream.StreamWorkerAbs;
+import trainer.util.StatusExt;
 import twitter4j.FilterQuery;
-import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -77,9 +77,9 @@ public class StreamTwitterWorker extends StreamWorkerAbs {
 	public String getNextTweet(){
 		String out = null;
 		if(this.getTotalTweets() > 0){
-			Status tmp = (Status)this.statusList.remove(0);
+			StatusExt tmp = (StatusExt)this.statusList.remove(0);
 			if(this.counter != null) this.updateCounter();
-			out = tmp.getText();
+			out = tmp.getStatus().getText();
 		}
 		return out;
 	}
@@ -93,6 +93,12 @@ public class StreamTwitterWorker extends StreamWorkerAbs {
 	@Override
 	public void interrupt() {
 		this.twitterStream.shutdown();
+	}
+
+	@Override
+	protected String formatForSave(Object obj) {
+		StatusExt tmp = (StatusExt)obj;
+		return tmp.getJSON();
 	}
 	
 }

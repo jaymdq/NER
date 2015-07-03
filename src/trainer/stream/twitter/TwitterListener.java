@@ -1,5 +1,6 @@
 package trainer.stream.twitter;
 
+import trainer.util.StatusExt;
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
@@ -15,11 +16,6 @@ public class TwitterListener implements StatusListener {
 	
 	private StreamTwitterWorker parent = null;
 
-	/**
-	 * TwitterListener construct
-	 * 
-	 * @param parent
-	 */
 	public TwitterListener (StreamTwitterWorker parent){
 		this.parent = parent;
 	}
@@ -50,7 +46,7 @@ public class TwitterListener implements StatusListener {
 
 	@Override
 	public void onStatus(Status status) {
-		this.parent.notify(status);
+		this.parent.notify(new StatusExt(status));
 	}
 
 	@Override

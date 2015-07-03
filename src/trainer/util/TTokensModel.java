@@ -17,6 +17,13 @@ public class TTokensModel extends DefaultTableModel implements Iterable<Dictiona
 		});
 	}
 	
+	public void clear(){
+		int limit = this.getRowCount();
+		for(int i = 0; i < limit; i++){
+			this.removeRow(0);
+		}
+	}
+	
 	public void addToken(String token, Vector<String> categories){
 		int index = this.indexOf(token);
 		if(index < 0){

@@ -1,29 +1,45 @@
 package trainer.util;
 
 import java.awt.Label;
+import java.util.Vector;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 
 @SuppressWarnings("serial")
 public class LBCounter extends Label {
 	private String baseText;
-	private JButton button = null;
+	private Vector<JComponent> components = new Vector<JComponent>();
+	private boolean componentStatus = false;
 	
 	public LBCounter(String baseText){
 		super(baseText+"0");
 		this.baseText = baseText;
 	}
 	
-	public void asignButtonToCounter(JButton button){
-		this.button = button;
-	}
 	
 	public void updateCounter(int quantity){
 		this.setText(this.baseText+quantity);
-		if(button != null) this.refreshButton(quantity);
+		if(quantity > 0 && !componentStatus){
+			componentStatus = true;
+			updateComponents();
+		}else if(quantity == 0 && componentStatus){
+			componentStatus = false;
+			updateComponents();
+		}
 	}
 	
-	private void refreshButton(int q){
-		this.button.setEnabled( (q > 0) ? true : false );
+	public void updateComponents(){
+		for(JComponent c: this.components){
+			c.setEnabled(componentStatus);
+		}
+	}
+	
+	public void forActivate(JComponent[] components){
+		if(components == null) return;
+		
+		for(JComponent c: components){
+			this.components.addElement(c);
+		}		
 	}
 }
