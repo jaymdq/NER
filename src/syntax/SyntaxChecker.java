@@ -18,7 +18,7 @@ public class SyntaxChecker {
 	private boolean keepLargerChunks;
 	private Comparator<Chunk> comparator;
 	private AbsSyntaxTrieNode root;
-	private int charBetween; //TODO VER ESTO
+	private int charBetween;
 
 	// Constructors
 

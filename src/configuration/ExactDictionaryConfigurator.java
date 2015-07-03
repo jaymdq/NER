@@ -57,4 +57,18 @@ public class ExactDictionaryConfigurator extends AbsDictionaryConfigurator {
 		return out;
 	}
 
+	@Override
+	public String getErrorReason() {
+		String out = "";
+		switch (getOperationStatus()){
+		case 0 :
+			out = "No errors";
+			break;
+		default:
+			out = "Invalid argument";
+			break;
+		}
+		return out;
+	}
+
 }

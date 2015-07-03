@@ -3,7 +3,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 
+import configuration.AproximatedDictionaryConfigurator;
 import configuration.ExactDictionaryConfigurator;
+import configuration.RuleBasedConfigurator;
 import preprocess.PreProcess;
 import dictionary.approximatedDictionaries.AproximatedDictionary;
 import dictionary.dictionaryentry.DictionaryEntry;
@@ -58,7 +60,8 @@ public class Main {
 		
 		
 		//Diccionarios basados en reglas
-		RuleBasedDictionary dic2 = new RuleBasedDictionary();
+		RuleBasedConfigurator rBC = new RuleBasedConfigurator(RuleBasedDictionary.class.getName(), entries, null);
+		RuleBasedDictionary dic2 = (RuleBasedDictionary) rBC.configure("");
 		dic2.addMatcher(new RegExMatcher("[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})","Mail"));
 		dic2.addMatcher(new RegExMatcher("[0-9]+","numero"));
 		dic2.addMatcher(new RegExMatcher("\\sy+","y"));
@@ -70,8 +73,10 @@ public class Main {
 		dic2.addMatcher(new RegExMatcher("de","de"));		
 
 		//Diccionarios Aproximados
-		AproximatedDictionary dic3 = new AproximatedDictionary(entries, 0.6, 2, 1,false);
-
+		//AproximatedDictionary dic3 = new AproximatedDictionary(entries, 0.6, 2, 1,false);
+		AproximatedDictionaryConfigurator aDC = new AproximatedDictionaryConfigurator(AproximatedDictionaryConfigurator.class.getName(), entries);
+		AproximatedDictionary dic3 = (AproximatedDictionary) aDC.configure("-l 0.6 -n 2 -t 1");
+		
 		//Creación del SyntaxChecker
 		SyntaxChecker syntaxChecker = createSyntaxChecker();		
 
