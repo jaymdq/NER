@@ -29,6 +29,8 @@ public class SyntaxCheckerConfigurator extends AbsConfigurator {
 		
 		setParameter("-l",false);
 		setParameter("-L",false);
+		setParameter("-c",3);
+		setParameter("-C",3);
 		
 		for (int i = 0; i < params.size(); i++){
 			switch(params.elementAt(i)){

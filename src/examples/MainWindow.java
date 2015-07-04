@@ -4,76 +4,77 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.JTextPane;
+import javax.swing.JToggleButton;
 import javax.swing.JTree;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeCellRenderer;
 
 import ner.NER;
 import preprocess.PreProcess;
-import dictionary.approximatedDictionaries.ApproximatedDictionary;
-import dictionary.chunk.Chunk;
-import dictionary.dictionaryentry.DictionaryEntry;
-import dictionary.exactDictionaries.ExactDictionary;
-import dictionary.io.DictionaryIO;
-import dictionary.ruleBasedDictionaries.RegExMatcher;
-import dictionary.ruleBasedDictionaries.RuleBasedDictionary;
+import segmentation.Segmenter;
 import syntax.SyntaxChecker;
 import trainer.stream.StreamWorkerAbs;
 import trainer.stream.plaintext.PlainTextFormatAbs;
 import trainer.stream.plaintext.PlainTextFormatSimple;
 import trainer.stream.plaintext.PlainTextFormatTwitter;
 import trainer.stream.plaintext.StreamPlainTextWorker;
+import twitter4j.Logger;
 import utils.Pair;
+import dictionary.approximatedDictionaries.ApproximatedDictionary;
+import dictionary.dictionaryentry.DictionaryEntry;
+import dictionary.exactDictionaries.ExactDictionary;
+import dictionary.io.DictionaryIO;
+import dictionary.ruleBasedDictionaries.RegExMatcher;
+import dictionary.ruleBasedDictionaries.RuleBasedDictionary;
 
-import javax.swing.ScrollPaneConstants;
+import javax.swing.JLabel;
 
-import java.awt.event.ContainerAdapter;
-import java.awt.event.ContainerEvent;
+import java.awt.FlowLayout;
 
-import javax.swing.JTabbedPane;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JToggleButton;
-import javax.swing.SwingConstants;
-import javax.swing.BoxLayout;
-import javax.swing.border.TitledBorder;
-import javax.swing.UIManager;
+import javax.swing.JTextField;
 
-import java.awt.Color;
-import java.awt.Toolkit;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.RowSpec;
+
+import configuration.ApproximatedDictionaryConfigurator;
+import configuration.ExactDictionaryConfigurator;
+import configuration.PreProcessConfigurator;
+import configuration.RuleBasedConfigurator;
+import configuration.SyntaxCheckerConfigurator;
 
 public class MainWindow {
 
@@ -87,10 +88,10 @@ public class MainWindow {
 	private NER ner;
 
 	private AnalyzerWorker analyzer;
-	private boolean running;
 	private JToggleButton btnProcess;
 
 	private JMenuItem mntmTreeToText;
+	private JTextField textField;
 
 	/**
 	 * Launch the application.
@@ -146,7 +147,7 @@ public class MainWindow {
 			}
 		});
 		mnFile.add(mntmNew);
-		
+
 		JSeparator separator_2 = new JSeparator();
 		mnFile.add(separator_2);
 		mnFile.add(mntmOpenTweets);
@@ -222,6 +223,11 @@ public class MainWindow {
 		tree.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		tree.setModel(new DefaultTreeModel(
 				new TweetDefaultMutableTreeNode("Open a file to process it") {
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;
+
 					{
 
 					}
@@ -247,51 +253,259 @@ public class MainWindow {
 		});
 		BoxLayout boxLayout = new BoxLayout(westPane, BoxLayout.Y_AXIS);
 		westPane.setLayout(boxLayout);
-		westPane.setPreferredSize(new Dimension(200,50));
+		westPane.setPreferredSize(new Dimension(250,50));
 
 		JPanel configPanel = new JPanel();
 		configPanel.setBorder(new CompoundBorder(new EmptyBorder(0, 0, 5, 0), new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Configuration", TitledBorder.CENTER, TitledBorder.TOP, null, null)));
 		westPane.add(configPanel);
-		
-		JButton btnConfiguration = new JButton("Configuration");
+
+		JButton btnConfiguration = new JButton("Open Configuration File");
 		btnConfiguration.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				configuration();
 			}
 		});
-		configPanel.add(btnConfiguration);
+		configPanel.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.UNRELATED_GAP_COLSPEC,
+				ColumnSpec.decode("145px:grow"),
+				FormFactory.UNRELATED_GAP_COLSPEC,},
+				new RowSpec[] {
+				RowSpec.decode("7px"),
+				RowSpec.decode("23px"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,}));
+		configPanel.add(btnConfiguration, "2, 2, fill, top");
+
+		JLabel lblClassification = new JLabel("Classification");
+		lblClassification.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		configPanel.add(lblClassification, "2, 4");
+
+		textField = new JTextField();
+		textField.setMargin(new Insets(3,3,3,3));
+		textField.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		configPanel.add(textField, "2, 6, fill, default");
+		textField.setColumns(10);
 		westPane.add(btnProcess);
 
-
-
-
-
-		//NER
-		Vector<DictionaryEntry> entradas = new Vector<DictionaryEntry>();
-		entradas.addAll(userEntries());
-		entradas.addAll(filesEntries());
-
-		ner = createNER(entradas);
 	}
 
 	//--------------------------------------------------------------------------------------------------------------------------------------------
 
-	protected void configuration() {
-		TextDialog textDialog = new TextDialog("Configuration","A configurar");
+	private void configuration() {
+		//Open FileChoose
+		JFileChooser chooser = new JFileChooser("./");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Plain Text (*.txt)", "txt");
+		chooser.setFileFilter(filter);
+		int returnVal = chooser.showOpenDialog(frame);
+		String path="";
+		if(returnVal == JFileChooser.APPROVE_OPTION) {
+			path = chooser.getSelectedFile().getPath();
+		}
+		if (path.isEmpty())
+			return;
+
+		//Read File
+		String configurationText="";
+		Vector<String> lines = new Vector<String>();
+		File file = null;
+		FileReader fr = null;
+		BufferedReader br = null;
+		try {
+			file = new File (path);
+			fr = new FileReader (file);
+			br = new BufferedReader(fr);
+			String line;
+			while( (line=br.readLine()) != null ){
+				if (!line.startsWith("#")){
+					line = line.trim();
+					if (!line.isEmpty()){
+						configurationText+=line+"\n";
+						lines.add(line);
+					}
+				}
+			}
+		}
+		catch(Exception e){
+			Logger.getLogger(DictionaryIO.class).error("IO Error While Loading");
+			e.printStackTrace();
+		}finally{
+			try{                   
+				if( null != fr ){  
+					fr.close();    
+				}                 
+			}catch (Exception e2){
+				Logger.getLogger(DictionaryIO.class).error("IO Error While Closing File");
+				e2.printStackTrace();
+			}
+		}
+
+		//Create de textDialog
+		TextDialog textDialog = new TextDialog("Configuration [" + path + "]", configurationText,true);
+		textDialog.setEditable(false);
 		textDialog.setModal(true);
-		textDialog.setVisible(true);
 		textDialog.setLocationRelativeTo(null);
-		
-		String configurationText = textDialog.getText();
-		System.out.println(configurationText);
-		
-		
+		textDialog.setVisible(true);
+		configurationText = textDialog.getText();
+
+		//Configure
+		configure(lines);
 	}
+
+	private void configure(Vector<String> lines) {
+		String fileEntries = null;
+		boolean toLowerCase = false; //falta
+		Vector<Pair<String,String>> preProcessRules = new Vector<Pair<String,String>>();
+		String configurationExactDictionary = null;
+		boolean doRuleBasedDictionary = false;
+		Vector<RegExMatcher> ruleBasedRules = new Vector<RegExMatcher>();
+		String configurationApproximatedDictionary = null;
+		String configurationSyntaxChecker = null;
+		Vector<Vector<String>> synonyms = new Vector<Vector<String>>();
+		Vector<Pair<Vector<String>,String>> rulesSyntaxChecker = new Vector<Pair<Vector<String>,String>>();
+
+		for (String line : lines){
+
+			String option = line.split("=")[0].trim();
+			String rightMember = line.split("=")[1].trim();
+
+			switch (option){
+			case "FILE-ENTRIES":
+				fileEntries = rightMember;
+				break;
+			case "TO-LOWERCASE":
+				if (rightMember.toLowerCase().equals("true")){
+					toLowerCase=true;
+				}
+				break;
+			case "PREPROCESS-RULE":
+				String search = null;
+				String replace = null;
+
+				search = rightMember.split("-s")[1].split("-r")[0].trim();
+				search = search.substring(1, search.length()-1);
+				replace = rightMember.split("-r")[1].trim();
+				replace = replace.substring(1, replace.length()-1);
+
+				if (search != null && replace != null){
+					preProcessRules.add(new Pair<String,String>(search,replace));
+				}
+
+				break;
+			case "EXACT-DICTIONARY":
+				configurationExactDictionary = rightMember;
+				break;
+			case "RULE-BASED-DICTIONARY":
+				if (rightMember.toLowerCase().equals("true")){
+					doRuleBasedDictionary = true;
+				}
+				break;
+			case "RULE-BASED-DICTIONARY-RULE":
+				String search1 = null;
+				String means1 = null;
+
+				search1 = rightMember.split("-s")[1].split("-m")[0].trim();
+				search1 = search1.substring(1, search1.length()-1);
+				means1 = rightMember.split("-m")[1].trim();
+				means1 = means1.substring(1, means1.length()-1);
+				
+				if (search1 != null && means1 != null){
+					ruleBasedRules.add(new RegExMatcher(search1, means1));
+				}
+
+				break;
+			case "APPROXIMATED-DICTIONARY":
+				configurationApproximatedDictionary = rightMember;
+				break;
+			case "SYNTAX-CHECKER":
+				configurationSyntaxChecker = rightMember;
+				break;
+			case "SYNONYMS":
+				Vector<String> arguments2 = Segmenter.getSegmentation(rightMember);
+				Vector<String> cleanList = new Vector<String>();
+				for (String arg : arguments2){
+					cleanList.add(arg.substring(1, arg.length()-1));
+				}
+				synonyms.add(cleanList);				
+				break;
+			case "SYNTAX-CHECKER-RULE":
+				//-s "Calle" "esquina" "Calle" -m "Interseccion"	
+				Vector<String> searches = new Vector<String>();
+				Vector<String> cleanSearches = new Vector<String>();
+				
+				String means3 = "";
+				
+				String toSearch = rightMember.split("-s")[1].split("-m")[0].trim();
+				searches = Segmenter.getSegmentation(toSearch);
+				for (String s : searches){
+					cleanSearches.add(s.substring(1, s.length()-1));
+				}
+					
+				means3 = rightMember.split("-m")[1].trim();
+				means3 = means3.substring(1, means3.length()-1);
+				
+				rulesSyntaxChecker.addAll(SyntaxChecker.createRules(cleanSearches.toArray(new String[]{}), means3, synonyms));
+
+				break;
+			default :
+				System.out.println("ERROR BITCH" + option);
+			}
+
+		}
+
+		//Se crea todo aca
+		if (fileEntries != null){
+
+			//NER
+			Vector<DictionaryEntry> entradas = new Vector<DictionaryEntry>();
+			entradas.addAll(filesEntries(fileEntries));
+
+			//Creación del PreProcess
+			PreProcessConfigurator preProcessConfigurator = new PreProcessConfigurator(PreProcess.class.getName(), preProcessRules);
+			PreProcess preProcess = (PreProcess) preProcessConfigurator.configure("");
+
+
+			//Creación de Diccionarios
+			//Diccionarios Exactos
+			ExactDictionaryConfigurator eDC = new ExactDictionaryConfigurator(ExactDictionary.class.getName(),entradas);
+			ExactDictionary dic1 = (ExactDictionary) eDC.configure(configurationExactDictionary);
+
+			//Diccionarios basados en reglas
+			RuleBasedConfigurator rBC = new RuleBasedConfigurator(RuleBasedDictionary.class.getName(), entradas, ruleBasedRules);
+			RuleBasedDictionary dic2 = (RuleBasedDictionary) rBC.configure("");
+
+			//Diccionarios Aproximados
+			ApproximatedDictionaryConfigurator aDC = new ApproximatedDictionaryConfigurator(ApproximatedDictionaryConfigurator.class.getName(), entradas);
+			ApproximatedDictionary dic3 = (ApproximatedDictionary) aDC.configure(configurationApproximatedDictionary);
+
+			//Creación del SyntaxChecker
+			SyntaxCheckerConfigurator syntaxCheckerConfigurator = new SyntaxCheckerConfigurator(SyntaxChecker.class.getName(), null);
+			SyntaxChecker syntaxChecker = (SyntaxChecker) syntaxCheckerConfigurator.configure(configurationSyntaxChecker);
+			syntaxChecker.addRules(rulesSyntaxChecker);
+
+
+			//Creación del NER
+			ner = new NER(true);
+			ner.addDictionary(dic1);
+			ner.addDictionary(dic2);
+			ner.addDictionary(dic3);
+			ner.setSyntaxChecker(syntaxChecker);
+			ner.setPreProcess(preProcess);
+			ner.setDoPreProcess(!preProcessRules.isEmpty());
+			ner.setToLowerCase(toLowerCase);
+
+		}
+
+
+	}
+
+
 
 	private void treeToText() {
 		if (tweets != null && tweets.size() > 0 ){
 			String text = treeToText((TweetDefaultMutableTreeNode) tree.getModel().getRoot(),0);
-			TextDialog textDialog = new TextDialog("Tree to Text",text);
+			TextDialog textDialog = new TextDialog("Tree to Text",text,false);
 			textDialog.setVisible(true);
 			textDialog.setLocationRelativeTo(null);
 		}
@@ -317,6 +531,11 @@ public class MainWindow {
 	private void clearTree() {
 		tree.setModel(new DefaultTreeModel(
 				new TweetDefaultMutableTreeNode("Open a file to process it") {
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;
+
 					{
 
 					}
@@ -424,6 +643,9 @@ public class MainWindow {
 			btnProcess.setText("Stop");
 	}
 
+
+	//---------------------------------------------------------------------------------------------------
+
 	// Cosas Copiadas del Main
 	private static NER createNER(Vector<DictionaryEntry> entries){
 
@@ -479,10 +701,10 @@ public class MainWindow {
 		return entradas;
 	}
 
-	private static Vector<DictionaryEntry> filesEntries(){
+	private static Vector<DictionaryEntry> filesEntries(String path){
 		//Entradas levantadas desde archivo
 		Set<DictionaryEntry> entries = new HashSet<DictionaryEntry>();
-		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/callesTandil.txt"));
+		/*entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/callesTandil.txt"));
 		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/colores.txt"));
 		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/marcasDeAutos.txt"));
 		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/modelosDeAutos.txt"));
@@ -493,8 +715,10 @@ public class MainWindow {
 		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/tipo_persona.txt"));
 		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/evento_demora.txt"));
 		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/evento_accidente.txt"));
-		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/calles_BA.txt"));
+		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/calles_BA.txt"));*/
 
+
+		entries.addAll(DictionaryIO.loadPlainTextWithCategories(path));
 		return new Vector<DictionaryEntry>(entries);
 	}
 

@@ -38,7 +38,7 @@ public class RuleBasedConfigurator extends AbsDictionaryConfigurator {
 
 	@Override
 	protected Object configureObject() {
-		return new RuleBasedDictionary();
+		return new RuleBasedDictionary(this.matchers);
 	}
 
 	@Override

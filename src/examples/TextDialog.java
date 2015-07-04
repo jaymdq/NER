@@ -27,7 +27,7 @@ public class TextDialog extends JDialog {
 	private JTextPane textPane;
 	private JPanel noWrapPanel;
 
-	public TextDialog(String title, String text) {
+	public TextDialog(String title, String text, boolean b) {
 		setTitle(title);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setAlwaysOnTop(true);
@@ -56,6 +56,7 @@ public class TextDialog extends JDialog {
 		{
 			textPane = new JTextPane();
 			textPane.setContentType("text/html");
+			textPane.setFont(new Font("Consolas", Font.PLAIN, 12));
 			//textPane.setEditable(false);
 			noWrapPanel = new JPanel( new BorderLayout() );
 			noWrapPanel.add( textPane );
@@ -67,6 +68,7 @@ public class TextDialog extends JDialog {
 			contentPanel.add(scrollPane, BorderLayout.CENTER);
 		}
 		
+		setPlainText(b);
 		textPane.setText(text);
 	}
 
@@ -76,6 +78,17 @@ public class TextDialog extends JDialog {
 
 	public String getText() {
 		return textPane.getText();
+	}
+
+	public void setPlainText(boolean b) {
+		if (b)
+			textPane.setContentType("plain/text");
+		else
+			textPane.setContentType("text/html");
+	}
+
+	public void setEditable(boolean b) {
+		textPane.setEditable(b);
 	}
 	
 }
