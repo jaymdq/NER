@@ -1,12 +1,11 @@
-package trainer.stream;
+package stream;
 
 import java.util.Vector;
 
-import trainer.util.LBCounter;
-
 public abstract class StreamWorkerAbs extends Thread {
 	protected Vector<Object> statusList;
-	protected LBCounter counter = null;
+	protected Vector<StreamObserver> observerList = new Vector<StreamObserver>();
+	//protected LBCounter counter = null;
 	
 	public int getTotalTweets(){
 		return this.statusList.size();
@@ -14,10 +13,12 @@ public abstract class StreamWorkerAbs extends Thread {
 	
 	public void notify(Object text) {
 		this.statusList.addElement(text);
-		if(this.counter != null) this.updateCounter();
+		if(this.observerList.size() > 0) this.updateObservers();
 	}
 	
 	public abstract String getNextTweet();
+	
+	public abstract Object getNextObject();
 	
 	public Vector<String> getForSave(){
 		Vector<String> out = new Vector<String>();
@@ -27,12 +28,13 @@ public abstract class StreamWorkerAbs extends Thread {
 		return out;
 	}
 	
-	public void setCounter(LBCounter counter){
-		this.counter = counter;
+	public void addObserver(StreamObserver o){
+		this.observerList.addElement(o);
 	}
 	
-	protected void updateCounter(){
-		this.counter.updateCounter(this.getTotalTweets());
+	protected void updateObservers(){
+		for(StreamObserver o: this.observerList)
+			o.update(this);
 	}
 
 	public void run(){

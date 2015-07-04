@@ -6,8 +6,11 @@ import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 
+import stream.StreamObserver;
+import stream.StreamWorkerAbs;
+
 @SuppressWarnings("serial")
-public class LBCounter extends Label {
+public class LBCounter extends Label implements StreamObserver{
 	private String baseText;
 	private Vector<JComponent> components = new Vector<JComponent>();
 	private boolean componentStatus = false;
@@ -17,6 +20,10 @@ public class LBCounter extends Label {
 		this.baseText = baseText;
 	}
 	
+	@Override
+	public void update(StreamWorkerAbs parent) {
+		this.updateCounter(parent.getTotalTweets());
+	}	
 	
 	public void updateCounter(int quantity){
 		this.setText(this.baseText+quantity);

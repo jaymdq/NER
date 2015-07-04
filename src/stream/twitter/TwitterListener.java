@@ -1,4 +1,4 @@
-package trainer.stream.twitter;
+package stream.twitter;
 
 import trainer.util.StatusExt;
 import twitter4j.StallWarning;

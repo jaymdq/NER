@@ -22,12 +22,12 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 
-import trainer.stream.StreamWorkerAbs;
-import trainer.stream.plaintext.PlainTextFormatAbs;
-import trainer.stream.plaintext.PlainTextFormatSimple;
-import trainer.stream.plaintext.PlainTextFormatTwitter;
-import trainer.stream.plaintext.StreamPlainTextWorker;
-import trainer.stream.twitter.StreamTwitterWorker;
+import stream.StreamWorkerAbs;
+import stream.plaintext.PlainTextFormatAbs;
+import stream.plaintext.PlainTextFormatSimple;
+import stream.plaintext.PlainTextFormatTwitter;
+import stream.plaintext.StreamPlainTextWorker;
+import stream.twitter.StreamTwitterWorker;
 import trainer.util.CBEntryBox;
 import trainer.util.TFPlaceHolder;
 import trainer.util.TTokensModel;
@@ -40,6 +40,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
 
 import trainer.util.LBCounter;
+import twitter4j.conf.ConfigurationBuilder;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -665,13 +666,13 @@ public class TrainerUI {
 							break;
 					}
 					this.streamWorker = new StreamPlainTextWorker(this.selectedFilePath[0], format);
-					this.streamWorker.setCounter(this.lblCounter);
+					this.streamWorker.addObserver(this.lblCounter);
 					this.streamWorker.start();
 				}
 				break;
 			case 1:
 				this.streamWorker = new StreamTwitterWorker(this.tfTagsStreaming.getText(), this.cbTwitterFormat.getSelectedIndex());
-				this.streamWorker.setCounter(this.lblCounter);
+				this.streamWorker.addObserver(this.lblCounter);
 				this.streamWorker.start();
 				break;
 		}

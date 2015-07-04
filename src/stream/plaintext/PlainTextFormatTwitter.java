@@ -1,4 +1,4 @@
-package trainer.stream.plaintext;
+package stream.plaintext;
 
 import twitter4j.Status;
 import twitter4j.TwitterException;
@@ -19,4 +19,14 @@ public class PlainTextFormatTwitter extends PlainTextFormatAbs {
 		return "";
 	}
 
+	@Override
+	public Object getObject(Object text) {
+		Status status = null;
+		try {
+			status = TwitterObjectFactory.createStatus((String)text);
+		} catch (TwitterException e) {
+			e.printStackTrace();
+		}
+		return status;
+	}
 }

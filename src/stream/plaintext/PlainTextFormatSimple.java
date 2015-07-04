@@ -1,4 +1,4 @@
-package trainer.stream.plaintext;
+package stream.plaintext;
 
 public class PlainTextFormatSimple extends PlainTextFormatAbs {
 

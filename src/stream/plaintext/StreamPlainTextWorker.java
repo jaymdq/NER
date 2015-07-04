@@ -1,4 +1,4 @@
-package trainer.stream.plaintext;
+package stream.plaintext;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -6,7 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Vector;
 
-import trainer.stream.StreamWorkerAbs;
+import stream.StreamWorkerAbs;
+import trainer.util.StatusExt;
 
 public class StreamPlainTextWorker extends StreamWorkerAbs {
 	
@@ -26,8 +27,19 @@ public class StreamPlainTextWorker extends StreamWorkerAbs {
 		String out = null;
 		if(this.getTotalTweets() > 0){
 			Object tmp = this.statusList.remove(0);
-			if(this.counter != null) this.updateCounter();
+			if(this.observerList.size() > 0) this.updateObservers();
 			out = this.format.getText(tmp);
+		}
+		return out;
+	}
+	
+	@Override
+	public Object getNextObject(){
+		Object out = null;
+		if(this.getTotalTweets() > 0){
+			Object tmp = this.statusList.remove(0);
+			if(this.observerList.size() > 0) this.updateObservers();
+			out = this.format.getObject(tmp);
 		}
 		return out;
 	}
