@@ -1,0 +1,73 @@
+# Archivo de Configuración.
+# Esto es un comentario.
+
+# NER
+
+# FILE-ENTRIES 
+# Archivo txt en donde se encuentre el diccionario entero. 
+# Si se especifican varios archivos se levantaran todos los diccionarios.
+# Esta opción es obligatoria.
+
+FILE-ENTRIES=./dics/fulldictionary.txt
+
+# TO-LOWERCASE
+# Se utilizan los textos en minuscula
+
+TO-LOWERCASE=true
+
+# PreProcess
+# Opcional
+# Si no se comenta entonces se hará el preprocesamiento.
+# -s => Search
+# -r => Replace
+
+PREPROCESS-RULE= -s "(\\D)([\\.,])(\\D)?" -r "$1 $2 $3"
+PREPROCESS-RULE= -s " {2,}" -r " "
+
+# DICTIONARIES
+
+# EXACT-DICTIONARY
+# Opcional
+# -c => CaseSensitive = true.
+# -a => AllMatches = true
+
+EXACT-DICTIONARY= -a
+
+# RULE-BASED-DICTIONARY
+# Opcional
+# Si no se comenta entonces se incluirá este diccionario.
+# -s => Search
+# -m => Means
+
+RULE-BASED-DICTIONARY=true
+
+RULE-BASED-DICTIONARY-RULE= -s "[0-9]+" -m "numero"
+RULE-BASED-DICTIONARY-RULE= -s "\\sy+" -m "y"
+
+# APPROXIMATED-DICTIONARY
+# Opcional
+# Si no se comenta entonces se incluirá este diccionario.
+# -l => LowerLimit = double
+# -n => N_Grams = int
+# -t => Threshold = int
+
+APPROXIMATED-DICTIONARY= -l 0.6 -n 2 -t 1
+
+# SYNTAX-CHECKER
+# Opcional
+# -l => KeepLargerChunks = true
+# -c => CharsBetween = int // By default 3
+
+SYNTAX-CHECKER= -l
+
+SYNONYMS= "Calle" "Ruta" "Avenida" "Autopista"
+
+# -s => Search
+# -m => Means
+
+SYNTAX-CHECKER-RULE= -s "Calle" "esquina" "Calle" -m "Interseccion"
+
+#=====================================================================
+
+# EVENT-DETECTION
+# TODO
