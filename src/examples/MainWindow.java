@@ -328,7 +328,6 @@ public class MainWindow {
 			}
 		}
 		catch(Exception e){
-			Logger.getLogger(DictionaryIO.class).error("IO Error While Loading");
 			e.printStackTrace();
 		}finally{
 			try{                   
@@ -336,7 +335,6 @@ public class MainWindow {
 					fr.close();    
 				}                 
 			}catch (Exception e2){
-				Logger.getLogger(DictionaryIO.class).error("IO Error While Closing File");
 				e2.printStackTrace();
 			}
 		}
@@ -350,15 +348,14 @@ public class MainWindow {
 		configurationText = textDialog.getText();
 
 		//Configure
-		configure(lines);
+		parseAndConfigure(lines);
 	}
 
-	private void configure(Vector<String> lines) {
+	private void parseAndConfigure(Vector<String> lines) {
 		String fileEntries = null;
 		boolean toLowerCase = false; //falta
 		Vector<Pair<String,String>> preProcessRules = new Vector<Pair<String,String>>();
 		String configurationExactDictionary = null;
-		boolean doRuleBasedDictionary = false;
 		Vector<RegExMatcher> ruleBasedRules = new Vector<RegExMatcher>();
 		String configurationApproximatedDictionary = null;
 		String configurationSyntaxChecker = null;
@@ -396,11 +393,6 @@ public class MainWindow {
 			case "EXACT-DICTIONARY":
 				configurationExactDictionary = rightMember;
 				break;
-			case "RULE-BASED-DICTIONARY":
-				if (rightMember.toLowerCase().equals("true")){
-					doRuleBasedDictionary = true;
-				}
-				break;
 			case "RULE-BASED-DICTIONARY-RULE":
 				String search1 = null;
 				String means1 = null;
@@ -409,7 +401,7 @@ public class MainWindow {
 				search1 = search1.substring(1, search1.length()-1);
 				means1 = rightMember.split("-m")[1].trim();
 				means1 = means1.substring(1, means1.length()-1);
-				
+
 				if (search1 != null && means1 != null){
 					ruleBasedRules.add(new RegExMatcher(search1, means1));
 				}
@@ -433,18 +425,18 @@ public class MainWindow {
 				//-s "Calle" "esquina" "Calle" -m "Interseccion"	
 				Vector<String> searches = new Vector<String>();
 				Vector<String> cleanSearches = new Vector<String>();
-				
+
 				String means3 = "";
-				
+
 				String toSearch = rightMember.split("-s")[1].split("-m")[0].trim();
 				searches = Segmenter.getSegmentation(toSearch);
 				for (String s : searches){
 					cleanSearches.add(s.substring(1, s.length()-1));
 				}
-					
+
 				means3 = rightMember.split("-m")[1].trim();
 				means3 = means3.substring(1, means3.length()-1);
-				
+
 				rulesSyntaxChecker.addAll(SyntaxChecker.createRules(cleanSearches.toArray(new String[]{}), means3, synonyms));
 
 				break;
@@ -454,50 +446,62 @@ public class MainWindow {
 
 		}
 
+		//Lista de clases a usar
+		//Creación del NER
+		ner = new NER(true);
+		ner.setToLowerCase(toLowerCase);
+		Vector<DictionaryEntry> entradas = new Vector<DictionaryEntry>();
+		PreProcess preProcess = null;
+		ExactDictionary dic1 = null;
+		RuleBasedDictionary dic2 = null;
+		ApproximatedDictionary dic3 = null;
+		SyntaxChecker syntaxChecker = null;
+
 		//Se crea todo aca
 		if (fileEntries != null){
 
-			//NER
-			Vector<DictionaryEntry> entradas = new Vector<DictionaryEntry>();
+			//Entradas		
 			entradas.addAll(filesEntries(fileEntries));
 
 			//Creación del PreProcess
-			PreProcessConfigurator preProcessConfigurator = new PreProcessConfigurator(PreProcess.class.getName(), preProcessRules);
-			PreProcess preProcess = (PreProcess) preProcessConfigurator.configure("");
-
+			if (preProcessRules != null){
+				PreProcessConfigurator preProcessConfigurator = new PreProcessConfigurator(PreProcess.class.getName(), preProcessRules);
+				preProcess = (PreProcess) preProcessConfigurator.configure("");
+				ner.setPreProcess(preProcess);
+				ner.setDoPreProcess(!preProcessRules.isEmpty());
+			}
 
 			//Creación de Diccionarios
 			//Diccionarios Exactos
-			ExactDictionaryConfigurator eDC = new ExactDictionaryConfigurator(ExactDictionary.class.getName(),entradas);
-			ExactDictionary dic1 = (ExactDictionary) eDC.configure(configurationExactDictionary);
+			if (configurationExactDictionary != null){
+				ExactDictionaryConfigurator eDC = new ExactDictionaryConfigurator(ExactDictionary.class.getName(),entradas);
+				dic1 = (ExactDictionary) eDC.configure(configurationExactDictionary);
+				ner.addDictionary(dic1);
+			}
 
 			//Diccionarios basados en reglas
-			RuleBasedConfigurator rBC = new RuleBasedConfigurator(RuleBasedDictionary.class.getName(), entradas, ruleBasedRules);
-			RuleBasedDictionary dic2 = (RuleBasedDictionary) rBC.configure("");
+			if (!ruleBasedRules.isEmpty() ){
+				RuleBasedConfigurator rBC = new RuleBasedConfigurator(RuleBasedDictionary.class.getName(), entradas, ruleBasedRules);
+				dic2 = (RuleBasedDictionary) rBC.configure("");
+				ner.addDictionary(dic2);
+			}
 
 			//Diccionarios Aproximados
-			ApproximatedDictionaryConfigurator aDC = new ApproximatedDictionaryConfigurator(ApproximatedDictionaryConfigurator.class.getName(), entradas);
-			ApproximatedDictionary dic3 = (ApproximatedDictionary) aDC.configure(configurationApproximatedDictionary);
+			if (configurationApproximatedDictionary != null){
+				ApproximatedDictionaryConfigurator aDC = new ApproximatedDictionaryConfigurator(ApproximatedDictionaryConfigurator.class.getName(), entradas);
+				dic3 = (ApproximatedDictionary) aDC.configure(configurationApproximatedDictionary);
+				ner.addDictionary(dic3);
+			}
 
 			//Creación del SyntaxChecker
-			SyntaxCheckerConfigurator syntaxCheckerConfigurator = new SyntaxCheckerConfigurator(SyntaxChecker.class.getName(), null);
-			SyntaxChecker syntaxChecker = (SyntaxChecker) syntaxCheckerConfigurator.configure(configurationSyntaxChecker);
-			syntaxChecker.addRules(rulesSyntaxChecker);
-
-
-			//Creación del NER
-			ner = new NER(true);
-			ner.addDictionary(dic1);
-			ner.addDictionary(dic2);
-			ner.addDictionary(dic3);
-			ner.setSyntaxChecker(syntaxChecker);
-			ner.setPreProcess(preProcess);
-			ner.setDoPreProcess(!preProcessRules.isEmpty());
-			ner.setToLowerCase(toLowerCase);
+			if (configurationSyntaxChecker != null && !rulesSyntaxChecker.isEmpty()){
+				SyntaxCheckerConfigurator syntaxCheckerConfigurator = new SyntaxCheckerConfigurator(SyntaxChecker.class.getName(), null);
+				syntaxChecker = (SyntaxChecker) syntaxCheckerConfigurator.configure(configurationSyntaxChecker);
+				syntaxChecker.addRules(rulesSyntaxChecker);
+				ner.setSyntaxChecker(syntaxChecker);
+			}
 
 		}
-
-
 	}
 
 
