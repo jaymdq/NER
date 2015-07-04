@@ -8,6 +8,8 @@ import configuration.ExactDictionaryConfigurator;
 import configuration.RuleBasedConfigurator;
 import preprocess.PreProcess;
 import dictionary.approximatedDictionaries.ApproximatedDictionary;
+import dictionary.chunk.Chunk;
+import dictionary.chunk.ChunkEvent;
 import dictionary.dictionaryentry.DictionaryEntry;
 import dictionary.exactDictionaries.ExactDictionary;
 import dictionary.io.DictionaryIO;
@@ -39,8 +41,14 @@ public class Main {
 		tweets.add("Herido herido hitaso");
 		
 		//Experimental
-		Twevent tw = new Twevent(ner,tweets);
-		tw.detectEvents(true, true);
+		//Twevent tw = new Twevent(ner,tweets);
+		//Vector<ChunkEvent> tmp = tw.detectEvents(true, true);
+		Vector< Pair< String, Vector<Chunk> > > toAnalyze = new Vector< Pair< String, Vector<Chunk> > >();
+		for(String tweet: tweets)
+			toAnalyze.add( new Pair< String, Vector<Chunk> >(tweet, ner.recognize(tweet)) );
+		
+		Twevent tw = new Twevent(toAnalyze);
+		Vector<ChunkEvent> tmp = tw.detectEvents(true, true);
 		
 	}
 

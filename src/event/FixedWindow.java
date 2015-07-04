@@ -50,11 +50,11 @@ public class FixedWindow {
 
 	// Methods
 
-	public void addTweet(String text, Vector<Chunk> chunks){
+	public void addTweet(Pair<String, Vector<Chunk>> tweet){
 		if (this.tweets.size() == fixedSize){
 			this.tweets.remove(0);
 		}
-		this.tweets.add(new Pair<String, Vector<Chunk>>( text, chunks));
+		this.tweets.add(tweet);
 
 
 		this.probBursty.clear();
