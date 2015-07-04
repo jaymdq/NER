@@ -45,11 +45,11 @@ import ner.NER;
 import preprocess.PreProcess;
 import segmentation.Segmenter;
 import syntax.SyntaxChecker;
-import trainer.stream.StreamWorkerAbs;
-import trainer.stream.plaintext.PlainTextFormatAbs;
-import trainer.stream.plaintext.PlainTextFormatSimple;
-import trainer.stream.plaintext.PlainTextFormatTwitter;
-import trainer.stream.plaintext.StreamPlainTextWorker;
+import stream.StreamWorkerAbs;
+import stream.plaintext.PlainTextFormatAbs;
+import stream.plaintext.PlainTextFormatSimple;
+import stream.plaintext.PlainTextFormatTwitter;
+import stream.plaintext.StreamPlainTextWorker;
 import twitter4j.Logger;
 import utils.Pair;
 import dictionary.approximatedDictionaries.ApproximatedDictionary;
@@ -86,12 +86,13 @@ public class MainWindow {
 	private JTree tree;
 	private Vector<String> tweets = new Vector<String>();
 	private NER ner;
-
+	private boolean analyzingTweets;
+	private TweetClassifier tweetClassifier;
 	private AnalyzerWorker analyzer;
 	private JToggleButton btnProcess;
 
 	private JMenuItem mntmTreeToText;
-	private JTextField textField;
+	private JTextField classifierArgumentsTxt;
 
 	/**
 	 * Launch the application.
@@ -245,6 +246,7 @@ public class MainWindow {
 
 		btnProcess = new JToggleButton("Process");
 		btnProcess.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnProcess.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnProcess.setEnabled(false);
 		btnProcess.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -259,7 +261,8 @@ public class MainWindow {
 		configPanel.setBorder(new CompoundBorder(new EmptyBorder(0, 0, 5, 0), new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Configuration", TitledBorder.CENTER, TitledBorder.TOP, null, null)));
 		westPane.add(configPanel);
 
-		JButton btnConfiguration = new JButton("Open Configuration File");
+		JButton btnConfiguration = new JButton("Load Configuration File");
+		btnConfiguration.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnConfiguration.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				configuration();
@@ -267,31 +270,106 @@ public class MainWindow {
 		});
 		configPanel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.UNRELATED_GAP_COLSPEC,
-				ColumnSpec.decode("145px:grow"),
+				ColumnSpec.decode("default:grow"),
 				FormFactory.UNRELATED_GAP_COLSPEC,},
 				new RowSpec[] {
 				RowSpec.decode("7px"),
-				RowSpec.decode("23px"),
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		configPanel.add(btnConfiguration, "2, 2, fill, top");
 
-		JLabel lblClassification = new JLabel("Classification");
+		JLabel lblClassification = new JLabel("Classification - Weka Line ");
 		lblClassification.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		configPanel.add(lblClassification, "2, 4");
 
-		textField = new JTextField();
-		textField.setMargin(new Insets(3,3,3,3));
-		textField.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		configPanel.add(textField, "2, 6, fill, default");
-		textField.setColumns(10);
+		classifierArgumentsTxt = new JTextField();
+		classifierArgumentsTxt.setMargin(new Insets(3,3,3,3));
+		classifierArgumentsTxt.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		configPanel.add(classifierArgumentsTxt, "2, 6, fill, default");
+		classifierArgumentsTxt.setColumns(10);
+
+		JButton btnTrainClassifier = new JButton("Train Classifier");
+		btnTrainClassifier.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				trainClassifier();
+			}
+		});
+		btnTrainClassifier.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		configPanel.add(btnTrainClassifier, "2, 8");
+
+		JButton btnClassify = new JButton("Classify");
+		btnClassify.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				classify();
+			}
+		});
+		btnClassify.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		configPanel.add(btnClassify, "2, 10");
 		westPane.add(btnProcess);
 
 	}
 
 	//--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+	protected void trainClassifier() {
+		//Get Arguments
+		String arguments = classifierArgumentsTxt.getText();
+
+		//Open FileChoose
+		JFileChooser chooser = new JFileChooser("./");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("ARFF file (*.arff)", "arff");
+		chooser.setFileFilter(filter);
+		int returnVal = chooser.showOpenDialog(frame);
+		String path="";
+		if(returnVal == JFileChooser.APPROVE_OPTION) {
+			path = chooser.getSelectedFile().getPath();
+		}
+		if (path.isEmpty())
+			return;
+
+		tweetClassifier = new TweetClassifier(arguments);
+		tweetClassifier.trainClassifier(path);
+
+	}
+
+	protected void classify() {
+		//Open FileChoose
+		JFileChooser chooser = new JFileChooser("./");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("ARFF file (*.arff)", "arff");
+		chooser.setFileFilter(filter);
+		int returnVal = chooser.showOpenDialog(frame);
+		String path="";
+		if(returnVal == JFileChooser.APPROVE_OPTION) {
+			path = chooser.getSelectedFile().getPath();
+		}
+		if (path.isEmpty())
+			return;
+
+		String results = tweetClassifier.classify(path);
+		
+		TextDialog textDialog = new TextDialog("Classification [" + path + "]", results,true);
+		textDialog.setEditable(false);
+		textDialog.setModal(true);
+		textDialog.setLocationRelativeTo(null);
+		textDialog.setVisible(true);
+		
+		
+	}
 
 	private void configuration() {
 		//Open FileChoose
@@ -577,13 +655,14 @@ public class MainWindow {
 		switch(option){
 		case 0:
 			format = new PlainTextFormatSimple();
+			analyzingTweets = false;
 			break;
 		case 1:
 			format = new PlainTextFormatTwitter();
+			analyzingTweets = true;
 			break;
 		}
 		this.streamWorker = new StreamPlainTextWorker(this.selectedFilePath[0], format);
-		//this.streamWorker.setCounter(this.lblCounter);
 		this.streamWorker.start();
 
 		//TODO dormirlo para que el streamworker llegue a estar disponible para levantar tweets
