@@ -436,9 +436,10 @@ public class MainWindow {
 
 				means3 = rightMember.split("-m")[1].trim();
 				means3 = means3.substring(1, means3.length()-1);
-
-				rulesSyntaxChecker.addAll(SyntaxChecker.createRules(cleanSearches.toArray(new String[]{}), means3, synonyms));
-
+				if (!synonyms.isEmpty())
+					rulesSyntaxChecker.addAll(SyntaxChecker.createRules(cleanSearches.toArray(new String[]{}), means3, synonyms));
+				else
+					rulesSyntaxChecker.add(SyntaxChecker.createRule(cleanSearches.toArray(new String[]{}), means3));
 				break;
 			default :
 				System.out.println("ERROR BITCH" + option);
@@ -651,77 +652,10 @@ public class MainWindow {
 	//---------------------------------------------------------------------------------------------------
 
 	// Cosas Copiadas del Main
-	private static NER createNER(Vector<DictionaryEntry> entries){
-
-		//Creación del PreProcess
-		PreProcess preProcess = new PreProcess();
-		preProcess.addRule(new Pair<String, String>("(\\D)([\\.,])(\\D)?","$1 $2 $3"));
-		preProcess.addRule(new Pair<String, String>(" {2,}"," "));
-
-
-		//Creación de Diccionarios
-		//Diccionarios Exactos
-		ExactDictionary dic1 = new ExactDictionary(entries,false,true);
-
-		//Diccionarios basados en reglas
-		RuleBasedDictionary dic2 = new RuleBasedDictionary();
-		dic2.addMatcher(new RegExMatcher("[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})","Mail"));
-		dic2.addMatcher(new RegExMatcher("[0-9]+","numero"));
-		dic2.addMatcher(new RegExMatcher("\\sy+","y"));
-		dic2.addMatcher(new RegExMatcher("al","al"));
-		dic2.addMatcher(new RegExMatcher("la","la"));
-		dic2.addMatcher(new RegExMatcher("esquina","esquina"));
-		dic2.addMatcher(new RegExMatcher("entre","entre"));
-		dic2.addMatcher(new RegExMatcher("casi","casi"));
-		dic2.addMatcher(new RegExMatcher("de","de"));		
-
-		//Diccionarios Aproximados
-		ApproximatedDictionary dic3 = new ApproximatedDictionary(entries, 0.6, 2, 1,false);
-
-		//Creación del SyntaxChecker
-		SyntaxChecker syntaxChecker = createSyntaxChecker();		
-
-		//Creación del NER
-		NER ner = new NER(true);
-		ner.addDictionary(dic1);
-		ner.addDictionary(dic2);
-		ner.addDictionary(dic3);
-		ner.setSyntaxChecker(syntaxChecker);
-		ner.setPreProcess(preProcess);
-		ner.setDoPreProcess(true);
-		ner.setToLowerCase(true);
-
-		return ner;
-	}
-
-	private static Vector<DictionaryEntry> userEntries(){
-		//Entradas agregadas por el usuario		
-		Vector<DictionaryEntry> entradas = new Vector<DictionaryEntry>();
-		entradas.add(new DictionaryEntry("Maxi Duthey",new String[]{"Persona"}));
-		entradas.add(new DictionaryEntry("Brian Caimmi",new String[]{"Persona"}));
-		entradas.add(new DictionaryEntry("Tandil",new String[]{"Localidad"}));
-		entradas.add(new DictionaryEntry("Jujuy",new String[]{"Localidad"}));
-
-		return entradas;
-	}
 
 	private static Vector<DictionaryEntry> filesEntries(String path){
 		//Entradas levantadas desde archivo
 		Set<DictionaryEntry> entries = new HashSet<DictionaryEntry>();
-		/*entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/callesTandil.txt"));
-		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/colores.txt"));
-		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/marcasDeAutos.txt"));
-		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/modelosDeAutos.txt"));
-		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/rutas.txt"));
-		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/marcasDeMotos.txt"));
-		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/corpusDeVehiculos.txt"));
-		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/tipo_calle.txt"));
-		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/tipo_persona.txt"));
-		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/evento_demora.txt"));
-		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/evento_accidente.txt"));
-		entries.addAll(DictionaryIO.loadPlainTextWithCategories("dics/calles_BA.txt"));*/
-
-
 		entries.addAll(DictionaryIO.loadPlainTextWithCategories(path));
 		return new Vector<DictionaryEntry>(entries);
 	}
@@ -741,7 +675,7 @@ public class MainWindow {
 		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "casi", "Calle"},"Direccion Indeterminada",synonyms));
 		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "numero"},"Direccion Determinada",synonyms));
 		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "al", "Numero"}, "Direccion Determinada",synonyms));
-		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "a", "la", "Numero"}, "Direccion Determinada",synonyms));
+		//rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "a", "la", "Numero"}, "Direccion Determinada",synonyms));
 		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "al", "Numero", "Entre", "Calle", "y", "Calle"},"Direccion Determinada",synonyms));
 		rules.addAll(SyntaxChecker.createRules(new String[]{"numero", "de", "Calle"},"Direccion Determinada",synonyms));
 
