@@ -65,6 +65,9 @@ import javax.swing.DefaultComboBoxModel;
 
 import dictionary.dictionaryentry.DictionaryEntry;
 import dictionary.io.DictionaryIO;
+import javax.swing.KeyStroke;
+import java.awt.event.KeyEvent;
+import java.awt.event.InputEvent;
 
 public class TrainerUI {
 
@@ -503,6 +506,7 @@ public class TrainerUI {
 		menuBar.add(mnfile);
 		
 		JMenuItem mntmnew = new JMenuItem("New");
+		mntmnew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
 		mntmnew.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				clearTrainer();
@@ -511,6 +515,7 @@ public class TrainerUI {
 		mnfile.add(mntmnew);
 		
 		JMenuItem mntmOpen = new JMenuItem("Open");
+		mntmOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
 		mntmOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				openDictionary();
@@ -522,6 +527,7 @@ public class TrainerUI {
 		mnfile.add(separator);
 		
 		JMenuItem mntmSave = new JMenuItem("Save");
+		mntmSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
 		mntmSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				saveDictionary();

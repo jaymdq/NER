@@ -1,5 +1,8 @@
 #CATEGORY Autopista
 
+AV. TENIENTE GENERAL LUIS J. DELLEPIANE
+TTE. GRAL. LUIS DELLEPIANE
+DELLEPIANE
 AU1 25 de Mayo
 AU2 Costanera
 AU3 Central
@@ -17,9 +20,6 @@ Camino Parque del Buen Ayre
 Acceso Norte
 Acceso Oeste
 Ezeiza-Cañuelas
-AV. TENIENTE GENERAL LUIS J. DELLEPIANE
-TTE. GRAL. LUIS DELLEPIANE
-DELLEPIANE
 
 #CATEGORY Modelo Fiat
 
@@ -364,7 +364,7 @@ Yaris
 
 #CATEGORY Modelo Ford
 
-Pinto
+PINTO
 Puma
 Ford A
 Ford Anglia
@@ -641,7 +641,9 @@ Passat NMS
 
 #CATEGORY Color
 
-Lima
+AZUL
+ESMERALDA
+LIMA
 rojo
 colorado
 carmesí
@@ -653,7 +655,6 @@ amaranto
 verde
 chartreuse
 verde Kelly
-esmeralda
 verde agua
 verdeagua
 agua marina
@@ -663,7 +664,6 @@ arlequín
 espárrago
 verde oliva
 verde cazador
-azul
 azul cobalto
 azul marino
 azul petróleo
@@ -731,115 +731,6 @@ negro
 
 #CATEGORY Avenida
 
-9 de Julio
-Almafuerte
-Almirante Brown
-Belgrano
-Callao
-Caseros
-Chile
-Colombia
-Corrientes
-Del Libertador
-Entre Rios
-Independencia
-Iraola
-Jujuy
-Lisandro de la Torre
-Mendoza
-Rosales
-San Juan
-Sarmiento
-Alvear
-Avellaneda
-Balbín
-Bolívar
-Brasil
-Buzón
-Colón
-España
-Espora
-Estrada
-Falucho
-Cabildo
-Campos, Luis M.
-Campos
-Del Valle
-Díaz Vélez
-Don Bosco
-Dorrego
-J.B. Justo
-Juan B. Justo
-L. de Osornio
-Osornio
-Lunghi
-M. D' Andrea
-Marconi
-Perón, Pte.Perón, Eva
-Perón
-Pujol
-Rivadavia
-S. Lamas
-Lamas
-San Gabriel
-Santamarina
-Av. Alvear
-Av. Avellaneda
-Av. Balbín
-Av. Bolívar
-Av. Brasil
-Av. Buzón
-Av. Colón
-Av. España
-Av. Espora
-Av. Estrada
-Av. Falucho
-Av. Cabildo
-Av. Campos, Luis M.
-Av. Del Valle
-Av. Díaz Vélez
-Av. Don Bosco
-Av. Dorrego
-Av. J.B. Justo
-Av. L. de Osornio
-Av. Lunghi
-Av. M. D' Andrea
-Av. Marconi
-Av. Perón, Pte.Av. Perón, Eva
-Av. Pujol
-Av. Rivadavia
-Av. S. Lamas
-Av. San Gabriel
-Av. Santamarina
-Avenida Alvear
-Avenida Avellaneda
-Avenida Balbín
-Avenida Bolívar
-Avenida Brasil
-Avenida Buzón
-Avenida Colón
-Avenida España
-Avenida Espora
-Avenida Estrada
-Avenida Falucho
-Avenida Cabildo
-Avenida Campos, Luis M.
-Avenida Del Valle
-Avenida Díaz Vélez
-Avenida Don Bosco
-Avenida Dorrego
-Avenida J.B. Justo
-Avenida L. de Osornio
-Avenida Lunghi
-Avenida M. D' Andrea
-Avenida Marconi
-Avenida Perón, Pte.Avenida Perón, Eva
-Avenida Pujol
-Avenida Rivadavia
-Avenida S. Lamas
-Avenida San Gabriel
-Avenida Santamarina
-Lincoln
 AV. CORONEL ROCA
 AV. GENERAL PAZ
 AV. 27 DE FEBRERO
@@ -852,6 +743,7 @@ AV. ALMAFUERTE
 AV. ALMIRANTE BROWN
 AV. ALVAREZ JONTE
 AV. ALVAREZ THOMAS
+AV. ALVEAR
 AV. AMANCIO ALCORTA
 AV. ANA MARIA JANER
 AV. ANGEL GALLARDO
@@ -861,13 +753,16 @@ AV. ARREGUI
 AV. ASAMBLEA
 AV. ASTURIAS
 AV. AUSTRALIA
+AV. AVELLANEDA
 AV. BACACAY
 AV. BELGRANO
 AV. BELISARIO ROLDAN
 AV. BENITO PEREZ GALDOS
 AV. BOEDO
 AV. BOYACA
+AV. BRASIL
 AV. BRUIX
+AV. CABILDO
 AV. CALABRIA
 AV. CALLAO
 AV. CANONIGO MIGUEL CALIXTO DEL CORRO
@@ -921,6 +816,7 @@ AV. DIAZ VELEZ
 AV. DIRECTORIO
 AV. DOCTOR RICARDO BALBIN
 AV. DON PEDRO DE MENDOZA
+AV. DORREGO
 AV. DR. HONORIO PUEYRREDON
 AV. DR. JOSE MARIA RAMOS MEJIA
 AV. EDUARDO MADERO
@@ -931,6 +827,7 @@ AV. ENTRE RIOS
 AV. EREZCANO
 AV. ERNESTO TORNQUIST
 AV. ESCALADA
+AV. ESPAÑA
 AV. ESTADO DE ISRAEL
 AV. EVA PERON
 AV. FEDERICO LACROZE
@@ -1018,6 +915,7 @@ AV. REGIMIENTO DE PATRICIOS
 AV. REMEDIOS
 AV. RESERVISTAS ARGENTINOS
 AV. RIESTRA
+AV. RIVADAVIA
 AV. ROENTGEN
 AV. ROSALES
 AV. RUIZ HUIDOBRO
@@ -1058,6 +956,7 @@ Avenida ALMAFUERTE
 Avenida ALMIRANTE BROWN
 Avenida ALVAREZ JONTE
 Avenida ALVAREZ THOMAS
+Avenida ALVEAR
 Avenida AMANCIO ALCORTA
 Avenida ANA MARIA JANER
 Avenida ANGEL GALLARDO
@@ -1067,13 +966,16 @@ Avenida ARREGUI
 Avenida ASAMBLEA
 Avenida ASTURIAS
 Avenida AUSTRALIA
+Avenida AVELLANEDA
 Avenida BACACAY
 Avenida BELGRANO
 Avenida BELISARIO ROLDAN
 Avenida BENITO PEREZ GALDOS
 Avenida BOEDO
 Avenida BOYACA
+Avenida BRASIL
 Avenida BRUIX
+Avenida CABILDO
 Avenida CALABRIA
 Avenida CALLAO
 Avenida CANONIGO MIGUEL CALIXTO DEL CORRO
@@ -1127,6 +1029,7 @@ Avenida DIAZ VELEZ
 Avenida DIRECTORIO
 Avenida DOCTOR RICARDO BALBIN
 Avenida DON PEDRO DE MENDOZA
+Avenida DORREGO
 Avenida DR. HONORIO PUEYRREDON
 Avenida DR. JOSE MARIA RAMOS MEJIA
 Avenida EDUARDO MADERO
@@ -1137,6 +1040,7 @@ Avenida ENTRE RIOS
 Avenida EREZCANO
 Avenida ERNESTO TORNQUIST
 Avenida ESCALADA
+Avenida ESPAÑA
 Avenida ESTADO DE ISRAEL
 Avenida EVA PERON
 Avenida FEDERICO LACROZE
@@ -1224,6 +1128,7 @@ Avenida REGIMIENTO DE PATRICIOS
 Avenida REMEDIOS
 Avenida RESERVISTAS ARGENTINOS
 Avenida RIESTRA
+Avenida RIVADAVIA
 Avenida ROENTGEN
 Avenida ROSALES
 Avenida RUIZ HUIDOBRO
@@ -1255,12 +1160,16 @@ Avenida WARNES
 CORONEL ROCA
 GENERAL PAZ
 27 DE FEBRERO
+9 DE JULIO
 ACOYTE
 ADOLFO BERRO
 ALBARELLOS
 ALICIA MOREAU DE JUSTO
+ALMAFUERTE
+ALMIRANTE BROWN
 ALVAREZ JONTE
 ALVAREZ THOMAS
+ALVEAR
 AMANCIO ALCORTA
 ANA MARIA JANER
 ANGEL GALLARDO
@@ -1270,28 +1179,36 @@ ARREGUI
 ASAMBLEA
 ASTURIAS
 AUSTRALIA
+AVELLANEDA
 BACACAY
+BELGRANO
 BELISARIO ROLDAN
 BENITO PEREZ GALDOS
 BOEDO
 BOYACA
+BRASIL
 BRUIX
+CABILDO
 CALABRIA
+CALLAO
 CANONIGO MIGUEL CALIXTO DEL CORRO
 CARABOBO
 CARLOS CALVO
 CARLOS J. FINLAY
 CASARES
+CASEROS
 CASTAÑARES
 CASTRO BARROS
 CERVIÑO
 CHICLANA
+CHILE
 CHIVILCOY
 CHORROARIN
 CNEL. JUAN AMADEO DE BALDRICH
 CNEL. MARCELINO E. FREYRE
 CNEL. RAMON L. FALCON
 COBO
+COLOMBIA
 COMBATIENTES DE MALVINAS
 COMODORO MARTIN RIVADAVIA
 COMODORO PY
@@ -1302,6 +1219,7 @@ CORONEL CARDENAS
 CORONEL DIAZ
 CORONEL ESTEBAN BONORINO
 CORONEL NICETO VEGA
+CORRIENTES
 COSTANERA DOCTOR TRISTAN ACHAVAL RODRIGUEZ
 COSTANERA INTENDENTE HERNAN M. GIRALT
 COSTANERA RAFAEL OBLIGADO
@@ -1318,20 +1236,24 @@ DE MAYO
 DEL BARCO CENTENERA
 DEL CAMPO
 DEL FOMENTISTA
+DEL LIBERTADOR
 DERQUI
 DIAZ VELEZ
 DIRECTORIO
 DOCTOR RICARDO BALBIN
 DON PEDRO DE MENDOZA
+DORREGO
 DR. HONORIO PUEYRREDON
 DR. JOSE MARIA RAMOS MEJIA
 EDUARDO MADERO
 ELCANO
 ELVIRA RAWSON DE DELLEPIANE
 EMILIO CASTRO
+ENTRE RIOS
 EREZCANO
 ERNESTO TORNQUIST
 ESCALADA
+ESPAÑA
 ESTADO DE ISRAEL
 EVA PERON
 FEDERICO LACROZE
@@ -1354,16 +1276,20 @@ GRAL. MOSCONI
 GUILLERMO UDAONDO
 GUZMAN
 HIPOLITO YRIGOYEN
+INDEPENDENCIA
 INFANTA ISABEL
 INGENIERO HUERGO
 INTENDENTE BULLRICH
 INTENDENTE FRANCISCO RABANAL
+IRAOLA
 IRIARTE
 JORGE NEWBERY
 JOSE FAGNANO
 JOSE MARIA MORENO
+JUAN B. JUSTO
 JUAN BAUTISTA ALBERDI
 JUAN DE GARAY
+JUJUY
 JURAMENTO
 LA PLATA
 LA RABIDA (NORTE)
@@ -1376,6 +1302,8 @@ LEANDRO N. ALEM
 LEOPOLDO LUGONES
 LIDORO J. QUINTEROS
 LILLO
+LINCOLN
+LISANDRO DE LA TORRE
 LOPE DE VEGA
 LUIS MARIA CAMPOS
 MAIPU
@@ -1385,6 +1313,7 @@ MARIA CURIE
 MARTIN GARCIA
 MEDRANO
 MELIAN
+MENDOZA
 MONROE
 NAZCA
 OLAZABAL
@@ -1412,17 +1341,21 @@ REGIMIENTO DE PATRICIOS
 REMEDIOS
 RESERVISTAS ARGENTINOS
 RIESTRA
+RIVADAVIA
 ROENTGEN
+ROSALES
 RUIZ HUIDOBRO
 SAENZ
 SALVADOR MARIA DEL CARRIL
 SAN ISIDRO
+SAN JUAN
 SAN JUAN BAUTISTA DE LA SALLE
 SAN MARTIN
 SAN PEDRITO
 SANCHEZ DE LORIA
 SANTA FE
 SANTIAGO DE COMPOSTELA
+SARMIENTO
 SEGUROLA
 SOLDADO DE LA FRONTERA
 SUAREZ
@@ -1447,6 +1380,73 @@ BOULEVAR MACACHA GÜEMES
 MACACHA GÜEMES
 BOULEVAR ROSARIO VERA PEÑALOZA
 ROSARIO VERA PEÑALOZA
+DON BOSCO
+ESTRADA
+FALUCHO
+PUJOL
+Balbín
+Bolívar
+Buzón
+Colón
+Espora
+Campos, Luis M.
+Campos
+Del Valle
+Díaz Vélez
+J.B. Justo
+L. de Osornio
+Osornio
+Lunghi
+M. D' Andrea
+Marconi
+Perón, Pte.Perón, Eva
+Perón
+S. Lamas
+Lamas
+San Gabriel
+Santamarina
+Av. Balbín
+Av. Bolívar
+Av. Buzón
+Av. Colón
+Av. Espora
+Av. Estrada
+Av. Falucho
+Av. Campos, Luis M.
+Av. Del Valle
+Av. Díaz Vélez
+Av. Don Bosco
+Av. J.B. Justo
+Av. L. de Osornio
+Av. Lunghi
+Av. M. D' Andrea
+Av. Marconi
+Av. Perón, Pte.Av. Perón, Eva
+Av. Pujol
+Av. S. Lamas
+Av. San Gabriel
+Av. Santamarina
+Avenida Balbín
+Avenida Bolívar
+Avenida Buzón
+Avenida Colón
+Avenida Espora
+Avenida Estrada
+Avenida Falucho
+Avenida Campos, Luis M.
+Avenida Del Valle
+Avenida Díaz Vélez
+Avenida Don Bosco
+Avenida J.B. Justo
+Avenida L. de Osornio
+Avenida Lunghi
+Avenida M. D' Andrea
+Avenida Marconi
+Avenida Perón, Pte.Avenida Perón, Eva
+Avenida Pujol
+Avenida S. Lamas
+Avenida San Gabriel
+Avenida Santamarina
 
 #CATEGORY Tipo Persona
 
@@ -1619,8 +1619,7 @@ ZX
 
 #CATEGORY Marca de Motocicleta
 
-Honda
-Suzuki
+ARIEL
 BMW Motorrad
 Kreidler
 Maico
@@ -1650,6 +1649,7 @@ Sundown
 Kasinski
 Yamaha Motor Company
 Yamaha
+Honda
 Big Brute
 Bombardier
 Can-Am
@@ -1710,7 +1710,6 @@ Scorpa
 Voxan
 AJS
 AMC
-Ariel
 Armstrong
 BSA
 CCM
@@ -1801,6 +1800,7 @@ Bridgestone
 Fuji Heavy Industries
 Hodaka
 Kawasaki
+Suzuki
 Carabela
 Dinamo
 Moto Islo
@@ -2025,19 +2025,21 @@ subterráneos
 
 #CATEGORY Marca De Auto
 
+LINCOLN
+FERRARI
+Honda
+Suzuki
 Isuzu
 Bmw
 Audi
 Mercedes benz
 Volkswagen
-Ferrari
 Porsche
 Lamborghini
 Seat
 Toyota
 Aston Martin
 Renault
-Honda
 Ford
 Lexus
 Jaguar
@@ -2057,9 +2059,7 @@ Chrysler
 Jeep
 Kia
 Pontiac
-Suzuki
 Gmc
-Lincoln
 Acura
 Mecury
 Chevrolet
@@ -2425,538 +2425,142 @@ Ruta 210
 Ruta 215
 Ruta 227
 
+#CATEGORY Modelo Renault
+
+Renault 10
+Renault 12
+Renault 14
+Renault 15
+Renault 17
+Renault 16
+Renault 18
+Renault 19
+Renault 20
+Renault 30
+Renault 21
+Renault 25
+Renault 3
+Renault 4
+Renault 40CV
+Renault 4CV
+Renault 5
+Renault 6
+Renault 7
+Renault 8
+Renault 9
+Renault 11
+Renault 900
+Renault Altica
+Renault Argos
+Renault Avantime
+Renault Be Bop
+Renault Caravelle
+Renault Celtaquatre
+Renault Clio
+Renault Dauphine y Gordini
+Renault Egeus
+Renault Espace
+Renault Express
+Renault Fluence
+Renault Frégate
+Renault Fuego
+Renault Grand Modus
+Renault Juvaquatre
+Renault Kangoo
+Renault Kerax
+Renault Koleos
+Renault Laguna
+Renault Latitude
+Renault Magnum
+Renault Mascott
+Renault Master
+Renault Mégane
+Renault Modus
+Renault Monaquatre
+Renault Megane III RS Trophy
+Renault Nepta
+Renault Premium Distribution
+Renault Premium Lander
+Renault Premium Long Distance
+Renault Racoon
+Renault Captur
+Renault Maxity
+Renault Trucks T
+Renault Safrane
+Renault Sandero
+Renault Dacia
+Renault Scénic
+Renault Supercinco
+Renault Symbol
+Renault Talisman
+Renault Trafic
+Renault Twingo
+Renault Twizy
+Renault Vel Satis
+Renault Vesta 2
+Renault Wind
+
 #CATEGORY Calle
 
-11 de Septiembre
-12 de Octubre
-14 de Julio
-25 de Mayo
-4 de Abril
-9 de Julio
-A. Martínez
-Martínez
-A.Lamberto
-Lamberto
-A.Maderni
-Maderni
-Aeronautica Argentina
-Alberdi
-Alem
-Alemania
-Almafuerte
-Alonso
-Alsina
-Alte. Guisse
-Almirante Guisse
-Alte. Brown
-Almirante Brown
-Alvarado
-Ameghino
-América
-Antártida Argentina
-Antonena
-Arana
-Arenales
-Argerich
-Aristeguy
-Arrillaga
-Arroyo Seco
-Artigas
-Ayacucho
-Azcuénaga
-Azucena
-B. J. M. de Rosas
-Juan Manuel de Rosas
-Baigorria
-Bariffi
-Basílico
-Beiró
-Belgrano
-Bereterbide
-Berrutti
-Bolivia
-Brandsen
-Buenos Aires
-C. Cadona
-Cadona
-C. Calfulcurá
-Calfulcurá
-Cabral
-Cagnoli
-Calihue
-Callao
-Canadá
-Carriego
-Casacuberta
-Caseros
-Catamarca
-Cerrillada
-Cereseto
-Cesio
-Chacabuco
-Chaco
-Chapaleofú
-Chapeaurouge
-Chienno
-Chile
-Chubut
-Ciao
-Circunvalación
-Cnel J Aguilera
-Aguilera
-Col. Norte Macaya
-Colectora Norte Macaya
-Norte Macaya
-Col. Sur Pugliese
-Colectora Sur Pugliese
-Sur Pugliese
-Colombia
-Constitución
-Córdoba
-Corrientes
-Costa Rica
-Cuba
-D. Alighieri
-Alighieri
-Dabidos
-Daglio
-Darragueira
-De la  Canal
-De los Granaderos
-De Pietri
-De Roxas
-Del Libertador
-Del Medio
-Dhers
-Dinamarca
-Doering
-Domínguez
-D. Pastoriza
-Pastoriza
-Dr. Illia
-Illia
-Duffau
-E. Rodríguez
-Rodríguez
-Eandi
-Echeverría
-Ecuador
-Edison
-Entre Rios
-Esquerdo
-Ezeiza
-F. de la Cruz
-de la Cruz
-F. García Lorca
-García Lorca
-F. Independencia
-Fuerte Independencia
-F.L.Beltran
-Beltran
-Fidanza
-Figueroa
-Fleming
-Fontana
-Formosa
-Frag. Sarmiento
-Fragata Sarmiento
-Francia
-Franklin
-Frondizi
-Fugl
-Fulton
-G. Hudson
-Hudson
-G. M. de S. Martín
-San Martín
-G. Rivero
-Rivero
-G.Cima
-Cima
-Galfre
-Galicia
-Gardel
-Garibaldi
-Godoy Cruz
-González Pacheco
-Gorman
-Gral. Lemos
-General Lemos
-Lemos
-Gral. Savio
-General Savio
-Savio
-Gral. Roca
-General Roca
-Roca
-Guatemala
-Güemes Norte
-Güemes Sur
-Guido
-Haití
-Hernández
-Hno Crisóstomo
-Holanda
-Holmberg
-Huasañan
-Huarruca
-Huemulen
-I.Fernández
-Fernández
-Ijurco
-Independencia
-Ingenieros
-Iraola
-Israel
-Italia
-Ituzaingó
-J. de D. Filiberto
-Filiberto
-J. Martí
-Martí
-J.Basso Aguirre
-Basoo Aguirre
-J.Bisogni
-Bisogni
-Japón
-Juan XXIII
-Juárez
-Juldain
-Jujuy
-Juncal
-Kramer
-L. Cabana
-Cabana
-L. de la Torre
-Lisandro de la Torre
-L.J. Actis
-Actis
-L.Poli
-Poli
-La Blanca
-La Merced
-La Movediza
-La Pampa
-La Pastora
-La Pesquería
-La Rioja
-Labarden
-Lamadrid
-Langueyú
-Lanza de Vasto
-Laprida
-Larrea
-Las Amapolas
-Las Azaleas
-Las Camelias
-Las Chilcas
-Las Glicinas
-Las Heras
-Las Hortensias
-Las Lilas
-Las Malvinas
-Las Margaritas
-Las Orquídeas
-Las Petunias
-Las Violetas
-Lauraleofú
-Lavalle
-Leeson
-Lennon
-Lester
-Libertad
-Lima
-Liniers
-Linstow
-Lobería
-Los Agapantos
-Los Alamos
-Los Aromos
-Los Cedros
-Los Ceibos
-Los Corales
-Los Fresnos
-Los Huesos
-Los Mimbres
-Los Nogales
-Los Olmos
-Los Ombúes
-Los Pinos
-Los Robles
-Los Sauces
-Los Talas
-Los Tamarindos
-Los Tilos
-Los Tulipanes
-M. Fierro
-Martín Fierro
-M. Gandhi
-Mahatma Gandhi
-Gandhi
-M. L. King
-Martin Luther King
-M. Lendes
-Lendes
-Macaya Col. Norte
-Macaya Colectora Norte
-Machado
-Magallanes
-Magnasco
-Maipú
-Maritorena
-Marzoratti
-Massini
-Mathiansen
-Mendoza
-México
-Misiones
-Mitre
-Montevideo
-Montiel
-Morel
-Moreno
-Mosconi
-Muñiz
-Murature
-Napaleofú
-Navarro
-Necochea
-Neuquén
-Newton
-Nicaragua
-Nigro
-Novoa
-ñancai
-O'Higgins
-Otamendi
-P. de los Andes
-P. Sant Miqueu
-Sant Miqueu
-Palacios
-Panamá
-Paraguay
-Paso
-Pasteur
-Patagonia
-Payaniyeu
-Payró
-Paz
-Pedersen
-Pellegrini
-Pennachi
-Peré
-Peyrel
-Piccirilli
-Picheuta
-Piedrabuena
-Pinto
-Pio XII
-Pizzorno
-Portugal
-Poinamil
-Pozos
-Pratt
-Primera Junta
-Pueblos Originarios
-Pueblo Vasco
-Pueyrredón
-Pugliese Col. Sur
-Pugliese Colectora Sur
-Quequen
-Quinq. Martín
-Quintana
-R. Cruz
-Cruz
-R. Darío
-Darío
-R. de Castro
-R. Pascucci
-Pascucci
-Rauch
-Ref. Universitaria
-Reforma Universitaria
-Reconquista
-Riato
-Richieri
-Rivas
-Ronca Hue
-Rondeau
-Rosales
-Roser
-Rucamalen
-S. Del Estero
-Santiago Del Estero
-S. Peña
-Saenz Peña
-S. Vega
-S.M. de Oro
-S.Sombra
-Sombra
-Saavedra
-Salceda
-Salta
-San Felipe
-San Francisco
-San Juan
-San Lorenzo
-Sandino
-Santa Cruz
-Sarmiento
-Scavini
-Schweitzer
-Sinka
-Soldado Argentino
-Spegazini
-Suarez García
-Suecia
-Suipacha
-Suiza
-T. de Calcuta
-Calcuta
-Falkner
-Tacuarí
-Tierra del Fuego
-Tomas M.
-Tucumán
-Ugalde
-Ugarte
-Uriburu
-Urquiza
-Uspallata
-V. López
-Vicente López
-V. Sarfield
-Velez Sarfield
-Venezuela
-Viamonte
-Vigil
-Vistalli
-Vivot
-Yrigoyen
-Yugoslavia
-Zarini, Dr.
-Zarini
-Alvear
-Avellaneda
-Balbín
-Bolívar
-Brasil
-Buzón
-Colón
-España
-Espora
-Estrada
-Falucho
-Cabildo
-Campos, Luis M.
-Campos
-Del Valle
-Díaz Vélez
-Don Bosco
-Dorrego
-J.B. Justo
-Juan B. Justo
-L. de Osornio
-Osornio
-Lunghi
-M. D' Andrea
-Marconi
-Perón, Pte.Perón, Eva
-Perón
-Pujol
-Rivadavia
-S. Lamas
-Lamas
-San Gabriel
-Santamarina
-Av. Alvear
-Av. Avellaneda
-Av. Balbín
-Av. Bolívar
-Av. Brasil
-Av. Buzón
-Av. Colón
-Av. España
-Av. Espora
-Av. Estrada
-Av. Falucho
-Av. Cabildo
-Av. Campos, Luis M.
-Av. Del Valle
-Av. Díaz Vélez
-Av. Don Bosco
-Av. Dorrego
-Av. J.B. Justo
-Av. L. de Osornio
-Av. Lunghi
-Av. M. D' Andrea
-Av. Marconi
-Av. Perón, Pte.Av. Perón, Eva
-Av. Pujol
-Av. Rivadavia
-Av. S. Lamas
-Av. San Gabriel
-Av. Santamarina
-Avenida Alvear
-Avenida Avellaneda
-Avenida Balbín
-Avenida Bolívar
-Avenida Brasil
-Avenida Buzón
-Avenida Colón
-Avenida España
-Avenida Espora
-Avenida Estrada
-Avenida Falucho
-Avenida Cabildo
-Avenida Campos, Luis M.
-Avenida Del Valle
-Avenida Díaz Vélez
-Avenida Don Bosco
-Avenida Dorrego
-Avenida J.B. Justo
-Avenida L. de Osornio
-Avenida Lunghi
-Avenida M. D' Andrea
-Avenida Marconi
-Avenida Perón, Pte.Avenida Perón, Eva
-Avenida Pujol
-Avenida Rivadavia
-Avenida S. Lamas
-Avenida San Gabriel
-Avenida Santamarina
-esmeralda
-azul
-Ferrari
-Ariel
+AV. ALVEAR
+AV. AVELLANEDA
+AV. BRASIL
+AV. CABILDO
+AV. DORREGO
+AV. ESPAÑA
+AV. RIVADAVIA
+Avenida ALVEAR
+Avenida AVELLANEDA
+Avenida BRASIL
+Avenida CABILDO
+Avenida DORREGO
+Avenida ESPAÑA
+Avenida RIVADAVIA
+9 DE JULIO
 ACOYTE
+ALMAFUERTE
+ALMIRANTE BROWN
 ALVAREZ JONTE
+ALVEAR
 ANA MARIA JANER
 ARREGUI
 ASAMBLEA
+AVELLANEDA
 BACACAY
+BELGRANO
 BOEDO
 BOYACA
+BRASIL
+CABILDO
+CALLAO
 CARLOS CALVO
+CASEROS
 CASTRO BARROS
 CERVIÑO
+CHILE
 CHIVILCOY
 CHORROARIN
 CNEL. RAMON L. FALCON
+COLOMBIA
 CONGRESO
 CORDOBA
 CORONEL CARDENAS
 CORONEL DIAZ
 CORONEL ESTEBAN BONORINO
 CORONEL NICETO VEGA
+CORRIENTES
 CRAMER
 CURAPALIGÜE
 DEL BARCO CENTENERA
+DEL LIBERTADOR
 DIRECTORIO
+DORREGO
 ELCANO
 EMILIO CASTRO
+ENTRE RIOS
 EREZCANO
 ESCALADA
+ESPAÑA
 FEDERICO LACROZE
 FRANCISCO BILBAO
 FRANKLIN D. ROOSEVELT
@@ -2966,17 +2570,23 @@ GRAL. EUGENIO GARZON
 GRAL. LAS HERAS
 GUZMAN
 HIPOLITO YRIGOYEN
+INDEPENDENCIA
+IRAOLA
 IRIARTE
 JORGE NEWBERY
+JUAN B. JUSTO
+JUJUY
 JURAMENTO
 LACARRA
 LAFUENTE
 LARRAZABAL
+LISANDRO DE LA TORRE
 LOPE DE VEGA
 MAIPU
 MANUEL RICARDO TRELLES
 MEDRANO
 MELIAN
+MENDOZA
 MONROE
 NAZCA
 OLAZABAL
@@ -2990,10 +2600,14 @@ PRESIDENTE QUINTANA
 RAUL SCALABRINI ORTIZ
 REMEDIOS
 RESERVISTAS ARGENTINOS
+RIVADAVIA
+ROSALES
 RUIZ HUIDOBRO
+SAN JUAN
 SAN MARTIN
 SAN PEDRITO
 SANCHEZ DE LORIA
+SARMIENTO
 SUAREZ
 TENIENTE GENERAL DONATO ALVAREZ
 TILCARA
@@ -3002,11 +2616,14 @@ VARELA
 ÑANDUTI
 1º DE MAYO
 11 DE SEPTIEMBRE DE 1888
+12 DE OCTUBRE
+14 DE JULIO
 15 DE NOVIEMBRE DE 1889
 2 DE ABRIL DE 1982
 20 DE FEBRERO
 20 DE SEPTIEMBRE
 24 DE NOVIEMBRE
+25 DE MAYO
 3 DE FEBRERO
 5 DE JULIO
 AÑASCO
@@ -3052,6 +2669,7 @@ ALEJANDRO DUMAS
 ALEJANDRO F. MOHR
 ALEJANDRO MAGARIÑOS CERVANTES
 ALEJANDRO MARIA DE AGUADO
+ALEMANIA
 ALFARERO
 ALFONSINA STORNI
 ALFREDO COLMO
@@ -3075,6 +2693,7 @@ ALPATACAL
 ALTA GRACIA
 ALTOLAGUIRRE
 ALVAR NUÑEZ
+ALVARADO
 ALZAGA
 AMADEO JACQUES
 AMALIA
@@ -3122,11 +2741,14 @@ ARAUJO
 ARCAMENDIA
 ARCE
 ARCOS
+ARENALES
 ARENGREEN
 AREVALO
 ARGAÑARAS
 ARGELIA
+ARGERICH
 ARIAS
+ARIEL
 ARISMENDI
 ARISTOBULO DEL VALLE
 ARIZONA
@@ -3160,16 +2782,19 @@ AVALLE
 AVALOS
 AVELINO DIAZ
 AVIADOR ENRIQUE ADRIAN ROGER
+AYACUCHO
 AYOLAS
 AYUI
 AZARA
 AZCUENAGA
 AZOPARDO
+AZUL
 BACON
 BAEZ
 BAHIA
 BAHIA BLANCA
 BAIGORRI
+BAIGORRIA
 BALANDRA CARMEN
 BALBASTRO
 BALBOA
@@ -3241,6 +2866,7 @@ BOGADO
 BOGOTA
 BOLAÑOS
 BOLIVAR
+BOLIVIA
 BOLLINI
 BOLONIA
 BOMBAY
@@ -3250,6 +2876,7 @@ BOSTON
 BOUCHARD
 BOULOGNE SUR MER
 BRAGADO
+BRANDSEN
 BRAVARD
 BRIGADIER GENERAL FACUNDO QUIROGA
 BRUSELAS
@@ -3336,6 +2963,7 @@ CAROLA LORENZINI
 CAROLINA MUZILLI
 CAROYA
 CARRASCO
+CASACUBERTA
 CASAFOUST
 CASCO
 CASTAÑEDA
@@ -3344,6 +2972,7 @@ CASTELLI
 CASTEX
 CASTILLO
 CASTRO
+CATAMARCA
 CATANIA
 CATRIEL
 CATULO CASTILLO
@@ -3358,6 +2987,8 @@ CERRITO
 CERVANTES
 CESAR H. BACLE
 CESPEDES
+CHACABUCO
+CHACO
 CHAJARI
 CHAMICAL
 CHARCAS
@@ -3372,6 +3003,7 @@ CHINA
 CHIRIGUANOS
 CHIRIMAY
 CHONINO
+CHUBUT
 CHUMBICHA
 CIPOLLETTI
 CISNE
@@ -3441,6 +3073,7 @@ CORREGIDORES
 CORTINA
 CORVALAN
 COSQUIN
+COSTA RICA
 COTAGAITA
 COTOCOLLAO
 CRAIG
@@ -3453,6 +3086,7 @@ CRISTOBAL M. HICKEN
 CRUCERO GENERAL BELGRANO
 CRUZ DEL EJE
 CRUZ DEL SUD
+CUBA
 CUCHA CUCHA
 CUENCA
 CULLEN
@@ -3506,6 +3140,7 @@ DIAZ COLODRERO
 DIEGO DE OLAVARRIETA
 DIEGO DE ROJAS
 DIEGO FERNANDEZ ESPIRO
+DINAMARCA
 DIOGENES TABORDA
 DIPUTADO NACIONAL OSVALDO ERNESTO BENEDETTI
 DOBLAS
@@ -3528,6 +3163,7 @@ DOLORES
 DOMINGO DE AZCUENAGA
 DOMINGO ROMERO
 DON ANSELMO AIETA
+DON BOSCO
 DON CRISTOBAL
 DON SEGUNDO SOMBRA
 DONADO
@@ -3576,6 +3212,7 @@ ECHAURI
 ECHEANDIA
 ECHENAGUCIA
 ECHEVERRIA
+ECUADOR
 EDMUNDO D'AMICIS
 EDUARDO ACEVEDO
 EDUARDO AROLAS
@@ -3658,6 +3295,7 @@ ERCILLA,LA CALLE CRUZA LA MANZANA
 ERNESTO A. BAVIO
 ESCOBAR
 ESCRIBANO
+ESMERALDA
 ESNAOLA
 ESPARTACO
 ESPARZA
@@ -3676,14 +3314,17 @@ ESTIVAO
 ESTOCOLMO
 ESTOMBA
 ESTONIA
+ESTRADA
 ESTRELLA FEDERAL
 EUCLIDES
 EUGENIO RAMIREZ
 EUSTAQUIO CAMBIESES
 EVARISTO CARRIEGO
+EZEIZA
 EZEQUIEL SORIA
 FABRE
 FACUNDO
+FALUCHO
 FALUCHO SAN LUIS
 FAMAILLA
 FAMATINA
@@ -3699,8 +3340,10 @@ FERNANDEZ BLANCO
 FERNANDEZ DE ENCISO
 FERNANDO DE MONTALVO
 FERNANDO FADER
+FERRARI
 FERRE
 FERROCARRIL
+FILIBERTO
 FINLANDIA
 FITZ ROY
 FLOR DEL AIRE
@@ -3708,6 +3351,7 @@ FLORENCIO BALCARCE
 FLORESTA
 FLORIDA
 FONROUGE
+FORMOSA
 FORTUNATO DEVOTO
 FOURNIER
 FRAGA
@@ -3734,6 +3378,7 @@ FRANCISCO PIZARRO
 FRANCISCO ROMERO
 FRANCO
 FRANK BROWN
+FRANKLIN
 FRATERNIDAD
 FRAY CAYETANO RODRIGUEZ
 FRAY JUSTO SANTA MARIA DE ORO
@@ -3744,6 +3389,7 @@ GABINO EZEIZA
 GABRIEL LAFOND
 GABRIELA MISTRAL
 GALENO
+GALICIA
 GALILEO
 GALLARDO
 GALLEGOS
@@ -3753,6 +3399,7 @@ GAMARRA
 GANA
 GANDARA
 GARCIA DE COSSIO
+GARIBALDI
 GARRO
 GASCON
 GASPAR CAMPOS
@@ -3784,6 +3431,7 @@ GINEBRA
 GIORDANO BRUNO
 GIRARDOT
 GIRIBONE
+GODOY CRUZ
 GOLETA FORTUNA
 GOLETA INVENCIBLE
 GOLETA JULIA
@@ -3823,11 +3471,13 @@ GUANAHANI
 GUARANI
 GUARDIA NACIONAL
 GUARDIA VIEJA
+GUATEMALA
 GUAYAQUIL
 GUAYMALLEN
 GUAYQUIRARO
 GUAYRA
 GUEVARA
+GUIDO
 GUIDO SPANO
 GUILLERMO ENRIQUE GRANVILLE
 GUILLERMO HUDSON
@@ -3849,6 +3499,7 @@ HIDALGO
 HILARIO DE ALMEIRA
 HINOJO
 HIROSHIMA
+HOLMBERG
 HOMERO
 HOMERO MANZI
 HONDURAS
@@ -3857,6 +3508,7 @@ HORTIGUERA
 HUALFIN
 HUAURA
 HUBAC
+HUDSON
 HUEMUL
 HUERGO
 HUMAHUACA
@@ -3894,6 +3546,7 @@ ISABEL LA CATOLICA
 ISIDORO DEMARIA
 ISIDRO LOREA
 ISLANDIA
+ITALIA
 ITAQUI
 ITURRI
 ITUZAINGO
@@ -3999,6 +3652,7 @@ JULIETA LANTERI
 JULIO ARGENTINO NOBLE
 JULIO S. DANTAS
 JULIO TROXLER
+JUNCAL
 JUNIN
 JUSTO ANTONIO SUAREZ
 KING
@@ -4030,9 +3684,11 @@ LA MAREA
 LA MESOPOTAMIA
 LA NAVE
 LA NIÑA
+LA PAMPA
 LA PINTA
 LA PORTEÑA
 LA QUENA
+LA RIOJA
 LA SANTA MARIA
 LA SELVA
 LA TRILLA
@@ -4049,7 +3705,9 @@ LANUS
 LANZA
 LAPACHO
 LAPLACE
+LAPRIDA
 LARRAYA
+LARREA
 LARSEN
 LAS ACACIAS
 LAS BASES
@@ -4065,6 +3723,7 @@ LAURELES ARGENTINOS
 LAUSANA
 LAUTARO
 LAVADERO
+LAVALLE
 LAVALLEJA
 LAVARDEN
 LAVOISIER
@@ -4078,8 +3737,10 @@ LEOPOLDO BASAVILBASO
 LEOPOLDO MARECHAL
 LERMA
 LEZICA
+LIBERTAD
 LIBRES
 LIBRES DEL SUR
+LIMA
 LINNEO
 LISBOA
 LITUANIA
@@ -4092,13 +3753,18 @@ LOBOS
 LOGROÑO
 LOMAS DE ZAMORA
 LONDRES
+LOS ALAMOS
 LOS ANDES
+LOS CEDROS
 LOS EUCALIPTUS
+LOS OLMOS
 LOS PATOS
 LOS PIRINEOS
 LOS RECUERDOS
+LOS ROBLES
 LOS TELARES
 LOS TERRITORIOS
+LOS TILOS
 LOYOLA
 LUCERO
 LUCIO CORREA MORALES
@@ -4121,7 +3787,9 @@ MACHAIN
 MADARIAGA
 MADERO
 MADRID
+MAGALLANES
 MAGDALENA
+MAHATMA GANDHI
 MAITEN
 MALABIA
 MALAGA
@@ -4227,6 +3895,7 @@ MIRANDA
 MIRAVE
 MIRIÑAY
 MIRO
+MISIONES
 MOCORETA
 MOCTEZUMA
 MOISES LEBENSOHN
@@ -4243,8 +3912,11 @@ MONTE DINERO
 MONTEAGUDO
 MONTENEGRO
 MONTESQUIEU
+MONTEVIDEO
+MONTIEL
 MONTREAL
 MORELOS
+MORENO
 MORETO
 MORLOTE
 MORON
@@ -4252,7 +3924,9 @@ MORSE
 MOSCU
 MOZART
 MUÑECAS
+MUÑIZ
 MUNICH
+MURATURE
 MURCIA
 MURGUIONDO
 MURILLO
@@ -4262,12 +3936,16 @@ NAHUEL HUAPI
 NAMUNCURA
 NAPOLES
 NATAL
+NAVARRO
 NAZARRE
+NECOCHEA
 NEMESIO TREJO
 NEPPER
 NEUQUEN
 NEVADA
+NEWTON
 NICANOR MENDEZ
+NICARAGUA
 NICASIO OROÑO
 NICOLAS DESCALZI
 NICOLAS E. VIDELA
@@ -4307,6 +3985,7 @@ OSCAR NATALIO BONAVENA
 OSLO
 OSORIO
 OSTENDE
+OTAMENDI
 OTERO
 OTTAWA
 OWEN
@@ -4331,6 +4010,7 @@ PALPA
 PANAMA
 PANTALEON RIVAROLA
 PARACAS
+PARAGUAY
 PARANA
 PAREJA
 PARERA
@@ -4339,7 +4019,9 @@ PARKER
 PAROISSIEN
 PARRAL
 PASCO
+PASO
 PASO DE LOS LIBRES
+PASTEUR
 PATAGONES
 PATRON
 PAUL GROUSSAC
@@ -4376,6 +4058,7 @@ PESCADORES
 PESTALOZZI
 PETRONA EYLE
 PI Y MARGALL
+PICHEUTA
 PICO
 PIEDRAS
 PIERES
@@ -4384,6 +4067,7 @@ PILA
 PILAR
 PILCOMAYO
 PILLADO
+PINTO
 PINZON
 PIO COLLIVADINO
 PIO RODRIGUEZ
@@ -4401,6 +4085,7 @@ POLA
 POLONIA
 PORTELA
 PORTILLO
+PORTUGAL
 POSADAS
 POSTA
 POSTA DE HORNILLOS
@@ -4414,6 +4099,7 @@ PRESIDENTE JOSE EVARISTO URIBURU
 PRESIDENTE LUIS SAENZ PEÑA
 PRESIDENTE ROBERTO M. ORTIZ
 PRILIDIANO PUEYRREDON
+PRIMERA JUNTA
 PRINGLES
 PROFESOR DOCTOR PEDRO CHUTRO
 PROMETEO
@@ -4421,6 +4107,7 @@ PROVINCIAS UNIDAS
 PUAN
 PUENTE DEL INCA
 PUERTO PRINCIPE
+PUJOL
 PUMACAHUA
 PUNA
 PUNTA ARENAS
@@ -4430,6 +4117,7 @@ QUEROL
 QUESADA
 QUEVEDO
 QUILMES
+QUINTANA
 QUINTINO BOCAYUVA
 QUIRNO
 QUIROS
@@ -4443,9 +4131,11 @@ RAMOS MEJIA
 RAMSAY
 RANQUELES
 RASTREADOR FOURNIER
+RAUCH
 RAULET
 RAULIES
 RAWSON
+RECONQUISTA
 RECUERDOS DE PROVINCIA
 REGINA PACINI DE ALVEAR
 REMEDIOS DE ESCALADA DE SAN MARTIN
@@ -4494,6 +4184,7 @@ ROGELIO YRURTIA
 ROJAS
 ROMA
 ROMERO
+RONDEAU
 ROQUE GONZALEZ
 ROQUE PEREZ
 ROSALIA DE CASTRO
@@ -4511,11 +4202,13 @@ RUPERTO GODOY
 RUSIA
 RUSSEL
 RUY DIAZ DE GUZMAN
+SAAVEDRA
 SALADILLO
 SALALA
 SALAS
 SALCEDO
 SALOM
+SALTA
 SALTO
 SALVIGNY
 SAMUEL LAFONE QUEVEDO
@@ -4523,11 +4216,13 @@ SAN ANTONIO
 SAN ANTONIO DE ARECO
 SAN BENITO DE PALERMO
 SAN BLAS
+SAN FRANCISCO
 SAN FRANCISCO DE ASIS
 SAN IGNACIO
 SAN IRINEO
 SAN JOSE
 SAN JOSE DE CALASANZ
+SAN LORENZO
 SAN LUIS
 SAN MARTIN DE TOURS
 SAN MATEO
@@ -4540,6 +4235,7 @@ SANCHEZ
 SANCHEZ DE BUSTAMANTE
 SANLUCAR DE BARRAMEDA
 SANTA CATALINA
+SANTA CRUZ
 SANTA ELENA
 SANTA MAGDALENA
 SANTA MARIA DEL BUEN AIRE
@@ -4550,6 +4246,7 @@ SANTIAGO CALZADILLA
 SANTIAGO COSTAMAGNA
 SANTIAGO DE CHILE
 SANTIAGO DE LAS CARRERAS
+SANTIAGO DEL ESTERO
 SANTO DOMINGO
 SANTO TOME
 SANTOS DUMONT
@@ -4587,6 +4284,9 @@ SOR JUANA INES DE LA CRUZ
 SORIA
 STEPHENSON
 SUD AMERICA
+SUECIA
+SUIPACHA
+SUIZA
 SUMACA ITATI
 SUMACA SANTISIMA TRINIDAD
 SUNCHALES
@@ -4615,6 +4315,7 @@ TERRERO
 THAMES
 THOMPSON
 THORNE
+TIERRA DEL FUEGO
 TIMBO
 TIMBUES
 TIMOTEO GORDILLO
@@ -4664,8 +4365,10 @@ UNANUE
 URDANETA
 URDININEA
 URIARTE
+URIBURU
 URIEN
 URUNDAY
+USPALLATA
 VALDENEGRO
 VALDERRAMA
 VALENCIA
@@ -4678,6 +4381,7 @@ VARSOVIA
 VEDIA
 VELAZQUEZ
 VENECIA
+VENEZUELA
 VENIALVO
 VENTANA
 VENTURA BOSCH
@@ -4685,6 +4389,7 @@ VENTURA DE LA VEGA
 VERA
 VERACRUZ
 VESPUCIO
+VIAMONTE
 VICENTE ANASTASIO DE ECHEVARRIA
 VICENTE DE SIMONE
 VICENTE FIDEL LOPEZ
@@ -4737,6 +4442,7 @@ YATAY
 YERBAL
 YERUA
 YRUPE
+YUGOSLAVIA
 ZAÑARTU
 ZABALA
 ZADO
@@ -4761,85 +4467,379 @@ TARTAGAL
 TUPIZA
 TURIN
 TURQUIA
-
-#CATEGORY Modelo Renault
-
-Renault 10
-Renault 12
-Renault 14
-Renault 15
-Renault 17
-Renault 16
-Renault 18
-Renault 19
-Renault 20
-Renault 30
-Renault 21
-Renault 25
-Renault 3
-Renault 4
-Renault 40CV
-Renault 4CV
-Renault 5
-Renault 6
-Renault 7
-Renault 8
-Renault 9
-Renault 11
-Renault 900
-Renault Altica
-Renault Argos
-Renault Avantime
-Renault Be Bop
-Renault Caravelle
-Renault Celtaquatre
-Renault Clio
-Renault Dauphine y Gordini
-Renault Egeus
-Renault Espace
-Renault Express
-Renault Fluence
-Renault Frégate
-Renault Fuego
-Renault Grand Modus
-Renault Juvaquatre
-Renault Kangoo
-Renault Kerax
-Renault Koleos
-Renault Laguna
-Renault Latitude
-Renault Magnum
-Renault Mascott
-Renault Master
-Renault Mégane
-Renault Modus
-Renault Monaquatre
-Renault Megane III RS Trophy
-Renault Nepta
-Renault Premium Distribution
-Renault Premium Lander
-Renault Premium Long Distance
-Renault Racoon
-Renault Captur
-Renault Maxity
-Renault Trucks T
-Renault Safrane
-Renault Sandero
-Renault Dacia
-Renault Scénic
-Renault Supercinco
-Renault Symbol
-Renault Talisman
-Renault Trafic
-Renault Twingo
-Renault Twizy
-Renault Vel Satis
-Renault Vesta 2
-Renault Wind
+11 de Septiembre
+4 de Abril
+A. Martínez
+Martínez
+A.Lamberto
+Lamberto
+A.Maderni
+Maderni
+Aeronautica Argentina
+Alberdi
+Alem
+Alonso
+Alsina
+Alte. Guisse
+Almirante Guisse
+Alte. Brown
+Ameghino
+América
+Antártida Argentina
+Antonena
+Arana
+Aristeguy
+Arrillaga
+Arroyo Seco
+Artigas
+Azcuénaga
+Azucena
+B. J. M. de Rosas
+Juan Manuel de Rosas
+Bariffi
+Basílico
+Beiró
+Bereterbide
+Berrutti
+Buenos Aires
+C. Cadona
+Cadona
+C. Calfulcurá
+Calfulcurá
+Cabral
+Cagnoli
+Calihue
+Canadá
+Carriego
+Cerrillada
+Cereseto
+Cesio
+Chapaleofú
+Chapeaurouge
+Chienno
+Ciao
+Circunvalación
+Cnel J Aguilera
+Aguilera
+Col. Norte Macaya
+Colectora Norte Macaya
+Norte Macaya
+Col. Sur Pugliese
+Colectora Sur Pugliese
+Sur Pugliese
+Constitución
+Córdoba
+D. Alighieri
+Alighieri
+Dabidos
+Daglio
+Darragueira
+De la  Canal
+De los Granaderos
+De Pietri
+De Roxas
+Del Medio
+Dhers
+Doering
+Domínguez
+D. Pastoriza
+Pastoriza
+Dr. Illia
+Illia
+Duffau
+E. Rodríguez
+Rodríguez
+Eandi
+Echeverría
+Edison
+Esquerdo
+F. de la Cruz
+de la Cruz
+F. García Lorca
+García Lorca
+F. Independencia
+Fuerte Independencia
+F.L.Beltran
+Beltran
+Fidanza
+Figueroa
+Fleming
+Fontana
+Frag. Sarmiento
+Fragata Sarmiento
+Francia
+Frondizi
+Fugl
+Fulton
+G. Hudson
+G. M. de S. Martín
+San Martín
+G. Rivero
+Rivero
+G.Cima
+Cima
+Galfre
+Gardel
+González Pacheco
+Gorman
+Gral. Lemos
+General Lemos
+Lemos
+Gral. Savio
+General Savio
+Savio
+Gral. Roca
+General Roca
+Roca
+Güemes Norte
+Güemes Sur
+Haití
+Hernández
+Hno Crisóstomo
+Holanda
+Huasañan
+Huarruca
+Huemulen
+I.Fernández
+Fernández
+Ijurco
+Ingenieros
+Israel
+Ituzaingó
+J. de D. Filiberto
+J. Martí
+Martí
+J.Basso Aguirre
+Basoo Aguirre
+J.Bisogni
+Bisogni
+Japón
+Juan XXIII
+Juárez
+Juldain
+Kramer
+L. Cabana
+Cabana
+L. de la Torre
+L.J. Actis
+Actis
+L.Poli
+Poli
+La Blanca
+La Merced
+La Movediza
+La Pastora
+La Pesquería
+Labarden
+Lamadrid
+Langueyú
+Lanza de Vasto
+Las Amapolas
+Las Azaleas
+Las Camelias
+Las Chilcas
+Las Glicinas
+Las Heras
+Las Hortensias
+Las Lilas
+Las Malvinas
+Las Margaritas
+Las Orquídeas
+Las Petunias
+Las Violetas
+Lauraleofú
+Leeson
+Lennon
+Lester
+Liniers
+Linstow
+Lobería
+Los Agapantos
+Los Aromos
+Los Ceibos
+Los Corales
+Los Fresnos
+Los Huesos
+Los Mimbres
+Los Nogales
+Los Ombúes
+Los Pinos
+Los Sauces
+Los Talas
+Los Tamarindos
+Los Tulipanes
+M. Fierro
+Martín Fierro
+M. Gandhi
+Gandhi
+M. L. King
+Martin Luther King
+M. Lendes
+Lendes
+Macaya Col. Norte
+Macaya Colectora Norte
+Machado
+Magnasco
+Maipú
+Maritorena
+Marzoratti
+Massini
+Mathiansen
+México
+Mitre
+Morel
+Mosconi
+Napaleofú
+Neuquén
+Nigro
+Novoa
+ñancai
+O'Higgins
+P. de los Andes
+P. Sant Miqueu
+Sant Miqueu
+Palacios
+Panamá
+Patagonia
+Payaniyeu
+Payró
+Paz
+Pedersen
+Pellegrini
+Pennachi
+Peré
+Peyrel
+Piccirilli
+Piedrabuena
+Pio XII
+Pizzorno
+Poinamil
+Pozos
+Pratt
+Pueblos Originarios
+Pueblo Vasco
+Pueyrredón
+Pugliese Col. Sur
+Pugliese Colectora Sur
+Quequen
+Quinq. Martín
+R. Cruz
+Cruz
+R. Darío
+Darío
+R. de Castro
+R. Pascucci
+Pascucci
+Ref. Universitaria
+Reforma Universitaria
+Riato
+Richieri
+Rivas
+Ronca Hue
+Roser
+Rucamalen
+S. Del Estero
+S. Peña
+Saenz Peña
+S. Vega
+S.M. de Oro
+S.Sombra
+Sombra
+Salceda
+San Felipe
+Sandino
+Scavini
+Schweitzer
+Sinka
+Soldado Argentino
+Spegazini
+Suarez García
+T. de Calcuta
+Calcuta
+Falkner
+Tacuarí
+Tomas M.
+Tucumán
+Ugalde
+Ugarte
+Urquiza
+V. López
+Vicente López
+V. Sarfield
+Velez Sarfield
+Vigil
+Vistalli
+Vivot
+Yrigoyen
+Zarini, Dr.
+Zarini
+Balbín
+Bolívar
+Buzón
+Colón
+Espora
+Campos, Luis M.
+Campos
+Del Valle
+Díaz Vélez
+J.B. Justo
+L. de Osornio
+Osornio
+Lunghi
+M. D' Andrea
+Marconi
+Perón, Pte.Perón, Eva
+Perón
+S. Lamas
+Lamas
+San Gabriel
+Santamarina
+Av. Balbín
+Av. Bolívar
+Av. Buzón
+Av. Colón
+Av. Espora
+Av. Estrada
+Av. Falucho
+Av. Campos, Luis M.
+Av. Del Valle
+Av. Díaz Vélez
+Av. Don Bosco
+Av. J.B. Justo
+Av. L. de Osornio
+Av. Lunghi
+Av. M. D' Andrea
+Av. Marconi
+Av. Perón, Pte.Av. Perón, Eva
+Av. Pujol
+Av. S. Lamas
+Av. San Gabriel
+Av. Santamarina
+Avenida Balbín
+Avenida Bolívar
+Avenida Buzón
+Avenida Colón
+Avenida Espora
+Avenida Estrada
+Avenida Falucho
+Avenida Campos, Luis M.
+Avenida Del Valle
+Avenida Díaz Vélez
+Avenida Don Bosco
+Avenida J.B. Justo
+Avenida L. de Osornio
+Avenida Lunghi
+Avenida M. D' Andrea
+Avenida Marconi
+Avenida Perón, Pte.Avenida Perón, Eva
+Avenida Pujol
+Avenida S. Lamas
+Avenida San Gabriel
+Avenida Santamarina
 
 #CATEGORY Tipo Calle
 
-Paso
+PASO
 Paseo
 vía
 vías

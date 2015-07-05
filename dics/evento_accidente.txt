@@ -1,4 +1,4 @@
-﻿#CATEGORY Evento Accidente
+#CATEGORY Evento Accidente
 
 accidente
 accidentes

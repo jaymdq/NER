@@ -59,7 +59,6 @@ public class Main {
 			vector_tmp.addAll(vector_evento);
 			chunkList.add(vector_tmp);
 		}
-		
 		ArffGenerator arffGenerator = new ArffGenerator("main.test");
 		arffGenerator.execute(chunkList);
 	}
