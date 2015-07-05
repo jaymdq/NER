@@ -7,9 +7,13 @@ import examples.arff.filter.ParamFilterAbs;
 
 public class ArffParameter {
 
+	//Variables
+	
 	private String name;
 	private String type;
 	private ParamFilterAbs filter = null;
+	
+	//Constructor
 	
 	public ArffParameter(String name){
 		this.setName(name);
@@ -19,6 +23,8 @@ public class ArffParameter {
 		this.setName(name);
 		this.setFilter(filter);
 	}
+	
+	// Getters And Setters
 	
 	public void setName(String name) {
 		this.name = name;
@@ -56,6 +62,8 @@ public class ArffParameter {
 		if(this.filter == null) return this.getType();
 		return this.filter.apply(chunks);
 	}
+	
+	// Methods
 	
 	public String toString(){
 		return "@attribute "+this.getName()+" "+this.getType();		

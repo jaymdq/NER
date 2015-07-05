@@ -1,6 +1,10 @@
 package examples;
 
+import java.util.Enumeration;
+import java.util.Vector;
+
 import weka.classifiers.*;
+import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
 
@@ -19,7 +23,7 @@ public class TweetClassifier {
 		this.classifier = loadClassifier(arguments);
 		
 		//bottom
-		configureClasiffier(arguments);
+		configureClasiffier();
 	}
 
 	// Getters and Setters
@@ -38,7 +42,7 @@ public class TweetClassifier {
 		return out;
 	}
 	
-	private void configureClasiffier(String arguments){
+	private void configureClasiffier(){
 		try {
 			String[] options = weka.core.Utils.splitOptions(arguments);
 			classifier.setOptions(options);
@@ -87,6 +91,29 @@ public class TweetClassifier {
 			Evaluation eval = new Evaluation(data);
 			eval.evaluateModel(classifier, testData);
 			out = eval.toSummaryString() + "\n\n" + eval.toMatrixString() + "\n\n" + eval.toClassDetailsString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return out;
+	}
+
+	public String classifyTweets(Vector<String> tweets, String evaluationPath) {
+		String out = "";
+		loadArffTestData(evaluationPath);
+		
+		try {
+			Enumeration<?> enumerateInstances = data.enumerateInstances();
+			int i = 0;
+			while (enumerateInstances.hasMoreElements()){
+				Instance inst = (Instance) enumerateInstances.nextElement();
+				double result = classifier.classifyInstance(inst);
+				out+= "[" + (i++) + "]\n";
+				out+= "Tweet: [" + "//TODO" + "]\n";
+				out+= "Data-Arff: [" + inst.toString() + "]\n";
+				out+= "Classified as: [" + data.classAttribute().value((int) result) + "]\n";
+				out+= "Actually is: [" + data.classAttribute().value((int) inst.classValue()) + "]\n\n\n";
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
