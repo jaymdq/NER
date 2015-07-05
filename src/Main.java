@@ -8,6 +8,7 @@ import configuration.ExactDictionaryConfigurator;
 import configuration.RuleBasedConfigurator;
 import preprocess.PreProcess;
 import dictionary.approximatedDictionaries.ApproximatedDictionary;
+import dictionary.chunk.AbsChunk;
 import dictionary.chunk.Chunk;
 import dictionary.chunk.ChunkEvent;
 import dictionary.dictionaryentry.DictionaryEntry;
@@ -16,6 +17,7 @@ import dictionary.io.DictionaryIO;
 import dictionary.ruleBasedDictionaries.RegExMatcher;
 import dictionary.ruleBasedDictionaries.RuleBasedDictionary;
 import event.Twevent;
+import examples.arff.ArffGenerator;
 import ner.NER;
 import syntax.SyntaxChecker;
 import utils.Pair;
@@ -48,8 +50,18 @@ public class Main {
 			toAnalyze.add( new Pair< String, Vector<Chunk> >(tweet, ner.recognize(tweet)) );
 		
 		Twevent tw = new Twevent(toAnalyze);
-		Vector<ChunkEvent> tmp = tw.detectEvents(true, true);
+		Vector<ChunkEvent> vector_evento = tw.detectEvents(true, true);
 		
+		Vector< Vector<AbsChunk> > chunkList = new Vector< Vector<AbsChunk> >();
+		for(Pair< String, Vector<Chunk> > pair : toAnalyze){
+			Vector<AbsChunk> vector_tmp = new Vector<AbsChunk>(); 
+			vector_tmp.addAll(pair.getPair2());
+			vector_tmp.addAll(vector_evento);
+			chunkList.add(vector_tmp);
+		}
+		
+		ArffGenerator arffGenerator = new ArffGenerator("main.test");
+		arffGenerator.execute(chunkList);
 	}
 
 	private static NER createNER(Vector<DictionaryEntry> entries){
@@ -68,7 +80,7 @@ public class Main {
 		
 		
 		//Diccionarios basados en reglas
-		RuleBasedConfigurator rBC = new RuleBasedConfigurator(RuleBasedDictionary.class.getName(), entries, null);
+	/*	RuleBasedConfigurator rBC = new RuleBasedConfigurator(RuleBasedDictionary.class.getName(), entries, null);
 		RuleBasedDictionary dic2 = (RuleBasedDictionary) rBC.configure("");
 		dic2.addMatcher(new RegExMatcher("[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})","Mail"));
 		dic2.addMatcher(new RegExMatcher("[0-9]+","numero"));
@@ -78,7 +90,7 @@ public class Main {
 		dic2.addMatcher(new RegExMatcher("esquina","esquina"));
 		dic2.addMatcher(new RegExMatcher("entre","entre"));
 		dic2.addMatcher(new RegExMatcher("casi","casi"));
-		dic2.addMatcher(new RegExMatcher("de","de"));		
+		dic2.addMatcher(new RegExMatcher("de","de"));		*/
 
 		//Diccionarios Aproximados
 		//ApproximatedDictionary dic3 = new ApproximatedDictionary(entries, 0.6, 2, 1,false);
@@ -91,7 +103,7 @@ public class Main {
 		//Creación del NER
 		NER ner = new NER(true);
 		ner.addDictionary(dic1);
-		ner.addDictionary(dic2);
+		//ner.addDictionary(dic2);
 		ner.addDictionary(dic3);
 		ner.setSyntaxChecker(syntaxChecker);
 		ner.setPreProcess(preProcess);
