@@ -82,4 +82,8 @@ SYNTAX-CHECKER-RULE= -s "numero" "de" "Calle" -m "Direccion Determinada"
 #=====================================================================
 
 # EVENT-DETECTION
-# TODO
+
+# TWEVENT
+# -l => lowerLimit = double
+
+TWEVENT= -l 0.3

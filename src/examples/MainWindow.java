@@ -442,7 +442,8 @@ public class MainWindow {
 		String configurationSyntaxChecker = null;
 		Vector<Vector<String>> synonyms = new Vector<Vector<String>>();
 		Vector<Pair<Vector<String>,String>> rulesSyntaxChecker = new Vector<Pair<Vector<String>,String>>();
-
+		String configurationTwevent = null;
+		
 		for (String line : lines){
 
 			String option = line.split("=")[0].trim();
@@ -522,6 +523,9 @@ public class MainWindow {
 				else
 					rulesSyntaxChecker.add(SyntaxChecker.createRule(cleanSearches.toArray(new String[]{}), means3));
 				break;
+			case "TWEVENT":
+				configurationTwevent= rightMember;
+				break;
 			}
 
 		}
@@ -584,6 +588,10 @@ public class MainWindow {
 			}
 
 		}
+		
+		//Creacion del Detector de eventos
+		
+		
 	}
 
 	private void clasiffierConfiguration() {

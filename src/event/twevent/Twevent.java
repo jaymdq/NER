@@ -1,4 +1,4 @@
-package event;
+package event.twevent;
 
 import java.util.Vector;
 
@@ -6,38 +6,30 @@ import twitter4j.Logger;
 import utils.Pair;
 import dictionary.chunk.Chunk;
 import dictionary.chunk.ChunkEvent;
+import event.EventDetection;
 
-public class Twevent {
+public class Twevent extends EventDetection{
 
 	// Variables
 
 	private FixedWindow fixedWindow;
 	private double lowerLimit;
-	private Vector< Pair< String, Vector<Chunk> > > tweets;
 
 	// Constructors
 	
 	public Twevent(Vector< Pair< String, Vector<Chunk> > > tweets){
-		this.setTweets(tweets);
+		super(tweets);
 		this.setFixedWindow(new FixedWindow(tweets.size()));
 		this.setLowerLimit(0.0);
 	}
 
 	public Twevent(Vector< Pair< String, Vector<Chunk> > >  tweets, FixedWindow fixedWindow, double loweLimit){
-		this.setTweets(tweets);
+		super(tweets);
 		this.setFixedWindow(fixedWindow);
 		this.setLowerLimit(loweLimit);
 	}
 
 	// Getters And Setters
-
-	public Vector< Pair< String, Vector<Chunk> > > getTweets() {
-		return tweets;
-	}
-
-	public void setTweets(Vector< Pair< String, Vector<Chunk> > > tweets) {
-		this.tweets = tweets;
-	}
 
 	public FixedWindow getFixedWindow() {
 		return fixedWindow;

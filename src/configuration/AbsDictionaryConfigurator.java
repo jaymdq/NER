@@ -7,7 +7,7 @@ import dictionary.dictionaryentry.DictionaryEntry;
 public abstract class AbsDictionaryConfigurator extends AbsConfigurator {
 
 	// Variables
-	Vector<DictionaryEntry> entries;
+	protected Vector<DictionaryEntry> entries;
 	
 	// Constructors
 	

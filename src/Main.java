@@ -3,10 +3,13 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 
+import ner.NER;
+import preprocess.PreProcess;
+import syntax.SyntaxChecker;
+import utils.Pair;
 import configuration.ApproximatedDictionaryConfigurator;
 import configuration.ExactDictionaryConfigurator;
 import configuration.RuleBasedConfigurator;
-import preprocess.PreProcess;
 import dictionary.approximatedDictionaries.ApproximatedDictionary;
 import dictionary.chunk.AbsChunk;
 import dictionary.chunk.Chunk;
@@ -16,11 +19,8 @@ import dictionary.exactDictionaries.ExactDictionary;
 import dictionary.io.DictionaryIO;
 import dictionary.ruleBasedDictionaries.RegExMatcher;
 import dictionary.ruleBasedDictionaries.RuleBasedDictionary;
-import event.Twevent;
+import event.twevent.Twevent;
 import examples.arff.ArffGenerator;
-import ner.NER;
-import syntax.SyntaxChecker;
-import utils.Pair;
 
 
 public class Main {
