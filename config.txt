@@ -86,4 +86,4 @@ SYNTAX-CHECKER-RULE= -s "numero" "de" "Calle" -m "Direccion Determinada"
 # TWEVENT
 # -l => lowerLimit = double
 
-TWEVENT= -l 0.3
+TWEVENT= -l 0.2 -p 0.2

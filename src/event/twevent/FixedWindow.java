@@ -17,13 +17,15 @@ public class FixedWindow {
 	private int fixedSize;
 	private Vector<Pair<String, Vector<Chunk>>> tweets;
 	private Vector<ChunkEvent> probBursty;
+	private double ps;
 
 	// Constructors
 
-	public FixedWindow(int fixedSize) {
+	public FixedWindow(int fixedSize, double expectedObservationProb) {
 		this.setFixedSize(fixedSize);
 		this.tweets = new Vector<Pair<String,Vector<Chunk>>>();
 		this.probBursty = new Vector<ChunkEvent>();
+		this.setExpectedObervationProb(expectedObservationProb);
 	}
 
 	// Getters And Setters
@@ -48,6 +50,14 @@ public class FixedWindow {
 		return this.tweets.size();
 	}
 
+	public double getExpectedObervationProb() {
+		return ps;
+	}
+
+	public void setExpectedObervationProb(double expectedObervationProb) {
+		this.ps = expectedObervationProb;
+	}
+
 	// Methods
 
 	public void addTweet(Pair<String, Vector<Chunk>> tweet){
@@ -70,7 +80,6 @@ public class FixedWindow {
 	}
 
 	private Double calculateProb(Chunk chunk){
-		Double ps = 0.5; //TODO ver esto
 		Double expectedLimit = (double) getNumberOfTweetsInWindow() * ps;
 		Double standardDesviation = (double) getNumberOfTweetsInWindow() * ps * (1 - ps);
 		Double fs = (double) getFrecuencyOfSegment(chunk.getText(), chunk.getCategoryType());
@@ -139,4 +148,10 @@ public class FixedWindow {
 		Collections.sort(this.probBursty);
 		return this.probBursty;
 	}
+
+	public void clear() {
+		tweets.clear();
+		probBursty.clear();		
+	}
+
 }

@@ -19,6 +19,7 @@ import dictionary.exactDictionaries.ExactDictionary;
 import dictionary.io.DictionaryIO;
 import dictionary.ruleBasedDictionaries.RegExMatcher;
 import dictionary.ruleBasedDictionaries.RuleBasedDictionary;
+import event.twevent.FixedWindow;
 import event.twevent.Twevent;
 import examples.arff.ArffGenerator;
 
@@ -49,8 +50,8 @@ public class Main {
 		for(String tweet: tweets)
 			toAnalyze.add( new Pair< String, Vector<Chunk> >(tweet, ner.recognize(tweet)) );
 		
-		Twevent tw = new Twevent(toAnalyze);
-		Vector<ChunkEvent> vector_evento = tw.detectEvents(true, true);
+		Twevent tw = new Twevent(new FixedWindow(toAnalyze.size(),0.2), 0.0, 0.2);
+		Vector<ChunkEvent> vector_evento = tw.detectEvents(toAnalyze,true);
 		
 		Vector< Vector<AbsChunk> > chunkList = new Vector< Vector<AbsChunk> >();
 		for(Pair< String, Vector<Chunk> > pair : toAnalyze){

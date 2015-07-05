@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.Vector;
 
 import stream.StreamWorkerAbs;
-import trainer.util.StatusExt;
 
 public class StreamPlainTextWorker extends StreamWorkerAbs {
 	
@@ -59,14 +58,12 @@ public class StreamPlainTextWorker extends StreamWorkerAbs {
 			}
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			try {
 				if(fileReader != null)
 					fileReader.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

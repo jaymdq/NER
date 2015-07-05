@@ -2,19 +2,17 @@ package configuration;
 
 import java.util.Vector;
 
-import utils.Pair;
-import dictionary.chunk.Chunk;
 import event.twevent.FixedWindow;
 import event.twevent.Twevent;
 
-public class TweventConfigurator extends AbsEventDetectionConfigurator {
+public class TweventConfigurator extends AbsConfigurator {
 
 	// Variables
 	
 	// Constructors
 
-	public TweventConfigurator(String name, Vector<Pair<String, Vector<Chunk>>> tweets) {
-		super(name, tweets);
+	public TweventConfigurator(String name) {
+		super(name);
 	}
 	
 	// Getters and Setters
@@ -26,10 +24,15 @@ public class TweventConfigurator extends AbsEventDetectionConfigurator {
 		int out = 0;
 		
 		setParameter("-l",0.0);
+		setParameter("-L",0.0);
+		setParameter("-p",0.2);
+		setParameter("-P",0.2);
 		
 		for (int i = 0; i < params.size(); i++){
 			String param = params.elementAt(i);
-			if (param.toLowerCase().equals("-l")){
+			
+			switch(param){
+			case "-l":
 				//Check if there is another element next to it
 				if (i+1 < params.size()){
 					try{
@@ -41,6 +44,22 @@ public class TweventConfigurator extends AbsEventDetectionConfigurator {
 					}
 				}else
 					out = 2;
+				break;
+			case "-p":
+				if (i+1 < params.size()){
+					try{
+						double doubleToAdd = Double.parseDouble(params.elementAt(i+1));
+						setParameter("-p",doubleToAdd);
+						i++;
+					} catch (Exception e) {
+						out = 3;
+					}
+				}else
+					out = 2;
+				break;
+			default:
+				out = 4;
+				break;
 			}
 		}
 		
@@ -53,8 +72,9 @@ public class TweventConfigurator extends AbsEventDetectionConfigurator {
 
 		//Parameters
 		double lowerLimit = (double) getParameter("-l");
+		double observationProb = (double) getParameter("-p");
 		
-		out = new Twevent(getTweets(),new FixedWindow(tweets.size()),lowerLimit);
+		out = new Twevent(new FixedWindow(10,observationProb), lowerLimit, observationProb);
 				
 		return out;
 	}
@@ -71,6 +91,9 @@ public class TweventConfigurator extends AbsEventDetectionConfigurator {
 			break;
 		case 2 :
 			out = "We need another argument";
+			break;
+		case 3 :
+			out = "-p/-P DOUBLE";
 			break;
 		default:
 			out = "Invalid argument";

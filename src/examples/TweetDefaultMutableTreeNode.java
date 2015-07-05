@@ -5,6 +5,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 public class TweetDefaultMutableTreeNode extends DefaultMutableTreeNode {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String text;
 	private Icon openIcon;
 	private Icon closedIcon;

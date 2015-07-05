@@ -40,7 +40,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.JScrollPane;
 
 import trainer.util.LBCounter;
-import twitter4j.conf.ConfigurationBuilder;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

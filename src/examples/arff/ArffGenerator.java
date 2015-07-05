@@ -33,7 +33,7 @@ public class ArffGenerator {
 	private void initParams() {
 		this.parameterList = new Vector<ArffParameter>();
 		
-		String[] heridosList = new String[]{ "Si", "No" };
+		String[] heridosList = new String[]{ "si_heridos", "no_heridos" };
 		ArffParameter heridoParameter = new ArffParameter("herido");
 		heridoParameter.setType(heridosList);
 		Vector<String> heridosCategories = new Vector<String>();
@@ -43,7 +43,7 @@ public class ArffGenerator {
 		heridoParameter.setFilter(heridosFilter);
 		this.parameterList.addElement(heridoParameter);
 		
-		String[] coches_involucradosList = new String[]{ "Si", "No" };
+		String[] coches_involucradosList = new String[]{ "si_coches", "no_coches" };
 		ArffParameter cochesParameter = new ArffParameter("coches_involucrados");
 		cochesParameter.setType(coches_involucradosList);
 		Vector<String> cochesCategories = new Vector<String>();
@@ -56,7 +56,7 @@ public class ArffGenerator {
 		cochesParameter.setFilter(cochesFilter);
 		this.parameterList.addElement(cochesParameter);
 		
-		String[] ubicacionList = new String[]{ "Si", "No" };
+		String[] ubicacionList = new String[]{ "si_ubicacion", "no_ubicacion" };
 		ArffParameter ubicacionParameter = new ArffParameter("ubicacion");
 		ubicacionParameter.setType(ubicacionList);
 		Vector<String> ubicacionCategories = new Vector<String>();
@@ -71,10 +71,10 @@ public class ArffGenerator {
 		ubicacionParameter.setFilter(ubicacionFilter);
 		this.parameterList.addElement(ubicacionParameter);
 		
-		String[] eventoList = new String[]{ "Accidente", "Demora", "Accidente Demora", "Otro" };
+		String[] eventoList = new String[]{ "accidente", "demora", "accidente_demora", "otro" };
 		ArffParameter eventoParameter = new ArffParameter("evento");
 		eventoParameter.setType(eventoList);
-		ParamFilterAbs eventoFilter = new EventFilter(2, "Otro"); // Accidente y Demora
+		ParamFilterAbs eventoFilter = new EventFilter(2, "otro"); // Accidente y Demora
 		eventoFilter.setValues(eventoList);
 		eventoParameter.setFilter(eventoFilter);
 		this.parameterList.addElement(eventoParameter);

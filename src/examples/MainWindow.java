@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
@@ -49,12 +48,14 @@ import configuration.ExactDictionaryConfigurator;
 import configuration.PreProcessConfigurator;
 import configuration.RuleBasedConfigurator;
 import configuration.SyntaxCheckerConfigurator;
+import configuration.TweventConfigurator;
 import dictionary.approximatedDictionaries.ApproximatedDictionary;
 import dictionary.dictionaryentry.DictionaryEntry;
 import dictionary.exactDictionaries.ExactDictionary;
 import dictionary.io.DictionaryIO;
 import dictionary.ruleBasedDictionaries.RegExMatcher;
 import dictionary.ruleBasedDictionaries.RuleBasedDictionary;
+import event.twevent.Twevent;
 
 public class MainWindow {
 
@@ -67,6 +68,7 @@ public class MainWindow {
 	private Vector<String> tweets = new Vector<String>();
 	private Vector<Vector<String>> hashtags = new Vector<Vector<String>>();
 	private NER ner;
+	private Twevent detector;
 	private boolean analyzingTweets;
 	private TweetClassifier tweetClassifier;
 	private AnalyzerWorker analyzer;
@@ -74,12 +76,10 @@ public class MainWindow {
 	private JMenuItem mntmTreeToText;
 
 	private String classifierConfigurationLine = "weka.classifiers.trees.J48 -C 0.25 -M 2";
-
 	private boolean configuredNER;
-
 	private JMenuItem mntmClassifyTest;
-
 	private JMenuItem mntmClassify;
+	
 
 	/**
 	 * Launch the application.
@@ -171,9 +171,6 @@ public class MainWindow {
 		});
 		mnTools.add(mntmTreeToText);
 
-		JMenuItem mntmViewData = new JMenuItem("View Data");
-		mnTools.add(mntmViewData);
-
 		JMenu mnNewMenu = new JMenu("Configuration");
 		menuBar.add(mnNewMenu);
 
@@ -257,17 +254,13 @@ public class MainWindow {
 		tree.setFont(new Font("Consolas", Font.PLAIN, 12));
 		tree.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		tree.setModel(new DefaultTreeModel(
-				new TweetDefaultMutableTreeNode("Open a file, Load a Configuration and Process. //TODO VER SI CAMBIAR ESTO") {
-					/**
-					 * 
-					 */
-					private static final long serialVersionUID = 1L;
+			new TweetDefaultMutableTreeNode("Open a file and load a configuration to start.") {
+				private static final long serialVersionUID = 1L;
 
-					{
-
-					}
+				{
 				}
-				));
+			}
+		));
 		tree.setCellRenderer(new TweetRenderer());
 		scrollPane.setViewportView(tree);
 
@@ -278,7 +271,7 @@ public class MainWindow {
 
 	private void clearTree() {
 		tree.setModel(new DefaultTreeModel(
-				new TweetDefaultMutableTreeNode("Open a file to process it") {
+				new TweetDefaultMutableTreeNode("Open a file and load a configuration to start.") {
 					private static final long serialVersionUID = 1L;
 					{
 					}
@@ -327,7 +320,7 @@ public class MainWindow {
 		this.streamWorker = new StreamPlainTextWorker(this.selectedFilePath[0], format);
 		this.streamWorker.start();
 
-		//TODO dormirlo para que el streamworker llegue a estar disponible para levantar tweets
+		//Dormirlo para que llegue a levantar los tweets
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
@@ -590,7 +583,12 @@ public class MainWindow {
 		}
 		
 		//Creacion del Detector de eventos
-		
+		detector = null;
+		if (configurationTwevent != null){
+			TweventConfigurator tweventConfigurator = new TweventConfigurator(Twevent.class.getName());
+			detector = (Twevent) tweventConfigurator.configure(configurationTwevent);
+		}
+		 
 		
 	}
 
@@ -721,7 +719,7 @@ public class MainWindow {
 			}
 		}
 		else{
-			analyzer = new AnalyzerWorker(this, tweets, ner, tree, hashtags);
+			analyzer = new AnalyzerWorker(this, tweets, ner, detector,tree, hashtags);
 			analyzer.start();
 		}
 	}

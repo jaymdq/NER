@@ -55,6 +55,7 @@ public class TTokensModel extends DefaultTableModel implements Iterable<Dictiona
 	}
 	
 	private void updateCategories(int index, Vector<String> categories){
+		@SuppressWarnings("unchecked")
 		Vector<String> valueAt = (Vector<String>)this.getValueAt(index, 1);
 		Vector<String> tmp = valueAt;
 		for(String category: categories)
@@ -87,6 +88,7 @@ public class TTokensModel extends DefaultTableModel implements Iterable<Dictiona
 				int current = this.cursor;
 				this.cursor++;
 				String token = (String)TTokensModel.this.getValueAt(current, 0);
+				@SuppressWarnings("unchecked")
 				Vector<String> categories = (Vector<String>)TTokensModel.this.getValueAt(current, 1);
 				return new DictionaryEntry( token, categories.toArray(new String[categories.size()]) );
 			}
