@@ -7,9 +7,19 @@ import dictionary.chunk.AbsChunk;
 public class EventFilter extends ParamFilterAbs {
 	
 	private int limit;
+	private String defValue = null;
 	
 	public EventFilter(int toCheck){
 		this.setLimit(toCheck);
+	}
+	
+	public EventFilter(int toCheck, String defValue){
+		this.setLimit(toCheck);
+		this.setDefValue(defValue);
+	}
+	
+	public void setDefValue(String defValue) {
+		this.defValue = defValue;
 	}
 	
 	public void setLimit(int limit) {
@@ -19,15 +29,13 @@ public class EventFilter extends ParamFilterAbs {
 	@Override
 	public String apply(Vector<AbsChunk> chunks) {
 		String out = "";
-		boolean foundSomething = false;
-		if (chunks.isEmpty())
-			return "Otro"; //Seria un default
+		if (chunks.isEmpty() && this.defValue != null)
+			return this.defValue;
 		for(int i=0; i < this.limit; i++){
 			boolean found = false;
 			for(int j=0; !found && j < chunks.size(); j++){
 				AbsChunk c = chunks.elementAt(j);
 				found = c.getCategoryType().contains(this.values[i]);
-				foundSomething=true;
 			}
 			if( found && !out.contains(this.values[i]) ){
 				out += this.values[i]+" ";
@@ -35,8 +43,8 @@ public class EventFilter extends ParamFilterAbs {
 			}
 		}
 		out = out.trim();
-		if (foundSomething && out.isEmpty())
-			out = "Otro";
-		return out;	
+		if (out.isEmpty() && this.defValue != null)
+			out = this.defValue;
+		return out;
 	}
 }

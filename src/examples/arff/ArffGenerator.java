@@ -74,7 +74,7 @@ public class ArffGenerator {
 		String[] eventoList = new String[]{ "Accidente", "Demora", "Accidente Demora", "Otro" };
 		ArffParameter eventoParameter = new ArffParameter("evento");
 		eventoParameter.setType(eventoList);
-		ParamFilterAbs eventoFilter = new EventFilter(3); // Accidente y Demora
+		ParamFilterAbs eventoFilter = new EventFilter(2, "Otro"); // Accidente y Demora
 		eventoFilter.setValues(eventoList);
 		eventoParameter.setFilter(eventoFilter);
 		this.parameterList.addElement(eventoParameter);
