@@ -2,14 +2,14 @@ package examples.arff.filter;
 
 import java.util.Vector;
 
-import dictionary.chunk.Chunk;
+import dictionary.chunk.AbsChunk;
 
 public class TokenFilter extends ParamFilterAbs {
 
-	private Vector<String> categoryList;
+	private Vector<String> categoryList = new Vector<String>();
 	
 	public TokenFilter(Vector<String> categoryList){
-		
+		this.addCategory(categoryList);
 	}
 	
 	public void addCategory(Vector<String> categoryList){
@@ -21,16 +21,19 @@ public class TokenFilter extends ParamFilterAbs {
 	}
 			
 	@Override
-	public String apply(Vector<Chunk> chunks) {
+	public String apply(Vector<AbsChunk> chunks) {
 		boolean exist = false;
-		for(int i=0; !exist && i < chunks.size(); i++){
-			Chunk c = chunks.elementAt(i);
-			exist = this.categoryList.contains(c.getCategoryType());
+		for(int i=0; !exist && i < this.categoryList.size(); i++){
+			String category = this.categoryList.get(i);
+			for(int j=0; !exist && j < chunks.size(); j++){
+				AbsChunk c = chunks.elementAt(j);
+				exist = c.getCategoryType().contains(category);
+			}
 		}
 		if(exist)
-			return this.values[1];
+			return this.values[0]; //Si
 		
-		return this.values[0];
+		return this.values[1]; // No
 	}
 
 }

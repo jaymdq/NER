@@ -2,7 +2,7 @@ package examples.arff;
 
 import java.util.Vector;
 
-import dictionary.chunk.Chunk;
+import dictionary.chunk.AbsChunk;
 import examples.arff.filter.ParamFilterAbs;
 
 public class ArffParameter {
@@ -52,9 +52,9 @@ public class ArffParameter {
 		return type;
 	}
 	
-	public String getValue(Vector<Chunk> chunks){
+	public String getValue(Vector<AbsChunk> vc){
 		if(this.filter == null) return this.getType();
-		return this.filter.apply(chunks);
+		return this.filter.apply(vc);
 	}
 	
 	public String toString(){
