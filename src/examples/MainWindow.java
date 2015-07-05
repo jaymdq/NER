@@ -2,6 +2,7 @@ package examples;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -15,9 +16,11 @@ import java.io.FileReader;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -50,7 +53,9 @@ import stream.plaintext.PlainTextFormatAbs;
 import stream.plaintext.PlainTextFormatSimple;
 import stream.plaintext.PlainTextFormatTwitter;
 import stream.plaintext.StreamPlainTextWorker;
+import twitter4j.HashtagEntity;
 import twitter4j.Logger;
+import twitter4j.Status;
 import utils.Pair;
 import dictionary.approximatedDictionaries.ApproximatedDictionary;
 import dictionary.dictionaryentry.DictionaryEntry;
@@ -76,6 +81,8 @@ import configuration.PreProcessConfigurator;
 import configuration.RuleBasedConfigurator;
 import configuration.SyntaxCheckerConfigurator;
 
+import javax.swing.SwingConstants;
+
 public class MainWindow {
 
 	private static final String titulo = "Tweets Analyzer";
@@ -85,14 +92,15 @@ public class MainWindow {
 	private StreamWorkerAbs streamWorker;
 	private JTree tree;
 	private Vector<String> tweets = new Vector<String>();
+	private Vector<Vector<String>> hashtags = new Vector<Vector<String>>();
 	private NER ner;
 	private boolean analyzingTweets;
 	private TweetClassifier tweetClassifier;
 	private AnalyzerWorker analyzer;
 	private JToggleButton btnProcess;
-
 	private JMenuItem mntmTreeToText;
-	private JTextField classifierArgumentsTxt;
+
+	private String classifierConfigurationLine = "weka.classifiers.trees.J48 -C 0.25 -M 2";
 
 	/**
 	 * Launch the application.
@@ -187,26 +195,70 @@ public class MainWindow {
 		JMenuItem mntmViewData = new JMenuItem("View Data");
 		mnTools.add(mntmViewData);
 
+		JMenu mnNewMenu = new JMenu("Configuration");
+		menuBar.add(mnNewMenu);
+
+		JMenuItem mntmLoadConfigurationFile = new JMenuItem("Load Configuration File");
+		mntmLoadConfigurationFile.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				configuration();
+			}
+		});
+		mnNewMenu.add(mntmLoadConfigurationFile);
+
 		JMenu mnClassification = new JMenu("Classification");
 		menuBar.add(mnClassification);
 
-		JMenu mnClassifier = new JMenu("Classifier");
-		mnClassification.add(mnClassifier);
+		JMenuItem mntmConfigureClassifier = new JMenuItem("Configure Classifier");
+		mntmConfigureClassifier.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				clasiffierConfiguration();
+			}
+		});
+		mnClassification.add(mntmConfigureClassifier);
 
-		JRadioButtonMenuItem rdbtnmntmJ = new JRadioButtonMenuItem("J48");
-		mnClassifier.add(rdbtnmntmJ);
-
-		JRadioButtonMenuItem rdbtnmntmId = new JRadioButtonMenuItem("Id3");
-		mnClassifier.add(rdbtnmntmId);
+		JSeparator separator_3 = new JSeparator();
+		mnClassification.add(separator_3);
 
 		JMenuItem mntmTrainClassifier = new JMenuItem("Train Classifier");
+		mntmTrainClassifier.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				trainClassifier();
+			}
+		});
 		mnClassification.add(mntmTrainClassifier);
 
 		JSeparator separator_1 = new JSeparator();
 		mnClassification.add(separator_1);
 
-		JMenuItem mntmClassify = new JMenuItem("Classify");
+		JMenuItem mntmClassify = new JMenuItem("Classify - Test Model");
+		mntmClassify.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				classify();
+			}
+		});
 		mnClassification.add(mntmClassify);
+
+		JMenuItem mntmClassifyTest = new JMenuItem("Classify - Test Tweets");
+		mntmClassifyTest.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				classifyTweets();
+			}
+		});
+		mnClassification.add(mntmClassifyTest);
+
+		menuBar.add(Box.createHorizontalGlue());
+		btnProcess = new JToggleButton("Process");
+		menuBar.add(btnProcess);
+		btnProcess.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnProcess.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+		btnProcess.setEnabled(false);
+		btnProcess.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				process(btnProcess.isSelected());
+			}
+		});
+		
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 
 		JPanel panel = new JPanel();
@@ -236,100 +288,22 @@ public class MainWindow {
 				));
 		tree.setCellRenderer(new TweetRenderer());
 		scrollPane.setViewportView(tree);
-
-		JPanel westPane = new JPanel();
-		Border border = westPane.getBorder();
 		Border margin = new EmptyBorder(0,10,5,10);
-		westPane.setBorder(new CompoundBorder(border, margin));
-		frame.getContentPane().add(westPane, BorderLayout.WEST);
-
-
-		btnProcess = new JToggleButton("Process");
-		btnProcess.setAlignmentX(Component.CENTER_ALIGNMENT);
-		btnProcess.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnProcess.setEnabled(false);
-		btnProcess.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				process(btnProcess.isSelected());
-			}
-		});
-		BoxLayout boxLayout = new BoxLayout(westPane, BoxLayout.Y_AXIS);
-		westPane.setLayout(boxLayout);
-		westPane.setPreferredSize(new Dimension(250,50));
-
-		JPanel configPanel = new JPanel();
-		configPanel.setBorder(new CompoundBorder(new EmptyBorder(0, 0, 5, 0), new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Configuration", TitledBorder.CENTER, TitledBorder.TOP, null, null)));
-		westPane.add(configPanel);
-
-		JButton btnConfiguration = new JButton("Load Configuration File");
-		btnConfiguration.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnConfiguration.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				configuration();
-			}
-		});
-		configPanel.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.UNRELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),
-				FormFactory.UNRELATED_GAP_COLSPEC,},
-				new RowSpec[] {
-				RowSpec.decode("7px"),
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
-		configPanel.add(btnConfiguration, "2, 2, fill, top");
-
-		JLabel lblClassification = new JLabel("Classification - Weka Line ");
-		lblClassification.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		configPanel.add(lblClassification, "2, 4");
-
-		classifierArgumentsTxt = new JTextField();
-		classifierArgumentsTxt.setMargin(new Insets(3,3,3,3));
-		classifierArgumentsTxt.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		configPanel.add(classifierArgumentsTxt, "2, 6, fill, default");
-		classifierArgumentsTxt.setColumns(10);
-
-		JButton btnTrainClassifier = new JButton("Train Classifier");
-		btnTrainClassifier.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				trainClassifier();
-			}
-		});
-		btnTrainClassifier.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		configPanel.add(btnTrainClassifier, "2, 8");
-
-		JButton btnClassify = new JButton("Classify");
-		btnClassify.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				classify();
-			}
-		});
-		btnClassify.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		configPanel.add(btnClassify, "2, 10");
-		westPane.add(btnProcess);
 
 	}
 
-	//--------------------------------------------------------------------------------------------------------------------------------------------
-
-
-
-	protected void trainClassifier() {
-		//Get Arguments
-		String arguments = classifierArgumentsTxt.getText();
-
+	
+	
+//---------------------------------------------------------------------------------------------------------------------
+	
+	private void clasiffierConfiguration() {
+		ClassifierConfigurationEditor editor = new ClassifierConfigurationEditor();
+		editor.setVisible(true);
+		
+		classifierConfigurationLine = editor.getConfiguration();
+	}
+	
+	private void trainClassifier() {
 		//Open FileChoose
 		JFileChooser chooser = new JFileChooser("./");
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("ARFF file (*.arff)", "arff");
@@ -342,12 +316,12 @@ public class MainWindow {
 		if (path.isEmpty())
 			return;
 
-		tweetClassifier = new TweetClassifier(arguments);
+		tweetClassifier = new TweetClassifier(classifierConfigurationLine);
 		tweetClassifier.trainClassifier(path);
 
 	}
 
-	protected void classify() {
+	private void classify() {
 		//Open FileChoose
 		JFileChooser chooser = new JFileChooser("./");
 		FileNameExtensionFilter filter = new FileNameExtensionFilter("ARFF file (*.arff)", "arff");
@@ -361,16 +335,39 @@ public class MainWindow {
 			return;
 
 		String results = tweetClassifier.classify(path);
+		results += "\n Scheme: [" + classifierConfigurationLine + "]";
 		
 		TextDialog textDialog = new TextDialog("Classification [" + path + "]", results,true);
 		textDialog.setEditable(false);
 		textDialog.setModal(true);
 		textDialog.setLocationRelativeTo(null);
-		textDialog.setVisible(true);
-		
-		
+		textDialog.setVisible(true);		
 	}
+	
+	private void classifyTweets() {
+		//Open FileChoose
+		JFileChooser chooser = new JFileChooser("./");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("ARFF file (*.arff)", "arff");
+		chooser.setFileFilter(filter);
+		int returnVal = chooser.showOpenDialog(frame);
+		String path="";
+		if(returnVal == JFileChooser.APPROVE_OPTION) {
+			path = chooser.getSelectedFile().getPath();
+		}
+		if (path.isEmpty())
+			return;
 
+		String results = tweetClassifier.classify(path);
+		results += "\n Scheme: [" + classifierConfigurationLine + "]";
+		
+		TextDialog textDialog = new TextDialog("Classification [" + path + "]", results,true);
+		textDialog.setEditable(false);
+		textDialog.setModal(true);
+		textDialog.setLocationRelativeTo(null);
+		textDialog.setVisible(true);		
+	}
+	
+	
 	private void configuration() {
 		//Open FileChoose
 		JFileChooser chooser = new JFileChooser("./");
@@ -625,6 +622,7 @@ public class MainWindow {
 				}
 				));
 		tweets.clear();
+		hashtags.clear();
 		btnProcess.setEnabled(false);
 		mntmTreeToText.setEnabled(false);
 	}
@@ -685,14 +683,33 @@ public class MainWindow {
 		TweetDefaultMutableTreeNode root = new TweetDefaultMutableTreeNode("Tweets");
 		DefaultTreeModel model = new DefaultTreeModel(root);
 		this.tweets.clear();
+		hashtags.clear();
 
-		String tweet = null;	
+		String tweet = null;
+		Status status = null;
 		Integer i = 1;
-		while ( ( tweet = this.streamWorker.getNextTweet()) != null ){
-			tweets.add(tweet);
-			TweetDefaultMutableTreeNode node = new TweetDefaultMutableTreeNode("<span style=\"color:blue\"><b>[" + i + "]</b></span> [" + tweet + "] ");
-			root.add(node);
-			i++;
+		if (analyzingTweets){
+			while ( ( status = (Status) this.streamWorker.getNextObject()) != null ){
+				tweet = status.getText();
+				tweets.add(tweet);
+				HashtagEntity[] hte = status.getHashtagEntities();
+				Vector<String> toAdd = new Vector<String>();
+				for (int j = 0; j < hte.length; j++){
+					toAdd.add(hte[j].getText());
+				}
+				hashtags.add(toAdd);
+
+				TweetDefaultMutableTreeNode node = new TweetDefaultMutableTreeNode("<span style=\"color:blue\"><b>[" + i + "]</b></span> [" + tweet + "] ");
+				root.add(node);
+				i++;
+			}
+		}else{
+			while ( ( tweet = this.streamWorker.getNextTweet()) != null ){
+				tweets.add(tweet);			
+				TweetDefaultMutableTreeNode node = new TweetDefaultMutableTreeNode("<span style=\"color:blue\"><b>[" + i + "]</b></span> [" + tweet + "] ");
+				root.add(node);
+				i++;
+			}
 		}
 		root.setText(root.getText() + " [" + (i - 1) + "]");
 		tree.setModel(model);
@@ -714,7 +731,7 @@ public class MainWindow {
 			}
 		}
 		else{
-			analyzer = new AnalyzerWorker(tweets, ner, tree);
+			analyzer = new AnalyzerWorker(tweets, ner, tree, hashtags);
 			analyzer.start();
 		}
 	}

@@ -18,14 +18,16 @@ public class AnalyzerWorker extends Thread {
 	private Vector<String> tweets;
 	private NER ner;
 	private JTree tree;
+	private Vector<Vector<String>> hashtags;
 	private volatile boolean running = true;
 
 	// Constructors
-	public AnalyzerWorker(Vector<String> tweets, NER ner, JTree tree){
+	public AnalyzerWorker(Vector<String> tweets, NER ner, JTree tree, Vector<Vector<String>> hashtags){
 		setActualTweetCount(0);
 		setTweets(tweets);
 		setTree(tree);
 		setNer(ner);
+		setHashtags(hashtags);
 	}
 
 	// Getters and Setters
@@ -62,6 +64,14 @@ public class AnalyzerWorker extends Thread {
 		this.tree = tree;
 	}
 
+	public Vector<Vector<String>> getHashtags() {
+		return hashtags;
+	}
+
+	public void setHashtags(Vector<Vector<String>> hashtags) {
+		this.hashtags = hashtags;
+	}
+	
 	// Methods
 
 	private Vector<Chunk> sortChunks(Vector<Chunk> chunks){
@@ -143,6 +153,14 @@ public class AnalyzerWorker extends Thread {
 				chunksNode.add(newNode);
 			}
 
+			TweetDefaultMutableTreeNode hashTagsNode = new TweetDefaultMutableTreeNode("HashTags: ["+hashtags.elementAt(i).size()+"]");
+			node.add(hashTagsNode);
+			
+			for (String ht : hashtags.elementAt(i)){
+				TweetDefaultMutableTreeNode newNode = new TweetDefaultMutableTreeNode(ht);
+				hashTagsNode.add(newNode);
+			}
+			
 			root.setText("Tweets [" + actualTweetCount + "/" + this.tweets.size() + "]");
 
 			//Reload
