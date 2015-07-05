@@ -80,7 +80,7 @@ public class Main {
 		
 		
 		//Diccionarios basados en reglas
-	/*	RuleBasedConfigurator rBC = new RuleBasedConfigurator(RuleBasedDictionary.class.getName(), entries, null);
+		RuleBasedConfigurator rBC = new RuleBasedConfigurator(RuleBasedDictionary.class.getName(), entries, null);
 		RuleBasedDictionary dic2 = (RuleBasedDictionary) rBC.configure("");
 		dic2.addMatcher(new RegExMatcher("[A-Za-z0-9](([_\\.\\-]?[a-zA-Z0-9]+)*)@([A-Za-z0-9]+)(([\\.\\-]?[a-zA-Z0-9]+)*)\\.([A-Za-z]{2,})","Mail"));
 		dic2.addMatcher(new RegExMatcher("[0-9]+","numero"));
@@ -90,7 +90,7 @@ public class Main {
 		dic2.addMatcher(new RegExMatcher("esquina","esquina"));
 		dic2.addMatcher(new RegExMatcher("entre","entre"));
 		dic2.addMatcher(new RegExMatcher("casi","casi"));
-		dic2.addMatcher(new RegExMatcher("de","de"));		*/
+		dic2.addMatcher(new RegExMatcher("de","de"));
 
 		//Diccionarios Aproximados
 		//ApproximatedDictionary dic3 = new ApproximatedDictionary(entries, 0.6, 2, 1,false);
@@ -103,7 +103,7 @@ public class Main {
 		//Creación del NER
 		NER ner = new NER(true);
 		ner.addDictionary(dic1);
-		//ner.addDictionary(dic2);
+		ner.addDictionary(dic2);
 		ner.addDictionary(dic3);
 		ner.setSyntaxChecker(syntaxChecker);
 		ner.setPreProcess(preProcess);

@@ -38,6 +38,8 @@ public class RuleBasedConfigurator extends AbsDictionaryConfigurator {
 
 	@Override
 	protected Object configureObject() {
+		if (this.matchers == null)
+			this.matchers = new Vector<RegExMatcher>();
 		return new RuleBasedDictionary(this.matchers);
 	}
 

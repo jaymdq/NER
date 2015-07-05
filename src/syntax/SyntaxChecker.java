@@ -134,6 +134,9 @@ public class SyntaxChecker {
 		Vector<String> possibleJoin = null;
 		Vector< Pair< Vector<Integer>, Vector<String>> > categoriesOfChunks = this.getCategoriesOfChunks( (Vector< Pair< Vector<Integer>, Vector<String>> >) chunksByCategory.clone());
 
+		if (categoriesOfChunks == null)
+			return out;
+		
 		for( int cat = 0; cat < categoriesOfChunks.size(); cat++ ){
 			Pair< Vector<Integer>, Vector<String>> categoryOfChunks = categoriesOfChunks.get(cat);
 			for ( i = 0; i < categoryOfChunks.getPair2().size(); i++){

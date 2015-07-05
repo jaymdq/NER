@@ -2,11 +2,8 @@ package examples;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.ComponentOrientation;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,72 +13,48 @@ import java.io.FileReader;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
 import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JToggleButton;
 import javax.swing.JTree;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultTreeModel;
 
 import ner.NER;
 import preprocess.PreProcess;
 import segmentation.Segmenter;
-import syntax.SyntaxChecker;
 import stream.StreamWorkerAbs;
 import stream.plaintext.PlainTextFormatAbs;
 import stream.plaintext.PlainTextFormatSimple;
 import stream.plaintext.PlainTextFormatTwitter;
 import stream.plaintext.StreamPlainTextWorker;
+import syntax.SyntaxChecker;
 import twitter4j.HashtagEntity;
-import twitter4j.Logger;
 import twitter4j.Status;
 import utils.Pair;
+import configuration.ApproximatedDictionaryConfigurator;
+import configuration.ExactDictionaryConfigurator;
+import configuration.PreProcessConfigurator;
+import configuration.RuleBasedConfigurator;
+import configuration.SyntaxCheckerConfigurator;
 import dictionary.approximatedDictionaries.ApproximatedDictionary;
 import dictionary.dictionaryentry.DictionaryEntry;
 import dictionary.exactDictionaries.ExactDictionary;
 import dictionary.io.DictionaryIO;
 import dictionary.ruleBasedDictionaries.RegExMatcher;
 import dictionary.ruleBasedDictionaries.RuleBasedDictionary;
-
-import javax.swing.JLabel;
-
-import java.awt.FlowLayout;
-
-import javax.swing.JTextField;
-
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.factories.FormFactory;
-import com.jgoodies.forms.layout.RowSpec;
-
-import configuration.ApproximatedDictionaryConfigurator;
-import configuration.ExactDictionaryConfigurator;
-import configuration.PreProcessConfigurator;
-import configuration.RuleBasedConfigurator;
-import configuration.SyntaxCheckerConfigurator;
-
-import javax.swing.SwingConstants;
 
 public class MainWindow {
 
@@ -101,6 +74,12 @@ public class MainWindow {
 	private JMenuItem mntmTreeToText;
 
 	private String classifierConfigurationLine = "weka.classifiers.trees.J48 -C 0.25 -M 2";
+
+	private boolean configuredNER;
+
+	private JMenuItem mntmClassifyTest;
+
+	private JMenuItem mntmClassify;
 
 	/**
 	 * Launch the application.
@@ -231,7 +210,8 @@ public class MainWindow {
 		JSeparator separator_1 = new JSeparator();
 		mnClassification.add(separator_1);
 
-		JMenuItem mntmClassify = new JMenuItem("Classify - Test Model");
+		mntmClassify = new JMenuItem("Classify - Test Model");
+		mntmClassify.setEnabled(false);
 		mntmClassify.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				classify();
@@ -239,7 +219,8 @@ public class MainWindow {
 		});
 		mnClassification.add(mntmClassify);
 
-		JMenuItem mntmClassifyTest = new JMenuItem("Classify - Test Tweets");
+		mntmClassifyTest = new JMenuItem("Classify - Test Tweets");
+		mntmClassifyTest.setEnabled(false);
 		mntmClassifyTest.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				classifyTweets();
@@ -253,12 +234,13 @@ public class MainWindow {
 		btnProcess.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnProcess.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 		btnProcess.setEnabled(false);
+		btnProcess.setPreferredSize(mnClassification.getPreferredSize());
 		btnProcess.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				process(btnProcess.isSelected());
 			}
 		});
-		
+
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 
 		JPanel panel = new JPanel();
@@ -275,7 +257,7 @@ public class MainWindow {
 		tree.setFont(new Font("Consolas", Font.PLAIN, 12));
 		tree.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		tree.setModel(new DefaultTreeModel(
-				new TweetDefaultMutableTreeNode("Open a file to process it") {
+				new TweetDefaultMutableTreeNode("Open a file, Load a Configuration and Process. //TODO VER SI CAMBIAR ESTO") {
 					/**
 					 * 
 					 */
@@ -288,86 +270,106 @@ public class MainWindow {
 				));
 		tree.setCellRenderer(new TweetRenderer());
 		scrollPane.setViewportView(tree);
-		Border margin = new EmptyBorder(0,10,5,10);
+
 
 	}
 
-	
-	
-//---------------------------------------------------------------------------------------------------------------------
-	
-	private void clasiffierConfiguration() {
-		ClassifierConfigurationEditor editor = new ClassifierConfigurationEditor();
-		editor.setVisible(true);
-		
-		classifierConfigurationLine = editor.getConfiguration();
+	//----------------------------------------------------------------------------------------------------------------------------------------
+
+	private void clearTree() {
+		tree.setModel(new DefaultTreeModel(
+				new TweetDefaultMutableTreeNode("Open a file to process it") {
+					private static final long serialVersionUID = 1L;
+					{
+					}
+				}
+				));
+		tweets.clear();
+		hashtags.clear();
+		btnProcess.setEnabled(false);
+		mntmTreeToText.setEnabled(false);
+		configuredNER = false;
 	}
-	
-	private void trainClassifier() {
-		//Open FileChoose
+
+	private void openText() {
+		selectFile();
+		load(0);
+	}
+
+	private void openTweets() {
+		selectFile();
+		load(1);	
+	}
+
+	private void selectFile() {
 		JFileChooser chooser = new JFileChooser("./");
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("ARFF file (*.arff)", "arff");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Plain Text (*.txt)", "txt");
 		chooser.setFileFilter(filter);
 		int returnVal = chooser.showOpenDialog(frame);
-		String path="";
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
-			path = chooser.getSelectedFile().getPath();
+			selectedFilePath[0] = chooser.getSelectedFile().getPath();
+			selectedFilePath[1] = chooser.getSelectedFile().getName();
 		}
-		if (path.isEmpty())
-			return;
+	}
 
-		tweetClassifier = new TweetClassifier(classifierConfigurationLine);
-		tweetClassifier.trainClassifier(path);
+	private void load(int option){
+		PlainTextFormatAbs format = null;
+		switch(option){
+		case 0:
+			format = new PlainTextFormatSimple();
+			analyzingTweets = false;
+			break;
+		case 1:
+			format = new PlainTextFormatTwitter();
+			analyzingTweets = true;
+			break;
+		}
+		this.streamWorker = new StreamPlainTextWorker(this.selectedFilePath[0], format);
+		this.streamWorker.start();
+
+		//TODO dormirlo para que el streamworker llegue a estar disponible para levantar tweets
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+		//Create the tree
+		frame.setTitle(titulo + " - [Loading...]");
+		createTree();
+		frame.setTitle(titulo);
+
+		mntmTreeToText.setEnabled(!tweets.isEmpty());
+		if (configuredNER)
+			btnProcess.setEnabled(!tweets.isEmpty());
+	}
+
+	private void treeToText() {
+		if (tweets != null && tweets.size() > 0 ){
+			String text = treeToText((TweetDefaultMutableTreeNode) tree.getModel().getRoot(),0);
+			TextDialog textDialog = new TextDialog("Tree to Text",text,false);
+			textDialog.setVisible(true);
+			textDialog.setLocationRelativeTo(null);
+		}
 
 	}
 
-	private void classify() {
-		//Open FileChoose
-		JFileChooser chooser = new JFileChooser("./");
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("ARFF file (*.arff)", "arff");
-		chooser.setFileFilter(filter);
-		int returnVal = chooser.showOpenDialog(frame);
-		String path="";
-		if(returnVal == JFileChooser.APPROVE_OPTION) {
-			path = chooser.getSelectedFile().getPath();
+	private String treeToText(TweetDefaultMutableTreeNode node,int level){
+		String aux="";
+		String out="";
+		if (level > 0)
+			aux+="└";
+		for (int i = 0; i < level; i++)
+			aux+="─";
+		out =aux + node.toString() + "<br>";
+		Enumeration<?> childrens = node.children();
+		while (childrens.hasMoreElements()){
+			TweetDefaultMutableTreeNode nextElement = (TweetDefaultMutableTreeNode) childrens.nextElement();
+			out += treeToText(nextElement,level + 1);
 		}
-		if (path.isEmpty())
-			return;
-
-		String results = tweetClassifier.classify(path);
-		results += "\n Scheme: [" + classifierConfigurationLine + "]";
-		
-		TextDialog textDialog = new TextDialog("Classification [" + path + "]", results,true);
-		textDialog.setEditable(false);
-		textDialog.setModal(true);
-		textDialog.setLocationRelativeTo(null);
-		textDialog.setVisible(true);		
+		return out;
 	}
-	
-	private void classifyTweets() {
-		//Open FileChoose
-		JFileChooser chooser = new JFileChooser("./");
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("ARFF file (*.arff)", "arff");
-		chooser.setFileFilter(filter);
-		int returnVal = chooser.showOpenDialog(frame);
-		String path="";
-		if(returnVal == JFileChooser.APPROVE_OPTION) {
-			path = chooser.getSelectedFile().getPath();
-		}
-		if (path.isEmpty())
-			return;
 
-		String results = tweetClassifier.classify(path);
-		results += "\n Scheme: [" + classifierConfigurationLine + "]";
-		
-		TextDialog textDialog = new TextDialog("Classification [" + path + "]", results,true);
-		textDialog.setEditable(false);
-		textDialog.setModal(true);
-		textDialog.setLocationRelativeTo(null);
-		textDialog.setVisible(true);		
-	}
-	
-	
 	private void configuration() {
 		//Open FileChoose
 		JFileChooser chooser = new JFileChooser("./");
@@ -424,6 +426,10 @@ public class MainWindow {
 
 		//Configure
 		parseAndConfigure(lines);
+		configuredNER=true;
+		if (!tweets.isEmpty())
+			btnProcess.setEnabled(true);
+
 	}
 
 	private void parseAndConfigure(Vector<String> lines) {
@@ -516,15 +522,13 @@ public class MainWindow {
 				else
 					rulesSyntaxChecker.add(SyntaxChecker.createRule(cleanSearches.toArray(new String[]{}), means3));
 				break;
-			default :
-				System.out.println("ERROR BITCH" + option);
 			}
 
 		}
 
 		//Lista de clases a usar
 		//Creación del NER
-		ner = new NER(true);
+		ner = new NER(false);
 		ner.setToLowerCase(toLowerCase);
 		Vector<DictionaryEntry> entradas = new Vector<DictionaryEntry>();
 		PreProcess preProcess = null;
@@ -537,7 +541,9 @@ public class MainWindow {
 		if (fileEntries != null){
 
 			//Entradas		
-			entradas.addAll(filesEntries(fileEntries));
+			Set<DictionaryEntry> entries = new HashSet<DictionaryEntry>();
+			entries.addAll(DictionaryIO.loadPlainTextWithCategories(fileEntries));
+			entradas.addAll(new Vector<DictionaryEntry>(entries));
 
 			//Creación del PreProcess
 			if (preProcessRules != null){
@@ -580,103 +586,79 @@ public class MainWindow {
 		}
 	}
 
+	private void clasiffierConfiguration() {
+		ClassifierConfigurationEditor editor = new ClassifierConfigurationEditor();
+		editor.setVisible(true);
 
-
-	private void treeToText() {
-		if (tweets != null && tweets.size() > 0 ){
-			String text = treeToText((TweetDefaultMutableTreeNode) tree.getModel().getRoot(),0);
-			TextDialog textDialog = new TextDialog("Tree to Text",text,false);
-			textDialog.setVisible(true);
-			textDialog.setLocationRelativeTo(null);
-		}
-
+		classifierConfigurationLine = editor.getConfiguration();
 	}
 
-	private String treeToText(TweetDefaultMutableTreeNode node,int level){
-		String aux="";
-		String out="";
-		if (level > 0)
-			aux+="└";
-		for (int i = 0; i < level; i++)
-			aux+="─";
-		out =aux + node.toString() + "<br>";
-		Enumeration<?> childrens = node.children();
-		while (childrens.hasMoreElements()){
-			TweetDefaultMutableTreeNode nextElement = (TweetDefaultMutableTreeNode) childrens.nextElement();
-			out += treeToText(nextElement,level + 1);
-		}
-		return out;
-	}
-
-	private void clearTree() {
-		tree.setModel(new DefaultTreeModel(
-				new TweetDefaultMutableTreeNode("Open a file to process it") {
-					/**
-					 * 
-					 */
-					private static final long serialVersionUID = 1L;
-
-					{
-
-					}
-				}
-				));
-		tweets.clear();
-		hashtags.clear();
-		btnProcess.setEnabled(false);
-		mntmTreeToText.setEnabled(false);
-	}
-
-	private void openText() {
-		selectFile();
-		load(0);
-	}
-
-	private void openTweets() {
-		selectFile();
-		load(1);	
-	}
-
-	protected void selectFile() {
+	private void trainClassifier() {
 		JFileChooser chooser = new JFileChooser("./");
-		FileNameExtensionFilter filter = new FileNameExtensionFilter("Plain Text (*.txt)", "txt");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("ARFF file (*.arff)", "arff");
 		chooser.setFileFilter(filter);
 		int returnVal = chooser.showOpenDialog(frame);
+		String path="";
 		if(returnVal == JFileChooser.APPROVE_OPTION) {
-			selectedFilePath[0] = chooser.getSelectedFile().getPath();
-			selectedFilePath[1] = chooser.getSelectedFile().getName();
+			path = chooser.getSelectedFile().getPath();
 		}
+		if (path.isEmpty())
+			return;
+
+		tweetClassifier = new TweetClassifier(classifierConfigurationLine);
+		tweetClassifier.trainClassifier(path);
+
+		mntmClassifyTest.setEnabled(true);
+		mntmClassify.setEnabled(true);
 	}
 
-	private void load(int option){
-		PlainTextFormatAbs format = null;
-		switch(option){
-		case 0:
-			format = new PlainTextFormatSimple();
-			analyzingTweets = false;
-			break;
-		case 1:
-			format = new PlainTextFormatTwitter();
-			analyzingTweets = true;
-			break;
+	private void classify() {
+		if (tweetClassifier == null)
+			return;
+
+		JFileChooser chooser = new JFileChooser("./");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("ARFF file (*.arff)", "arff");
+		chooser.setFileFilter(filter);
+		int returnVal = chooser.showOpenDialog(frame);
+		String path="";
+		if(returnVal == JFileChooser.APPROVE_OPTION) {
+			path = chooser.getSelectedFile().getPath();
 		}
-		this.streamWorker = new StreamPlainTextWorker(this.selectedFilePath[0], format);
-		this.streamWorker.start();
+		if (path.isEmpty())
+			return;
 
-		//TODO dormirlo para que el streamworker llegue a estar disponible para levantar tweets
-		try {
-			Thread.sleep(500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		String results = tweetClassifier.classify(path);
+		results += "\n Scheme: [" + classifierConfigurationLine + "]";
+
+		TextDialog textDialog = new TextDialog("Classification [" + path + "]", results,true);
+		textDialog.setEditable(false);
+		textDialog.setModal(true);
+		textDialog.setLocationRelativeTo(null);
+		textDialog.setVisible(true);		
+	}
+
+	private void classifyTweets() {
+		if (tweetClassifier == null)
+			return;
+		JFileChooser chooser = new JFileChooser("./");
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("ARFF file (*.arff)", "arff");
+		chooser.setFileFilter(filter);
+		int returnVal = chooser.showOpenDialog(frame);
+		String path="";
+		if(returnVal == JFileChooser.APPROVE_OPTION) {
+			path = chooser.getSelectedFile().getPath();
 		}
+		if (path.isEmpty())
+			return;
 
-		//Create the tree
-		frame.setTitle(titulo + " - [Cargando...]");
-		createTree();
-		frame.setTitle(titulo);
+		String results = tweetClassifier.classify(path);
+		results += "\n Scheme: [" + classifierConfigurationLine + "]";
 
-		mntmTreeToText.setEnabled(!tweets.isEmpty());
-		btnProcess.setEnabled(!tweets.isEmpty());
+		TextDialog textDialog = new TextDialog("Classification [" + path + "]", results,true);
+		textDialog.setEditable(false);
+		textDialog.setModal(true);
+		textDialog.setLocationRelativeTo(null);
+		textDialog.setVisible(true);		
 	}
 
 	private void createTree(){
@@ -731,56 +713,24 @@ public class MainWindow {
 			}
 		}
 		else{
-			analyzer = new AnalyzerWorker(tweets, ner, tree, hashtags);
+			analyzer = new AnalyzerWorker(this, tweets, ner, tree, hashtags);
 			analyzer.start();
 		}
 	}
 
-	private void switchButton(boolean isSelected) {
+	public void switchButton(boolean isSelected) {
 
-		if (isSelected)
+		if (isSelected){
 			btnProcess.setText("Process");
-		else
+			frame.setTitle(titulo);
+			btnProcess.setSelected(false);
+
+		}
+		else{
 			btnProcess.setText("Stop");
-	}
+			frame.setTitle(titulo + " - [Processing...]");
 
-
-	//---------------------------------------------------------------------------------------------------
-
-	// Cosas Copiadas del Main
-
-	private static Vector<DictionaryEntry> filesEntries(String path){
-		//Entradas levantadas desde archivo
-		Set<DictionaryEntry> entries = new HashSet<DictionaryEntry>();
-		entries.addAll(DictionaryIO.loadPlainTextWithCategories(path));
-		return new Vector<DictionaryEntry>(entries);
-	}
-
-	private static SyntaxChecker createSyntaxChecker(){
-
-		//Here we specify the synonyms
-		Vector<Vector<String>> synonyms = new Vector<Vector<String>>();
-		Vector<String> synonym1 = new Vector<String>(Arrays.asList(new String[]{"Calle", "Ruta" , "Avenida", "Autopista"}));
-		synonyms.add(synonym1);
-
-		//In this section we create the rules
-		Vector<Pair<Vector<String>,String>> rules = new Vector<Pair<Vector<String>,String>>();
-		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "esquina", "Calle"},"Interseccion",synonyms));
-		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "y", "Calle"},"Interseccion",synonyms));
-		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "entre", "Calle", "y", "Calle"},"Direccion Indeterminada",synonyms));
-		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "casi", "Calle"},"Direccion Indeterminada",synonyms));
-		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "numero"},"Direccion Determinada",synonyms));
-		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "al", "Numero"}, "Direccion Determinada",synonyms));
-		//rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "a", "la", "Numero"}, "Direccion Determinada",synonyms));
-		rules.addAll(SyntaxChecker.createRules(new String[]{"Calle", "al", "Numero", "Entre", "Calle", "y", "Calle"},"Direccion Determinada",synonyms));
-		rules.addAll(SyntaxChecker.createRules(new String[]{"numero", "de", "Calle"},"Direccion Determinada",synonyms));
-
-		//Then we create the syntaxChecker
-		SyntaxChecker syntaxChecker = new SyntaxChecker();
-		syntaxChecker.addRules(rules);
-
-		return syntaxChecker;
-
+		}
 	}
 
 }

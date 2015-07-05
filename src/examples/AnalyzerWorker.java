@@ -3,6 +3,7 @@ package examples;
 import java.util.Collections;
 import java.util.Vector;
 
+import javax.swing.JFrame;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeModel;
 
@@ -14,6 +15,7 @@ public class AnalyzerWorker extends Thread {
 
 	// Variables
 
+	private MainWindow main;
 	private int actualTweetCount;
 	private Vector<String> tweets;
 	private NER ner;
@@ -22,12 +24,13 @@ public class AnalyzerWorker extends Thread {
 	private volatile boolean running = true;
 
 	// Constructors
-	public AnalyzerWorker(Vector<String> tweets, NER ner, JTree tree, Vector<Vector<String>> hashtags){
+	public AnalyzerWorker(MainWindow mainWindow, Vector<String> tweets, NER ner, JTree tree, Vector<Vector<String>> hashtags){
 		setActualTweetCount(0);
 		setTweets(tweets);
 		setTree(tree);
 		setNer(ner);
 		setHashtags(hashtags);
+		setMain(mainWindow);
 	}
 
 	// Getters and Setters
@@ -70,6 +73,15 @@ public class AnalyzerWorker extends Thread {
 
 	public void setHashtags(Vector<Vector<String>> hashtags) {
 		this.hashtags = hashtags;
+	}
+	
+
+	public MainWindow getMain() {
+		return main;
+	}
+
+	public void setMain(MainWindow main) {
+		this.main = main;
 	}
 	
 	// Methods
@@ -120,7 +132,6 @@ public class AnalyzerWorker extends Thread {
 			actualTweetCount++; 
 
 			String tweet = tweets.elementAt(i);
-			System.out.println(tweet);
 			Vector<Chunk> chunks = this.ner.recognize(tweet);
 			String preProcessedTweet = this.ner.getLastPreProcessedString();
 
@@ -167,8 +178,8 @@ public class AnalyzerWorker extends Thread {
 			model.reload();
 		}
 		
-		//TODO ver por que si se interrumpe el thread se muestra mal el arbol
 		model.reload();
+		main.switchButton(true);
 	}
 
 }
