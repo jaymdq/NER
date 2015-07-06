@@ -1,4 +1,4 @@
-package trainer.util;
+package stream;
 
 import twitter4j.Status;
 import twitter4j.TwitterObjectFactory;
