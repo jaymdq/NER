@@ -306,6 +306,7 @@ public class MainWindow {
 	}
 
 	private void load(int option){
+		
 		PlainTextFormatAbs format = null;
 		switch(option){
 		case 0:
@@ -321,12 +322,16 @@ public class MainWindow {
 		this.streamWorker.start();
 
 		//Dormirlo para que llegue a levantar los tweets
-		try {
+	/*	try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
+*/
+		while(streamWorker.isAlive()){
+			
+		}
+		
 		//Create the tree
 		frame.setTitle(titulo + " - [Loading...]");
 		createTree();
@@ -336,7 +341,7 @@ public class MainWindow {
 		if (configuredNER)
 			btnProcess.setEnabled(!tweets.isEmpty());
 	}
-
+	
 	private void treeToText() {
 		if (tweets != null && tweets.size() > 0 ){
 			String text = treeToText((TweetDefaultMutableTreeNode) tree.getModel().getRoot(),0);
@@ -377,6 +382,7 @@ public class MainWindow {
 			return;
 
 		//Read File
+		boolean huboError = false;
 		String configurationText="";
 		Vector<String> lines = new Vector<String>();
 		File file = null;
@@ -398,15 +404,16 @@ public class MainWindow {
 			}
 		}
 		catch(Exception e){
-			e.printStackTrace();
+			//e.printStackTrace();
+			huboError = true;
 		}finally{
 			try{                   
 				if( null != fr ){  
 					fr.close();    
-				}                 
-			}catch (Exception e2){
-				e2.printStackTrace();
-			}
+				}            
+			if (huboError)
+				return;
+			}catch (Exception e2){}
 		}
 
 		//Create de textDialog
@@ -657,7 +664,7 @@ public class MainWindow {
 		if (path.isEmpty())
 			return;
 
-		String results = tweetClassifier.classify(path);
+		String results = tweetClassifier.classifyTweets(tweets,path);
 		results += "\n Scheme: [" + classifierConfigurationLine + "]";
 
 		TextDialog textDialog = new TextDialog("Classification [" + path + "]", results,true);

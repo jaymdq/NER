@@ -108,11 +108,12 @@ public class TweetClassifier {
 			while (enumerateInstances.hasMoreElements()){
 				Instance inst = (Instance) enumerateInstances.nextElement();
 				double result = classifier.classifyInstance(inst);
-				out+= "[" + (i++) + "]\n";
-				out+= "Tweet: [" + "//TODO" + "]\n";
+				out+= "[" + (i+1) + "]\n";
+				out+= "Tweet: [" + tweets.elementAt(i) + "]\n";
 				out+= "Data-Arff: [" + inst.toString() + "]\n";
 				out+= "Classified as: [" + data.classAttribute().value((int) result) + "]\n";
-				out+= "Actually is: [" + data.classAttribute().value((int) inst.classValue()) + "]\n\n\n";
+				out+= "Actually is: [" + data.classAttribute().value((int) inst.classValue()) + "]\n\n";
+				i++;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

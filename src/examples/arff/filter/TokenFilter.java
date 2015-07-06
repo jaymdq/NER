@@ -27,7 +27,7 @@ public class TokenFilter extends ParamFilterAbs {
 			String category = this.categoryList.get(i);
 			for(int j=0; !exist && j < chunks.size(); j++){
 				AbsChunk c = chunks.elementAt(j);
-				exist = c.getCategoryType().contains(category);
+				exist = c.getCategoryType().toLowerCase().contains(category.toLowerCase());
 			}
 		}
 		if(exist)

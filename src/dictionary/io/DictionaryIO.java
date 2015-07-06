@@ -14,21 +14,24 @@ import java.util.Set;
 import java.util.Vector;
 import java.util.HashMap;
 
-
-
 import dictionary.dictionaryentry.DictionaryEntry;
 import twitter4j.Logger;
 
 public class DictionaryIO {
 
-	//Public Extensions
+	// Variables
+	
 	public static final String DIC_EXT = ".dic";
 	public static final String EMPTY_EXT = "";
 	public static final String CATEGORY_INDICATOR = "#CATEGORY";
 	public static final String CATEGORY_SEPARATOR = ",";
 
-	//TODO vale la pena hacer esta clase Singleton?
-
+	// Constructors
+	
+	// Getters and Setters
+	
+	// Methods
+	
 	public static Collection<DictionaryEntry> loadPlainTextWithCategories(String path) {
 		Vector<DictionaryEntry> out = new Vector<DictionaryEntry>();
 		File file = null;

@@ -35,14 +35,16 @@ public class EventFilter extends ParamFilterAbs {
 			boolean found = false;
 			for(int j=0; !found && j < chunks.size(); j++){
 				AbsChunk c = chunks.elementAt(j);
-				found = c.getCategoryType().contains(this.values[i]);
+				found = c.getCategoryType().toLowerCase().contains(this.values[i].toLowerCase());
 			}
 			if( found && !out.contains(this.values[i]) ){
-				out += this.values[i]+" ";
+				out += this.values[i]+"_";
 				
 			}
 		}
 		out = out.trim();
+		if(out.endsWith("_"))
+			out = out.substring(0, out.length()-1);
 		if (out.isEmpty() && this.defValue != null)
 			out = this.defValue;
 		return out;
