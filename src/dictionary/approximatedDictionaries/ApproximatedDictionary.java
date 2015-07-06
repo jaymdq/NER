@@ -11,8 +11,8 @@ import dictionary.Dictionary;
 import dictionary.chunk.Chunk;
 import dictionary.chunk.comparator.ChunkComparatorByScore;
 import dictionary.chunk.score.Score;
-import dictionary.dictionaryentry.DictionaryEntry;
-import dictionary.dictionaryentry.DictionaryEntryWithDistance;
+import dictionary.dictionaryEntry.DictionaryEntry;
+import dictionary.dictionaryEntry.DictionaryEntryWithDistance;
 
 
 public class ApproximatedDictionary implements Dictionary {

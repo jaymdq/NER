@@ -62,9 +62,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
-import dictionary.dictionaryentry.DictionaryEntry;
+import dictionary.dictionaryEntry.DictionaryEntry;
 import dictionary.io.DictionaryIO;
+
 import javax.swing.KeyStroke;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
 

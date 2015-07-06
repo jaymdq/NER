@@ -3,7 +3,7 @@ package configuration;
 import java.util.Vector;
 
 import dictionary.approximatedDictionaries.ApproximatedDictionary;
-import dictionary.dictionaryentry.DictionaryEntry;
+import dictionary.dictionaryEntry.DictionaryEntry;
 
 public class ApproximatedDictionaryConfigurator extends AbsDictionaryConfigurator {
 

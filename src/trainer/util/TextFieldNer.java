@@ -6,7 +6,7 @@ import javax.swing.JTextPane;
 
 import dictionary.approximatedDictionaries.ApproximatedDictionary;
 import dictionary.chunk.Chunk;
-import dictionary.dictionaryentry.DictionaryEntry;
+import dictionary.dictionaryEntry.DictionaryEntry;
 import dictionary.io.DictionaryIO;
 import ner.NER;
 

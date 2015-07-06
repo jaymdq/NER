@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.Vector;
 import java.util.HashMap;
 
-import dictionary.dictionaryentry.DictionaryEntry;
+import dictionary.dictionaryEntry.DictionaryEntry;
 import twitter4j.Logger;
 
 public class DictionaryIO {

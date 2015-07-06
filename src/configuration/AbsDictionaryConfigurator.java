@@ -2,7 +2,7 @@ package configuration;
 
 import java.util.Vector;
 
-import dictionary.dictionaryentry.DictionaryEntry;
+import dictionary.dictionaryEntry.DictionaryEntry;
 
 public abstract class AbsDictionaryConfigurator extends AbsConfigurator {
 

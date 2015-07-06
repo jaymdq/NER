@@ -2,7 +2,7 @@ package dictionary.approximatedDictionaries;
 
 import java.util.Vector;
 
-import dictionary.dictionaryentry.DictionaryEntry;
+import dictionary.dictionaryEntry.DictionaryEntry;
 
 public class TrieNodeLeaf extends AbsTrieNode {
 	

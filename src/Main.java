@@ -14,7 +14,7 @@ import dictionary.approximatedDictionaries.ApproximatedDictionary;
 import dictionary.chunk.AbsChunk;
 import dictionary.chunk.Chunk;
 import dictionary.chunk.ChunkEvent;
-import dictionary.dictionaryentry.DictionaryEntry;
+import dictionary.dictionaryEntry.DictionaryEntry;
 import dictionary.exactDictionaries.ExactDictionary;
 import dictionary.io.DictionaryIO;
 import dictionary.ruleBasedDictionaries.RegExMatcher;

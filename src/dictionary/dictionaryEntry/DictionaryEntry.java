@@ -1,4 +1,4 @@
-package dictionary.dictionaryentry;
+package dictionary.dictionaryEntry;
 
 
 public class DictionaryEntry  {

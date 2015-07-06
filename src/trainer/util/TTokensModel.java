@@ -5,7 +5,7 @@ import java.util.Vector;
 
 import javax.swing.table.DefaultTableModel;
 
-import dictionary.dictionaryentry.DictionaryEntry;
+import dictionary.dictionaryEntry.DictionaryEntry;
 
 @SuppressWarnings("serial")
 public class TTokensModel extends DefaultTableModel implements Iterable<DictionaryEntry> {

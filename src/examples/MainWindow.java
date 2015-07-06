@@ -50,7 +50,7 @@ import configuration.RuleBasedConfigurator;
 import configuration.SyntaxCheckerConfigurator;
 import configuration.TweventConfigurator;
 import dictionary.approximatedDictionaries.ApproximatedDictionary;
-import dictionary.dictionaryentry.DictionaryEntry;
+import dictionary.dictionaryEntry.DictionaryEntry;
 import dictionary.exactDictionaries.ExactDictionary;
 import dictionary.io.DictionaryIO;
 import dictionary.ruleBasedDictionaries.RegExMatcher;
