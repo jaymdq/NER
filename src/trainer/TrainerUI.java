@@ -64,11 +64,10 @@ import javax.swing.DefaultComboBoxModel;
 
 import dictionary.dictionaryEntry.DictionaryEntry;
 import dictionary.io.DictionaryIO;
-
 import javax.swing.KeyStroke;
-
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
+import java.awt.Toolkit;
 
 public class TrainerUI {
 
@@ -130,7 +129,8 @@ public class TrainerUI {
 	 */
 	private void initialize() {
 		frmNerTrainer = new JFrame();
-		frmNerTrainer.setTitle("NER Trainer");
+		frmNerTrainer.setIconImage(Toolkit.getDefaultToolkit().getImage(TrainerUI.class.getResource("/images/trainer-logo.png")));
+		frmNerTrainer.setTitle("Trainer");
 		frmNerTrainer.setBounds(100, 100, 800, 600);
 		frmNerTrainer.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		

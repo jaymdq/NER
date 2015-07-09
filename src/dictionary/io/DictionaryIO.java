@@ -14,8 +14,9 @@ import java.util.Set;
 import java.util.Vector;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
+
 import dictionary.dictionaryEntry.DictionaryEntry;
-import twitter4j.Logger;
 
 public class DictionaryIO {
 

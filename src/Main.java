@@ -21,7 +21,7 @@ import dictionary.ruleBasedDictionaries.RegExMatcher;
 import dictionary.ruleBasedDictionaries.RuleBasedDictionary;
 import event.twevent.FixedWindow;
 import event.twevent.Twevent;
-import examples.arff.ArffGenerator;
+import tweetsAnalyzer.arff.ArffGenerator;
 
 
 public class Main {

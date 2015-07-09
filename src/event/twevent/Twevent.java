@@ -2,7 +2,7 @@ package event.twevent;
 
 import java.util.Vector;
 
-import twitter4j.Logger;
+import org.apache.log4j.Logger;
 import utils.Pair;
 import dictionary.chunk.Chunk;
 import dictionary.chunk.ChunkEvent;

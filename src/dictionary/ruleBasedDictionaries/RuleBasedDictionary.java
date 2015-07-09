@@ -2,7 +2,7 @@ package dictionary.ruleBasedDictionaries;
 
 import java.util.Vector;
 
-import twitter4j.Logger;
+import org.apache.log4j.Logger;
 import dictionary.Dictionary;
 import dictionary.chunk.Chunk;
 

@@ -5,8 +5,11 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Vector;
 
+import org.apache.log4j.Logger;
+
 import segmentation.Segmenter;
-import twitter4j.Logger;
+
+
 import dictionary.Dictionary;
 import dictionary.chunk.Chunk;
 import dictionary.chunk.comparator.ChunkComparatorByScore;
@@ -227,7 +230,7 @@ public class ApproximatedDictionary implements Dictionary {
 
 				for (DictionaryEntryWithDistance entry : results){
 					for (String category : entry.getCategory()){
-						Chunk toAdd = new Chunk(startsPositions.elementAt(i),endsPositions.elementAt(i),category,text,Score.getInstance().getAproximatedScore(entry.getDistance(), entry.getText().length()));
+						Chunk toAdd = new Chunk(startsPositions.elementAt(i),endsPositions.elementAt(j),category,text,Score.getInstance().getAproximatedScore(entry.getDistance(), entry.getText().length()));
 
 						if (out.isEmpty())
 							out.add(toAdd);
@@ -250,8 +253,9 @@ public class ApproximatedDictionary implements Dictionary {
 				}	
 			}	
 		}
-
+		
 		Collections.sort(out, new ChunkComparatorByScore());
+		Collections.reverse(out);
 		Vector<Chunk> realOut = new Vector<Chunk>();
 
 		for (Chunk chunk : out){

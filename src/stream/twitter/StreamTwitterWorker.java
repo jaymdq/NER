@@ -2,8 +2,8 @@ package stream.twitter;
 
 import java.util.Vector;
 
-import stream.StatusExt;
 import stream.StreamWorkerAbs;
+import stream.StatusExt;
 import twitter4j.FilterQuery;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;

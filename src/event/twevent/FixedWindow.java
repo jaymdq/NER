@@ -117,7 +117,7 @@ public class FixedWindow {
 		Vector<Pair<String, Vector<Chunk>>> out = new Vector<Pair<String, Vector<Chunk>>>();
 
 		for (Pair<String, Vector<Chunk>> tweet : this.tweets){
-			if (tweet.getPair1().contains(text)){
+			if (tweet.getPair1().toLowerCase().contains(text)){
 
 				for (Chunk chunk : tweet.getPair2()){
 					if (chunk.getCategoryType().equals(category) && ! out.contains(tweet)){

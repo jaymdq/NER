@@ -10,7 +10,8 @@ import dictionary.chunk.Chunk;
 import dictionary.chunk.score.Score;
 import dictionary.dictionaryEntry.DictionaryEntry;
 import segmentation.Segmenter;
-import twitter4j.Logger;
+
+import org.apache.log4j.Logger;
 
 public class ExactDictionary implements Dictionary {
 
