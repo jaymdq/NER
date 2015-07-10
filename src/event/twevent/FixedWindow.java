@@ -101,13 +101,10 @@ public class FixedWindow {
 		int out = 0;
 		Vector<Pair<String, Vector<Chunk>>> tempTweets = getTweetsWithSegment(text,category);
 
-		for (Pair<String, Vector<Chunk>> pair1 : tempTweets){
-			String tmp = pair1.getPair1().toLowerCase();
-			int x = 0;
-			while ( (x =  tmp.indexOf(text, x)) >= 0 ){
-				out++;
-				x += text.length();
-			}
+		for (Pair<String, Vector<Chunk>> pair : tempTweets){
+			for(Chunk c : pair.getPair2())
+				if(c.getText().toLowerCase().equals(text.toLowerCase()) && c.getCategoryType().equals(category))
+					out++;
 		}
 
 		return out;
@@ -117,16 +114,17 @@ public class FixedWindow {
 		Vector<Pair<String, Vector<Chunk>>> out = new Vector<Pair<String, Vector<Chunk>>>();
 
 		for (Pair<String, Vector<Chunk>> tweet : this.tweets){
-			if (tweet.getPair1().toLowerCase().contains(text)){
 
-				for (Chunk chunk : tweet.getPair2()){
-					if (chunk.getCategoryType().equals(category) && ! out.contains(tweet)){
-						out.add(tweet);
-
-					}
+			Vector<Chunk> chunks = tweet.getPair2();
+			
+			for (Chunk chunk : chunks){
+				if (chunk.getText().toLowerCase().equals(text) && chunk.getCategoryType().equals(category) && ! out.contains(tweet)){
+					out.add(tweet);
+					break;
 				}
 			}
 		}
+		
 		return out;
 	}
 
